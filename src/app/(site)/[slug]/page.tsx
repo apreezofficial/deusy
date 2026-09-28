@@ -17,7 +17,7 @@ import { JsonLd } from "@/components/site/JsonLd";
 import { DraftBanner } from "@/components/site/DraftBanner";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { buttonStyles } from "@/components/ui/Button";
-import type { TeamMemberRow } from "@/lib/database.types";
+import type { PageRow, TeamMemberRow } from "@/lib/database.types";
 
 export const dynamic = "force-dynamic";
 
