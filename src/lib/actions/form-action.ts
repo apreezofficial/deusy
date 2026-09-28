@@ -10,3 +10,10 @@ export function formAction<T>(action: (formData: FormData) => Promise<ActionResu
     formData: FormData,
   ): Promise<ActionResult<T>> => action(formData);
 }
+
+/** Same adapter for plain forms that manage their own result state. */
+export function voidAction<T>(action: (formData: FormData) => Promise<ActionResult<T>>) {
+  return async (formData: FormData): Promise<void> => {
+    await action(formData);
+  };
+}
