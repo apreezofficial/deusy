@@ -1,55 +1,39 @@
 import Link from "next/link";
 import Image from "next/image";
 
+/** The mark shipped in /public. Used unless Settings carries its own logo. */
+const fallbackLogo = "/logo.png";
+
 interface WordmarkProps {
   name: string;
   logoUrl: string;
   /** Renders the light-on-dark variant used inside the footer. */
   inverted?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
-export function Wordmark({ name, logoUrl, inverted, className = "" }: WordmarkProps) {
-  if (logoUrl) {
-    return (
-      <Image
-        src={logoUrl}
-        alt={name}
-        width={220}
-        height={48}
-        className={`h-10 w-auto ${className}`}
-        unoptimized
-      />
-    );
-  }
+export function Wordmark({
+  name,
+  logoUrl,
+  inverted,
+  className = "",
+}: WordmarkProps) {
+  const src = logoUrl.trim() || fallbackLogo;
 
   return (
-    <span className={`flex items-center gap-3 ${className}`}>
-      <span
-        aria-hidden="true"
-        className={`grid h-9 w-9 place-items-center border-2 ${
-          inverted ? "border-paper bg-paper text-ink" : "border-ink bg-ink text-paper"
-        }`}
-      >
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
-          <path
-            d="M3 21V6l9-3v18M12 8h9v13M6 10h3M6 14h3M15 12h3M15 16h3"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="square"
-          />
-        </svg>
-      </span>
-      <span className="flex flex-col leading-none">
-        <span className="display text-[1.05rem]">Deusy &amp; Planners</span>
-        <span
-          className={`text-[0.7rem] tracking-wide ${
-            inverted ? "text-drafting" : "text-ink-muted"
-          }`}
-        >
-          Services
-        </span>
-      </span>
+    <span
+      className={`flex items-center ${inverted ? "bg-paper px-3 py-2" : ""} ${className}`}
+    >
+      <Image
+        src={src}
+        alt={name}
+        width={3293}
+        height={1813}
+        priority
+        unoptimized
+        className="h-9 w-auto sm:h-10"
+      />
     </span>
   );
 }
@@ -59,9 +43,15 @@ export function WordmarkLink({
   logoUrl,
   inverted,
   className,
+  onClick,
 }: WordmarkProps) {
   return (
-    <Link href="/" className="inline-flex" aria-label={`${name}, home`}>
+    <Link
+      href="/"
+      onClick={onClick}
+      className="inline-flex"
+      aria-label={`${name}, home`}
+    >
       <Wordmark name={name} logoUrl={logoUrl} inverted={inverted} className={className} />
     </Link>
   );
