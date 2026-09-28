@@ -22,11 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServicesPage() {
-  const [home, site, services] = await Promise.all([
-    getHomeSettings(),
-    getSiteSettings(),
-    getServices(),
-  ]);
+  const [home, services] = await Promise.all([getHomeSettings(), getServices()]);
 
   const practices = services.filter((service) => service.kind === "practice");
   const agency = services.filter((service) => service.kind === "agency");

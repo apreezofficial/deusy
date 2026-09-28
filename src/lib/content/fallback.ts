@@ -4,7 +4,7 @@ import type {
   ServiceRow,
   TeamMemberRow,
 } from "@/lib/database.types";
-import { defaultHomeSettings, defaultSiteSettings } from "@/lib/content/settings";
+import { defaultSiteSettings } from "@/lib/content/settings";
 
 /**
  * Mirrors supabase/seed.sql. Used only while no Supabase project is connected,
