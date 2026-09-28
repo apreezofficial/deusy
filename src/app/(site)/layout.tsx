@@ -1,5 +1,6 @@
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { ScrollReveal } from "@/components/site/ScrollReveal";
 import { getNavPages, getSiteSettings } from "@/lib/queries/content";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       >
         Skip to content
       </a>
+      <ScrollReveal />
       <Header site={site} navPages={navPages} />
       <main id="main" className="flex-1">
         {children}
