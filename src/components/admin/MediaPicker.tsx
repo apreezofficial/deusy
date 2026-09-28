@@ -36,6 +36,8 @@ export function MediaPicker({ open, onClose, media, onSelect }: MediaPickerProps
     }
 
     notify("Image uploaded");
+
+    return result;
   };
 
   return (

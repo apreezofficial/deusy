@@ -34,6 +34,8 @@ export function MediaLibrary({ media }: { media: MediaRow[] }) {
 
     notify("Image uploaded");
     router.refresh();
+
+    return result;
   };
 
   const copyUrl = async (url: string) => {
@@ -182,6 +184,8 @@ function MediaCard({
 
     notify("Description saved");
     router.refresh();
+
+    return result;
   };
 
   return (

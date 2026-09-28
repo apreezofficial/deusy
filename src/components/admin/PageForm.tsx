@@ -3,9 +3,10 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import Image from "next/image";
+import type { Content } from "@tiptap/core";
 import { Trash2 } from "lucide-react";
 import { savePage, deletePage, checkPageSlug } from "@/lib/actions/pages";
-import { voidAction } from "@/lib/actions/form-action";
+import { formAction, voidAction } from "@/lib/actions/form-action";
 import { Button } from "@/components/ui/Button";
 import { Input, Select, Textarea } from "@/components/ui/Field";
 import { Switch } from "@/components/ui/Switch";
@@ -152,7 +153,7 @@ export function PageForm({ page, media }: PageFormProps) {
         name="content"
         label="Content"
         media={media}
-        initialContent={page?.content ?? emptyDoc}
+        initialContent={(page?.content ?? emptyDoc) as Content}
         error={fieldErrors?.content}
       />
 
@@ -302,7 +303,7 @@ export function PageForm({ page, media }: PageFormProps) {
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>
               Keep page
             </Button>
-            <form action={deletePage}>
+            <form action={voidAction(deletePage)}>
               {page ? <input type="hidden" name="id" value={page.id} /> : null}
               <Button type="submit" variant="danger">
                 Delete page

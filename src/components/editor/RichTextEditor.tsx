@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useEditor, EditorContent, type Editor } from "@tiptap/react";
+import type { Content } from "@tiptap/core";
 import {
   Bold,
   Heading2,
@@ -24,7 +25,7 @@ import type { MediaRow } from "@/lib/database.types";
 
 interface RichTextEditorProps {
   name: string;
-  initialContent: unknown;
+  initialContent: Content;
   media: MediaRow[];
   label?: string;
   error?: string;
