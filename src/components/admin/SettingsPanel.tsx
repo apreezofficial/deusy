@@ -306,7 +306,7 @@ function HomeSettingsForm({ settings }: { settings: HomeSettings }) {
     null as ActionResult<HomeSettings> | null,
   );
   const { notify } = useToast();
-  const [steps, setSteps] = useState(settings.processSteps);
+  const [steps, setSteps] = useState(settings.processSteps ?? []);
   const lastResult = useRef(state);
 
   useEffect(() => {

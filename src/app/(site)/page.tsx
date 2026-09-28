@@ -34,6 +34,10 @@ export default async function HomePage() {
     getServices("agency"),
   ]);
 
+  // The step list is optional content, so an older cached settings row without
+  // it must not break the page.
+  const processSteps = home.processSteps ?? [];
+
   const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -91,7 +95,7 @@ export default async function HomePage() {
 
       <TitleBlock site={site} services={[...practices, ...agency]} />
 
-      {home.processSteps.length > 0 ? (
+      {processSteps.length > 0 ? (
         <section className="border-b-2 border-ink bg-tracing px-4 py-16 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-6xl">
             <SectionHeading
@@ -100,7 +104,7 @@ export default async function HomePage() {
               description={home.processIntro}
             />
             <ol className="mt-10 grid gap-px border-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4">
-              {home.processSteps.map((step, index) => (
+              {processSteps.map((step, index) => (
                 <li
                   key={`${step.title}-${index}`}
                   className="reveal-edge flex flex-col bg-paper p-6"
