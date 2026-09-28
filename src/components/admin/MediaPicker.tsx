@@ -32,7 +32,7 @@ export function MediaPicker({ open, onClose, media, onSelect }: MediaPickerProps
 
     if (!result.ok) {
       setError(result.error);
-      return;
+      return result;
     }
 
     notify("Image uploaded");

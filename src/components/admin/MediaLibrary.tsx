@@ -29,7 +29,7 @@ export function MediaLibrary({ media }: { media: MediaRow[] }) {
 
     if (!result.ok) {
       setError(result.error);
-      return;
+      return result;
     }
 
     notify("Image uploaded");
@@ -179,7 +179,7 @@ function MediaCard({
 
     if (!result.ok) {
       notify(result.error, "error");
-      return;
+      return result;
     }
 
     notify("Description saved");
