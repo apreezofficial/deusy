@@ -350,7 +350,72 @@ insert into pages (title, slug, subtitle, template, content, published, show_in_
   ('Contact', 'contact', 'Tell us what you are planning.', 'contact',
    pg_temp.doc(array[
      pg_temp.p('Tell us what you are planning and we will take it from there. Give us a short description of the property, the vehicle or the business problem you are dealing with, and the team will come back to you.')
-   ]), true, true, 'Contact', 4)
+   ]), true, true, 'Contact', 4),
+
+  -- Legal pages live outside the main navigation: the Legal menu links to them.
+  ('Legal', 'legal', 'Privacy, cookies and the terms of using this site.', 'standard',
+   pg_temp.doc(array[
+     pg_temp.p('This section covers how we handle your information, what this site stores on your device, and the terms that apply when you use this site or work with us.'),
+     pg_temp.ul(array[
+       'Cookie policy: what is stored on your device, and what is not.',
+       'Privacy policy: what we collect when you send an enquiry, and what we do with it.',
+       'Terms and conditions: the terms that apply when you use this site or engage our services.'
+     ]),
+     pg_temp.p('If anything here is unclear, send us a message through the contact page and we will explain it in plain language.')
+   ]), true, false, null, 5),
+
+  ('Cookie policy', 'cookie-policy', 'What this site stores on your device, and what it does not.', 'standard',
+   pg_temp.doc(array[
+     pg_temp.h('What this site stores'),
+     pg_temp.p('This site does not use advertising cookies, tracking pixels or third-party analytics. There is nothing on this site that follows you around the internet.'),
+     pg_temp.h('Essential storage', 3),
+     pg_temp.ul(array[
+       'Your cookie choice: whether you dismissed the cookie box, kept on your own device so the box does not reappear on every page.',
+       'Sign-in cookies: if you are signed in to the admin panel, cookies keep that session alive so you stay signed in while you work.'
+     ]),
+     pg_temp.h('What we do not do'),
+     pg_temp.p('We do not sell data, we do not run advertising campaigns on this site, and we do not embed third-party trackers, social media widgets or map services that would report your visit to another company.'),
+     pg_temp.h('Managing your choice'),
+     pg_temp.p('The cookie box appears once. If you clear your browser storage for this site, the box will appear again and you can choose differently. To remove the sign-in cookies, sign out of the admin panel and close the browser.'),
+     pg_temp.h('Contact', 3),
+     pg_temp.p('Questions about cookies can be sent through the contact page. We will explain what is stored and why, in writing.')
+   ]), true, false, null, 6),
+
+  ('Privacy policy', 'privacy-policy', 'What we collect when you send an enquiry, and what we do with it.', 'standard',
+   pg_temp.doc(array[
+     pg_temp.h('What we collect'),
+     pg_temp.p('We only collect what you choose to give us. When you send an enquiry through this site we receive the name, email address, optional phone number, the topic you selected and the message you wrote. We also receive the date the enquiry arrived and whether it has been read.'),
+     pg_temp.h('Why we collect it'),
+     pg_temp.ul(array[
+       'To answer your enquiry and give you a considered response.',
+       'To keep a record of what was agreed, so we do not rely on memory.',
+       'To meet our record-keeping and professional obligations.'
+     ]),
+     pg_temp.h('What we do not do'),
+     pg_temp.p('We do not sell your details, we do not pass them to advertisers or data brokers, and we do not add you to a marketing list because you asked a question.'),
+     pg_temp.h('How long we keep it'),
+     pg_temp.p('Enquiry records are kept for as long as they are useful for the matter they relate to, and for as long as our professional and legal record-keeping obligations require. You can ask us to delete an enquiry at any time, and we will do so unless we are required to keep it.'),
+     pg_temp.h('Who can see it'),
+     pg_temp.p('Only the people at Deusy & Planners Services who need it to handle your matter. Where a project involves contractors, consultants or authorities, we share only what the work requires, and we tell you when we do.'),
+     pg_temp.h('Your rights'),
+     pg_temp.p('You can ask what we hold about you, ask for a correction, or ask for it to be deleted. Send the request through the contact page and we will deal with it in writing.')
+   ]), true, false, null, 7),
+
+  ('Terms and conditions', 'terms', 'The terms that apply when you use this site or work with us.', 'standard',
+   pg_temp.doc(array[
+     pg_temp.h('About this site'),
+     pg_temp.p('This site is published by Deusy & Planners Services to describe our services and to let you start a conversation with us. The content is general information. It is not professional advice on your specific situation, and reading it does not create a client or consultant relationship.'),
+     pg_temp.h('Starting work with us'),
+     pg_temp.p('Sending an enquiry does not commit either of us. Work begins when we agree a scope in writing, confirm what it covers, what it costs and how long it takes, and both sides are satisfied with that.'),
+     pg_temp.h('Accuracy'),
+     pg_temp.p('We take care to keep this site accurate and up to date, but services, fees and availability change. Confirm anything that matters to your decision with us directly before you act on it.'),
+     pg_temp.h('Intellectual property'),
+     pg_temp.p('The text, layout, drawings and logo on this site belong to Deusy & Planners Services. You may read it, print it and share the link. You may not copy substantial parts of it or reuse our drawings as your own.'),
+     pg_temp.h('Third-party links'),
+     pg_temp.p('Where we link to another website, we do not control it and we are not responsible for what is published there.'),
+     pg_temp.h('Governing law'),
+     pg_temp.p('These terms are governed by the laws of the Republic of Ghana, and the courts of Ghana have jurisdiction over any dispute arising from them.')
+   ]), true, false, null, 8)
 on conflict (slug) do update
   set title = excluded.title,
       subtitle = excluded.subtitle,

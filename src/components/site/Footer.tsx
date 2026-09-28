@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/site/Wordmark";
+import { legalSubLinks } from "@/lib/content/legal";
 import type { PageRow } from "@/lib/database.types";
 import type { SiteSettings } from "@/lib/content/settings";
 
@@ -49,6 +50,13 @@ export function Footer({ site, navPages }: FooterProps) {
               <li key={page.id}>
                 <Link href={`/${page.slug}`} className="hover:text-signal">
                   {page.nav_label?.trim() || page.title}
+                </Link>
+              </li>
+            ))}
+            {legalSubLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-signal">
+                  {link.label}
                 </Link>
               </li>
             ))}

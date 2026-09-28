@@ -598,7 +598,8 @@ function page(
   };
 }
 
-export const fallbackPages: PageRow[] = [  page(
+export const fallbackPages: PageRow[] = [
+  page(
     "page-about",
     "About",
     "about",
@@ -666,8 +667,19 @@ export const fallbackPages: PageRow[] = [  page(
   legalPage("page-terms", "Terms and conditions", "terms", termsContent, 8),
 ];
 
-function faq(id: string, question: string, answer: string, sortOrder: number): FaqRow {
-  return { id, question, answer, sort_order: sortOrder, active: true };
+/** Legal pages sit outside the main navigation, which links to them directly. */
+function legalPage(
+  id: string,
+  title: string,
+  slug: string,
+  content: PageRow["content"],
+  navOrder: number,
+): PageRow {
+  const row = page(id, title, slug, "", "standard", content, navOrder);
+  return { ...row, show_in_nav: false };
+}
+
+function faq(id: string, question: string, answer: string, sortOrder: number): FaqRow {  return { id, question, answer, sort_order: sortOrder, active: true };
 }
 
 export const fallbackFaqs: FaqRow[] = [

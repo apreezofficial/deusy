@@ -1,6 +1,7 @@
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { ScrollReveal } from "@/components/site/ScrollReveal";
+import { CookieNotice } from "@/components/site/CookieNotice";
 import { getNavPages, getSiteSettings } from "@/lib/queries/content";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
         {children}
       </main>
       <Footer site={site} navPages={navPages} />
+      <CookieNotice />
     </div>
   );
 }
