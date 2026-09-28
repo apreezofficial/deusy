@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { saveTeamMember, deleteTeamMember } from "@/lib/actions/team";
-import { formAction, voidAction } from "@/lib/actions/form-action";
+import { formAction } from "@/lib/actions/form-action";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Field";
 import { Switch } from "@/components/ui/Switch";
@@ -53,7 +53,10 @@ export function TeamManager({
       ) : (
         <ul className="flex flex-col gap-3">
           {members.map((member) => (
-            <li key={member.id} className="flex flex-wrap items-start justify-between gap-3 border-2 border-ink bg-paper p-4">
+            <li
+              key={member.id}
+              className="flex flex-wrap items-start justify-between gap-3 border-2 border-ink bg-paper p-4"
+            >
               <div>
                 <h3 className="drawing-label text-lg">{member.name}</h3>
                 <p className="text-sm text-ink-muted">{member.role}</p>
@@ -67,7 +70,11 @@ export function TeamManager({
                 <Button variant="outline" size="sm" onClick={() => setEditing(member)}>
                   Edit
                 </Button>
-                <Button variant="danger" size="sm" onClick={() => setPendingDelete(member)}>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => setPendingDelete(member)}
+                >
                   <Trash2 size={14} aria-hidden="true" />
                   Delete
                 </Button>
@@ -109,7 +116,7 @@ export function TeamManager({
               Keep person
             </Button>
             {pendingDelete ? (
-              <form action={voidAction(remove)}>
+              <form action={remove}>
                 <input type="hidden" name="id" value={pendingDelete.id} />
                 <Button type="submit" variant="danger">
                   Delete person

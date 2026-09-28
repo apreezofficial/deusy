@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { saveFaq, toggleFaqActive, moveFaq, deleteFaq } from "@/lib/actions/faqs";
-import { voidAction } from "@/lib/actions/form-action";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Field";
 import { Dialog } from "@/components/ui/Dialog";
@@ -37,6 +36,18 @@ export function FaqManager({ faqs }: { faqs: FaqRow[] }) {
     } else {
       notify(result.error, "error");
     }
+  };
+
+  const save = async (formData: FormData) => {
+    const result = await saveFaq(formData);
+
+    if (!result.ok) {
+      notify(result.error, "error");
+      return;
+    }
+
+    notify("Question saved");
+    setEditing(null);
   };
 
   const remove = async (formData: FormData) => {
@@ -122,7 +133,7 @@ export function FaqManager({ faqs }: { faqs: FaqRow[] }) {
         description="Answer only what you can stand behind. Do not quote fees, timelines or policies."
       >
         {editing ? (
-          <form action={voidAction(saveFaq)} className="flex flex-col gap-4">
+          <form action={save} className="flex flex-col gap-4">
             {editing !== "new" ? <input type="hidden" name="id" value={editing.id} /> : null}
             <Input
               label="Question"
@@ -178,7 +189,7 @@ export function FaqManager({ faqs }: { faqs: FaqRow[] }) {
               Keep question
             </Button>
             {pendingDelete ? (
-              <form action={voidAction(remove)}>
+              <form action={remove}>
                 <input type="hidden" name="id" value={pendingDelete.id} />
                 <Button type="submit" variant="danger">
                   Delete question

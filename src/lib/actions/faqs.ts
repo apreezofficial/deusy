@@ -99,12 +99,19 @@ export async function moveFaq(formData: FormData): Promise<ActionResult<undefine
 
   const { error } = await supabase
     .from("faqs")
-    .upsert([
-      { id: current.id, sort_order: other.sort_order },
-      { id: other.id, sort_order: current.sort_order },
-    ]);
+    .update({ sort_order: other.sort_order })
+    .eq("id", current.id);
 
   if (error) return actionError("The order was not changed. Try again in a moment.");
+
+  const { error: secondError } = await supabase
+    .from("faqs")
+    .update({ sort_order: current.sort_order })
+    .eq("id", other.id);
+
+  if (secondError) {
+    return actionError("The order was not changed. Try again in a moment.");
+  }
 
   revalidateContent([contentTags.faqs], ["/faq"]);
   return { ok: true, data: undefined };

@@ -47,6 +47,16 @@ const optionalUrl = z
     "Enter a full link starting with https://",
   );
 
+/** Same as optionalUrl but keeps an empty string, for the settings forms. */
+const emptyUrl = z
+  .string()
+  .trim()
+  .max(500, "Keep the link under 500 characters")
+  .refine(
+    (value) => value === "" || /^https?:\/\/[^\s]+$/i.test(value),
+    "Enter a full link starting with https://",
+  );
+
 export const pageFormSchema = z.object({
   id: z.string().uuid().optional(),
   title: z.string().trim().min(1, "Enter a title").max(160, "Keep the title under 160 characters"),
@@ -166,35 +176,26 @@ export const siteSettingsFormSchema = z.object({
   phone: z
     .string()
     .trim()
-    .max(40, "Keep the phone number under 40 characters")
-    .optional()
-    .transform((value) => (value ? value : null)),
+    .max(40, "Keep the phone number under 40 characters"),
   email: z
     .string()
     .trim()
     .max(200)
-    .optional()
-    .transform((value) => (value ? value : null))
     .refine(
-      (value) => value === null || z.email().safeParse(value).success,
+      (value) => value === "" || z.email().safeParse(value).success,
       "Enter a valid email address",
     ),
-  whatsapp: z
-    .string()
-    .trim()
-    .max(40)
-    .optional()
-    .transform((value) => (value ? value : null)),
+  whatsapp: z.string().trim().max(40, "Keep the number under 40 characters"),
   addressLines: z
     .array(z.string().trim().max(160, "Keep each address line under 160 characters"))
     .max(6, "Six address lines is the limit"),
   hours: z.string().trim().max(200, "Keep the hours under 200 characters"),
-  logoUrl: optionalUrl,
+  logoUrl: emptyUrl,
   socials: z
     .array(
       z.object({
         label: z.string().trim().min(1, "Enter a label").max(40),
-        url: optionalUrl,
+        url: emptyUrl,
       }),
     )
     .max(8, "Eight social links is the limit"),

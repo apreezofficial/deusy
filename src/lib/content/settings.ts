@@ -1,3 +1,5 @@
+import type { Json } from "@/lib/database.types";
+
 export interface SiteSettings {
   name: string;
   tagline: string;
@@ -90,10 +92,7 @@ export function parseHomeSettings(value: unknown): HomeSettings {
   };
 }
 
-export function toSiteSettingsValue(settings: SiteSettings): Record<
-  string,
-  unknown
-> {
+export function toSiteSettingsValue(settings: SiteSettings): Json {
   return {
     name: settings.name,
     tagline: settings.tagline,
@@ -107,10 +106,7 @@ export function toSiteSettingsValue(settings: SiteSettings): Record<
   };
 }
 
-export function toHomeSettingsValue(settings: HomeSettings): Record<
-  string,
-  unknown
-> {
+export function toHomeSettingsValue(settings: HomeSettings): Json {
   return {
     heroTitle: settings.heroTitle,
     heroIntro: settings.heroIntro,

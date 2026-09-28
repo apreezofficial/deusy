@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { deleteEnquiry } from "@/lib/actions/enquiry-status";
-import { voidAction } from "@/lib/actions/form-action";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { useToast } from "@/components/ui/Toast";
@@ -50,7 +49,7 @@ export function DeleteEnquiryButton({ id, name }: DeleteEnquiryButtonProps) {
             <Button variant="outline" onClick={() => setOpen(false)}>
               Keep enquiry
             </Button>
-            <form action={voidAction(remove)}>
+            <form action={remove}>
               <input type="hidden" name="id" value={id} />
               <Button type="submit" variant="danger">
                 Delete enquiry
