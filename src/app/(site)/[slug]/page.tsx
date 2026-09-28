@@ -11,6 +11,7 @@ import {
   getSiteSettings,
 } from "@/lib/queries/content";
 import { getActor } from "@/lib/auth";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { RichText } from "@/components/site/RichText";
 import { FaqList } from "@/components/site/FaqList";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -29,6 +30,8 @@ interface ResolvedPage {
 async function resolvePage(slug: string): Promise<ResolvedPage | null> {
   const published = await getPublishedPage(slug);
   if (published) return { page: published, isDraft: false };
+
+  if (!isSupabaseConfigured()) return null;
 
   const actor = await getActor();
   if (!actor) return null;

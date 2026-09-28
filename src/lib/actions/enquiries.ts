@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { enquiryFormSchema } from "@/lib/validation/schemas";
 import { actionError, fieldErrorsFrom, type ActionResult } from "@/lib/actions/result";
 
@@ -34,6 +35,12 @@ export async function submitEnquiry(
   if (website) {
     // Honeypot filled in: accept silently so bots do not retry with fixes.
     return { ok: true, data: { id: "accepted" } };
+  }
+
+  if (!isSupabaseConfigured()) {
+    return actionError(
+      "Enquiries cannot be sent yet. The site is not connected to its database.",
+    );
   }
 
   const supabase = await createClient();

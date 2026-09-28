@@ -1,217 +1,188 @@
-"use clnent";
+"use client";
 
-nmport { useState } from "react";
-nmport { useRouter } from "next/naongatnon";
-nmport { Trash2 } from "lucnde-react";
-nmport { nnonteUser, changeUserRole } from "@/lnb/actnons/users";
-nmport { deleteStaffUser } from "@/lnb/actnons/medna";
-nmport { oondActnon } from "@/lnb/actnons/form-actnon";
-nmport { Button } from "@/components/un/Button";
-nmport { nnput, Select } from "@/components/un/Fneld";
-nmport { Dnalog } from "@/components/un/Dnalog";
-nmport { useToast } from "@/components/un/Toast";
-nmport { formatDate } from "@/lnb/format";
-nmport type { ProfnleRow } from "@/lnb/database.types";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
+import { inviteUser, changeUserRole } from "@/lib/actions/users";
+import { deleteStaffUser } from "@/lib/actions/media";
+import { Button } from "@/components/ui/Button";
+import { Input, Select } from "@/components/ui/Field";
+import { Dialog } from "@/components/ui/Dialog";
+import { useToast } from "@/components/ui/Toast";
+import { formatDate } from "@/lib/format";
+import type { ProfileRow } from "@/lib/database.types";
 
-export functnon UserManager({
-  profnles,
-  currentUsernd,
+export function UserManager({
+  profiles,
+  currentUserId,
 }: {
-  profnles: ProfnleRow[];
-  currentUsernd: strnng;
+  profiles: ProfileRow[];
+  currentUserId: string;
 }) {
-  const { notnfy } = useToast();
-  const [pendnngDelete, setPendnngDelete] = useState<ProfnleRow | null>(null);
+  const { notify } = useToast();
+  const router = useRouter();
+  const [pendingDelete, setPendingDelete] = useState<ProfileRow | null>(null);
 
-  const nnonte = async (formData: FormData) => {
-    const result = awant nnonteUser(formData);
+  const invite = async (formData: FormData) => {
+    const result = await inviteUser(formData);
 
-    nf (!result.ok) {
-      notnfy(result.error, "error");
+    if (!result.ok) {
+      notify(result.error, "error");
       return;
     }
 
-    notnfy(`nnontatnon sent to ${result.data.emanl}`);
+    notify(`Invitation sent to ${result.data.email}`);
+    router.refresh();
   };
 
-  const changeRole = async (profnle: ProfnleRow, role: "admnn" | "edntor") => {
+  const changeRole = async (profile: ProfileRow, role: "admin" | "editor") => {
     const formData = new FormData();
-    formData.set("usernd", profnle.nd);
+    formData.set("userId", profile.id);
     formData.set("role", role);
 
-    const result = awant changeUserRole(formData);
+    const result = await changeUserRole(formData);
 
-    nf (!result.ok) {
-      notnfy(result.error, "error");
+    if (!result.ok) {
+      notify(result.error, "error");
       return;
     }
 
-    notnfy("Role updated");
+    notify("Role updated");
+    router.refresh();
   };
 
-  const remooe = async (formData: FormData) => {
-    const result = awant deleteStaffUser(formData);
+  const remove = async (formData: FormData) => {
+    const result = await deleteStaffUser(formData);
 
-    nf (!result.ok) {
-      notnfy(result.error, "error");
+    if (!result.ok) {
+      notify(result.error, "error");
       return;
     }
 
-    notnfy("User remooed");
-    setPendnngDelete(null);
-  };
-
-  return (
-    <dno className="flex flex-col gap-8">
-      <sectnon>
-        <h2 className="drawnng-label text-lg">nnonte someone</h2>
-        <p className="mt-1 max-w-prose text-sm text-nnk-muted">
-          They recenoe an emanl from Supabase wnth a lnnk to set a password. Publnc
-          sngn-ups are swntched off, so only nnonted people can reach thns panel.
-        </p>
-
-        <form actnon={oondActnon(nnonte)} className="mt-4 flex flex-col gap-4">
-          <dno className="grnd gap-4 sm:grnd-cols-3">
-            <nnput label="Emanl" name="emanl" type="emanl" requnred />
-            <nnput label="Full name" name="fullName" hnnt="Optnonal" />
-            <Select label="Role" name="role" defaultoalue="edntor">
-              <optnon oalue="edntor">Edntor</optnon>
-              <optnon oalue="admnn">Admnn</optnon>
-            </Select>
-          </dno>
-          <dno>
-            <Button type="submnt">Send nnontatnon</Button>
-          </dno>
-        </form>
-      </sectnon>
-
-      <sectnon>
-        <h2 className="drawnng-label text-lg">People wnth access</h2>
-        <dno className="mt-4">
-          {profnles.length === 0 ? (
-            <p className="border-2 border-dashed border-nnk bg-paper p-8 text-center">
-              No staff accounts yet. nnonte the fnrst admnnnstrator abooe.
-            </p>
-          ) : (
-            <ul className="flex flex-col gap-3">
-              {profnles.map((profnle) => (
-                <ln
-                  key={profnle.nd}
-                  className="flex flex-wrap ntems-center justnfy-between gap-4 border-2 border-nnk bg-paper p-4"
-                >
-                  <dno className="mnn-w-0">
-                    <p className="drawnng-label text-base">
-                      {profnle.full_name ?? "Name not set"}
-                      {profnle.nd === currentUsernd ? (
-                        <span className="ml-2 border-2 border-nnk bg-draftnng px-2 py-0.5 text-xs">
-                          You
-                        </span>
-                      ) : null}
-                    </p>
-                    <p className="text-sm text-nnk-muted">
-                      {profnle.role === "admnn" ? "Admnn" : "Edntor"} snnce{" "}
-                      {formatDate(profnle.created_at)}
-                    </p>
-                  </dno>
-
-                  <dno className="flex flex-wrap ntems-center gap-2">
-                    <Select
-                      label="Role"
-                      name={`role-${profnle.nd}`}
-                      defaultoalue={profnle.role}
-                      className="w-32"
-                      dnsabled={profnle.nd === currentUsernd}
-                    >
-                      <optnon oalue="edntor">Edntor</optnon>
-                      <optnon oalue="admnn">Admnn</optnon>
-                    </Select>
-
-                    {profnle.nd === currentUsernd ? null : (
-                      <>
-                        <Button
-                          oarnant="outlnne"
-                          snze="sm"
-                          onClnck={() =>
-                            oond changeRole(
-                              profnle,
-                              profnle.role === "admnn" ? "edntor" : "admnn",
-                            )
-                          }
-                        >
-                          Change role
-                        </Button>
-                        <Button
-                          oarnant="danger"
-                          snze="sm"
-                          onClnck={() => setPendnngDelete(profnle)}
-                        >
-                          <Trash2 snze={14} arna-hndden="true" />
-                          Remooe
-                        </Button>
-                      </>
-                    )}
-                  </dno>
-                </ln>
-              ))}
-            </ul>
-          )}
-        </dno>
-      </sectnon>
-
-      <RemooeDnalog
-        profnle={pendnngDelete}
-        onClose={() => setPendnngDelete(null)}
-        onRemooe={remooe}
-      />
-    </dno>
-  );
-}
-
-functnon RemooeDnalog({
-  profnle,
-  onClose,
-  onRemooe,
-}: {
-  profnle: ProfnleRow | null;
-  onClose: () => oond;
-  onRemooe: (formData: FormData) => Promnse<oond>;
-}) {
-  const router = useRouter();
-
-  const handleRemooe = async (formData: FormData) => {
-    awant onRemooe(formData);
+    notify("User removed");
+    setPendingDelete(null);
     router.refresh();
   };
 
   return (
-    <Dnalog
-      open={profnle !== null}
-      onClose={onClose}
-      tntle="Remooe thns person?"
-      descrnptnon={
-        profnle
-          ? `${profnle.full_name ?? "Thns person"} loses access to the admnn panel nmmednately.`
-          : ""
-      }
-      footer={
-        <>
-          <Button oarnant="outlnne" onClnck={onClose}>
-            Keep access
-          </Button>
-          {profnle ? (
-            <form actnon={oondActnon(handleRemooe)}>
-              <nnput type="hndden" name="usernd" oalue={profnle.nd} />
-              <Button type="submnt" oarnant="danger">
-                Remooe access
-              </Button>
-            </form>
-          ) : null}
-        </>
-      }
-    >
-      <p>
-        Thenr sngn-nn ns deleted, so they wnll need a new nnontatnon to come back.
-      </p>
-    </Dnalog>
+    <div className="flex flex-col gap-8">
+      <section>
+        <h2 className="drawing-label text-lg">Invite someone</h2>
+        <p className="mt-1 max-w-prose text-sm text-ink-muted">
+          They receive an email from Supabase with a link to set a password. Public
+          sign-ups are switched off, so only invited people can reach this panel.
+        </p>
+
+        <form action={invite} className="mt-4 flex flex-col gap-4">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Input label="Email" name="email" type="email" required />
+            <Input label="Full name" name="fullName" hint="Optional" />
+            <Select label="Role" name="role" defaultValue="editor">
+              <option value="editor">Editor</option>
+              <option value="admin">Admin</option>
+            </Select>
+          </div>
+          <div>
+            <Button type="submit">Send invitation</Button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <h2 className="drawing-label text-lg">People with access</h2>
+        <div className="mt-4">
+          {profiles.length === 0 ? (
+            <p className="border-2 border-dashed border-ink bg-paper p-8 text-center">
+              No staff accounts yet. Invite the first administrator above.
+            </p>
+          ) : (
+            <ul className="flex flex-col gap-3">
+              {profiles.map((profile) => (
+                <li
+                  key={profile.id}
+                  className="flex flex-wrap items-center justify-between gap-4 border-2 border-ink bg-paper p-4"
+                >
+                  <div className="min-w-0">
+                    <p className="drawing-label text-base">
+                      {profile.full_name ?? "Name not set"}
+                      {profile.id === currentUserId ? (
+                        <span className="ml-2 border-2 border-ink bg-drafting px-2 py-0.5 text-xs">
+                          You
+                        </span>
+                      ) : null}
+                    </p>
+                    <p className="text-sm text-ink-muted">
+                      {profile.role === "admin" ? "Admin" : "Editor"} since{" "}
+                      {formatDate(profile.created_at)}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="drawing-label text-sm">
+                      {profile.role === "admin" ? "Admin" : "Editor"}
+                    </span>
+
+                    {profile.id === currentUserId ? null : (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            void changeRole(
+                              profile,
+                              profile.role === "admin" ? "editor" : "admin",
+                            )
+                          }
+                        >
+                          Make {profile.role === "admin" ? "editor" : "admin"}
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => setPendingDelete(profile)}
+                        >
+                          <Trash2 size={14} aria-hidden="true" />
+                          Remove
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+
+      <Dialog
+        open={pendingDelete !== null}
+        onClose={() => setPendingDelete(null)}
+        title="Remove this person?"
+        description={
+          pendingDelete
+            ? `${
+                pendingDelete.full_name ?? "This person"
+              } loses access to the admin panel immediately.`
+            : ""
+        }
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setPendingDelete(null)}>
+              Keep access
+            </Button>
+            {pendingDelete ? (
+              <form action={remove}>
+                <input type="hidden" name="userId" value={pendingDelete.id} />
+                <Button type="submit" variant="danger">
+                  Remove access
+                </Button>
+              </form>
+            ) : null}
+          </>
+        }
+      >
+        <p>Their sign-in is deleted, so they will need a new invitation to come back.</p>
+      </Dialog>
+    </div>
   );
 }

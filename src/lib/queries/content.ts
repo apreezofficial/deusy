@@ -2,6 +2,7 @@ import "server-only";
 
 import { unstable_cache } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import type { Database } from "@/lib/database.types";
 import {
   parseHomeSettings,
@@ -11,6 +12,14 @@ import {
   type HomeSettings,
   type SiteSettings,
 } from "@/lib/content/settings";
+import {
+  fallbackFaqs,
+  fallbackHomeSettings,
+  fallbackPages,
+  fallbackServices,
+  fallbackSiteSettings,
+  fallbackTeam,
+} from "@/lib/content/fallback";
 import type {
   EnquiryRow,
   EnquiryStatus,
@@ -34,7 +43,9 @@ export const contentTags = {
 
 export const getSiteSettings = unstable_cache(
   async (): Promise<SiteSettings> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackSiteSettings;
+
     const { data, error } = await supabase
       .from("settings")
       .select("*")
@@ -50,7 +61,9 @@ export const getSiteSettings = unstable_cache(
 
 export const getHomeSettings = unstable_cache(
   async (): Promise<HomeSettings> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackHomeSettings;
+
     const { data, error } = await supabase
       .from("settings")
       .select("*")
@@ -68,7 +81,9 @@ export const getHomeSettings = unstable_cache(
 
 export const getNavPages = unstable_cache(
   async (): Promise<PageRow[]> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackPages;
+
     const { data, error } = await supabase
       .from("pages")
       .select("*")
@@ -86,7 +101,9 @@ export const getNavPages = unstable_cache(
 
 export const getPublishedPages = unstable_cache(
   async (): Promise<PageRow[]> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackPages;
+
     const { data, error } = await supabase
       .from("pages")
       .select("*")
@@ -103,7 +120,11 @@ export const getPublishedPages = unstable_cache(
 
 export const getPublishedPage = unstable_cache(
   async (slug: string): Promise<PageRow | null> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) {
+      return fallbackPages.find((page) => page.slug === slug) ?? null;
+    }
+
     const { data, error } = await supabase
       .from("pages")
       .select("*")
@@ -120,7 +141,13 @@ export const getPublishedPage = unstable_cache(
 
 export const getServices = unstable_cache(
   async (kind?: "practice" | "agency"): Promise<ServiceRow[]> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) {
+      return kind
+        ? fallbackServices.filter((service) => service.kind === kind)
+        : fallbackServices;
+    }
+
     let query = supabase
       .from("services")
       .select("*")
@@ -140,7 +167,11 @@ export const getServices = unstable_cache(
 
 export const getService = unstable_cache(
   async (slug: string): Promise<ServiceRow | null> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) {
+      return fallbackServices.find((service) => service.slug === slug) ?? null;
+    }
+
     const { data, error } = await supabase
       .from("services")
       .select("*")
@@ -157,7 +188,9 @@ export const getService = unstable_cache(
 
 export const getActiveFaqs = unstable_cache(
   async (): Promise<FaqRow[]> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackFaqs;
+
     const { data, error } = await supabase
       .from("faqs")
       .select("*")
@@ -173,7 +206,9 @@ export const getActiveFaqs = unstable_cache(
 
 export const getActiveTeam = unstable_cache(
   async (): Promise<TeamMemberRow[]> => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackTeam;
+
     const { data, error } = await supabase
       .from("team_members")
       .select("*")

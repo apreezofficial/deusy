@@ -1,8 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/lib/database.types";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export async function proxy(request: NextRequest) {
+  // Before the project is connected there is no session to refresh; the admin
+  // layout still guards every route.
+  if (!isSupabaseConfigured()) return NextResponse.next({ request });
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient<Database>(

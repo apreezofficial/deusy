@@ -3,9 +3,12 @@ import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/lib/database.types";
+import { requireSupabaseEnv } from "@/lib/supabase/env";
 
 /** Request-scoped client that reads and writes the user's auth cookies. */
 export async function createClient() {
+  requireSupabaseEnv();
+
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
