@@ -49,7 +49,7 @@ export default async function AdminEnquiryPage({
         </div>
       </header>
 
-      <dl className="grid gap-px border-2 border-ink bg-ink sm:grid-cols-2">
+      <dl className="edge-sm grid gap-px border-2 border-ink bg-ink sm:grid-cols-2">
         {fields.map((field) => (
           <div key={field.label} className="bg-paper px-4 py-3">
             <dt className="drawing-label text-sm">{field.label}</dt>
@@ -76,7 +76,7 @@ export default async function AdminEnquiryPage({
         </p>
       </section>
 
-      <div className="flex flex-wrap gap-3 border-2 border-ink bg-paper p-4">
+      <div className="edge flex flex-wrap gap-3 border-2 border-ink bg-paper p-4">
         {enquiry.status === "new" ? (
           <form action={voidAction(setEnquiryStatus)}>
             <input type="hidden" name="id" value={enquiry.id} />

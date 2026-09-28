@@ -98,7 +98,7 @@ function SiteSettingsForm({
   const fieldErrors = state && !state.ok ? state.fieldErrors : undefined;
 
   return (
-    <form action={formActionHandler} className="flex flex-col gap-5">
+    <form action={formActionHandler} className="edge flex flex-col gap-5">
       <input type="hidden" name="logoUrl" value={logoUrl} />
 
       {state && !state.ok ? (

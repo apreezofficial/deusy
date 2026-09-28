@@ -23,6 +23,9 @@
 
 :root {
   --rule: 2px;
+  /* Hard, unblurred offset edge. Depth comes from the offset, never a blur. */
+  --edge: 5px 5px 0 0 var(--color-ink);
+  --edge-sm: 3px 3px 0 0 var(--color-ink);
   color-scheme: light;
 }
 
@@ -30,6 +33,30 @@
 *::before,
 *::after {
   border-radius: 0;
+}
+
+.edge {
+  box-shadow: var(--edge);
+}
+
+.edge-sm {
+  box-shadow: var(--edge-sm);
+}
+
+.edge-press {
+  transition:
+    transform 90ms ease-out,
+    box-shadow 90ms ease-out;
+}
+
+.edge-press:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 0 var(--color-ink);
+}
+
+.edge-press:active:not(:disabled) {
+  transform: translate(var(--edge-offset, 5px), var(--edge-offset, 5px));
+  box-shadow: none;
 }
 
 html {

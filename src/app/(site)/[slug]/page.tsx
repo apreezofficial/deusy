@@ -233,14 +233,14 @@ async function ContactTemplate({ page }: { page: PageRow }) {
                 ))}
               </dl>
             ) : (
-              <p className="mt-10 border-2 border-dashed border-ink p-6">
+              <p className="mt-10 edge border-2 border-dashed border-ink bg-paper p-6">
                 Contact details have not been added yet. Send an enquiry below and we
                 will pick it up.
               </p>
             )}
           </div>
 
-          <div className="border-2 border-ink bg-paper p-6 sm:p-8">
+          <div className="edge border-2 border-ink bg-paper p-6 sm:p-8">
             <h2 className="display text-2xl">Send an enquiry</h2>
             <p className="mt-2 text-ink-muted">
               Tell us what you are planning. Every field marked required must be filled

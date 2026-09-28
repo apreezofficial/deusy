@@ -5,6 +5,7 @@ import { PlanDrawing } from "@/components/site/PlanDrawing";
 import { JsonLd } from "@/components/site/JsonLd";
 import { buttonStyles } from "@/components/ui/Button";
 import type { ServiceRow } from "@/lib/database.types";
+import type { SiteSettings } from "@/lib/content/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -56,18 +57,16 @@ export default async function HomePage() {
       <JsonLd data={organization} />
 
       <section className="border-b-2 border-ink">
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-          <div className="grid-plan border-b-2 border-ink px-4 py-14 sm:px-6 sm:py-20 lg:border-b-0 lg:border-r-2">
-            <p className="tick drawing-label text-sm text-signal-dark">
-              {site.tagline}
-            </p>
-            <h1 className="display mt-6 text-[clamp(2.5rem,1.5rem+4.5vw,4.5rem)]">
+        <div className="grid lg:grid-cols-2">
+          <div className="grid-plan order-2 border-t-2 border-ink px-4 py-14 sm:px-6 sm:py-20 lg:order-1 lg:border-r-2 lg:border-t-0">
+            <p className="tick drawing-label text-sm text-signal-dark">{site.tagline}</p>
+            <h1 className="display mt-6 text-[clamp(2.5rem,1.4rem+4.5vw,4.5rem)]">
               {home.heroTitle || site.tagline}
             </h1>
-            <p className="mt-6 max-w-[62ch] text-lg leading-relaxed text-ink-soft">
+            <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-ink-soft">
               {home.heroIntro}
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-wrap gap-4">
               <Link href="/contact" className={buttonStyles("primary", "lg")}>
                 Request a consultation
               </Link>
@@ -77,44 +76,37 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative min-h-64 bg-tracing px-4 py-10 sm:min-h-80 sm:px-6">
+          <div className="grid-plan-blue order-1 min-h-64 bg-tracing px-4 py-8 sm:min-h-80 sm:px-6 lg:order-2">
             <PlanDrawing />
           </div>
         </div>
       </section>
 
-      <TitleBlock />
+      <TitleBlock site={site} services={[...practices, ...agency]} />
 
       <section id="services" className="border-b-2 border-ink px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 className="display text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">
-            {home.servicesHeading}
-          </h2>
-          <ServiceList services={practices} />
+          <SectionHeading eyebrow="What we do" title={home.servicesHeading} />
+          <ServiceSchedule services={practices} kindLabel="Practice" />
         </div>
       </section>
 
       <section className="grid-plan-blue border-b-2 border-ink bg-tracing px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 className="display max-w-3xl text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">
-            {home.agencyHeading}
-          </h2>
-          <ServiceList services={agency} />
+          <SectionHeading eyebrow="Agency services" title={home.agencyHeading} />
+          <ServiceSchedule services={agency} kindLabel="Agency service" />
         </div>
       </section>
 
       <section className="bg-signal px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 className="display text-[clamp(2rem,1.2rem+3vw,3.25rem)]">
+          <h2 className="display max-w-3xl text-[clamp(2rem,1.2rem+3vw,3.25rem)]">
             {home.closingHeading}
           </h2>
           <p className="mt-4 max-w-[58ch] text-lg text-ink">
             Send us the detail and the team will pick it up from there.
           </p>
-          <Link
-            href="/contact"
-            className={`${buttonStyles("ink", "lg")} mt-8`}
-          >
+          <Link href="/contact" className={`${buttonStyles("ink", "lg")} mt-8`}>
             Request a consultation
           </Link>
         </div>
@@ -123,101 +115,164 @@ export default async function HomePage() {
   );
 }
 
-async function TitleBlock() {
-  const [site, services] = await Promise.all([getSiteSettings(), getServices()]);
-
+function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <section className="border-b-2 border-ink bg-ink text-paper">
-      <dl className="mx-auto grid max-w-6xl sm:grid-cols-2 lg:grid-cols-4">
-        <div className="border-b-2 border-paper/20 px-4 py-6 sm:border-r-2 sm:px-6 lg:border-b-0">
-          <dt className="drawing-label text-sm text-drafting">Practice</dt>
-          <dd className="display mt-2 text-xl">{site.name}</dd>
-        </div>
-        <div className="border-b-2 border-paper/20 px-4 py-6 sm:border-r-2 sm:px-6 lg:border-b-0">
-          <dt className="drawing-label text-sm text-drafting">Areas of work</dt>
-          <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+    <div className="flex flex-col gap-4 border-b-2 border-ink pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <h2 className="display max-w-2xl text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">
+        {title}
+      </h2>
+      <p className="drawing-label shrink-0 text-sm text-signal-dark">{eyebrow}</p>
+    </div>
+  );
+}
+
+/**
+ * The title block from a drawing sheet: a bordered card that overlaps the hero,
+ * with one cell per kind of information.
+ */
+async function TitleBlock({
+  site,
+  services,
+}: {
+  site: SiteSettings;
+  services: ServiceRow[];
+}) {
+  return (
+    <section className="bg-paper px-4 pb-4 sm:px-6">
+      <div className="edge mx-auto -mt-10 max-w-6xl border-2 border-ink bg-ink sm:-mt-14">
+        <div className="grid gap-px bg-ink sm:grid-cols-2 lg:grid-cols-4">
+          <div className="bg-paper p-5 sm:p-6">
+            <p className="drawing-label text-sm text-signal-dark">Practice</p>
+            <p className="display mt-3 text-2xl leading-tight">{site.name}</p>
+            {site.tagline ? (
+              <p className="mt-3 text-sm leading-relaxed text-ink-muted">{site.tagline}</p>
+            ) : null}
+          </div>
+
+          <div className="bg-paper p-5 sm:p-6">
+            <p className="drawing-label text-sm text-signal-dark">Areas of work</p>
             {services.length > 0 ? (
-              services.map((service) => (
-                <span key={service.id}>{service.title}</span>
-              ))
+              <ul className="mt-3 flex flex-col gap-1.5">
+                {services.map((service) => (
+                  <li key={service.id} className="text-sm leading-snug">
+                    {service.title}
+                  </li>
+                ))}
+              </ul>
             ) : (
-              <span className="text-drafting">Available from the admin panel.</span>
+              <p className="mt-3 text-sm text-ink-muted">
+                Services are added from the admin panel.
+              </p>
             )}
-          </dd>
-        </div>
-        <div className="border-b-2 border-paper/20 px-4 py-6 sm:border-r-2 sm:px-6 lg:border-b-0">
-          <dt className="drawing-label text-sm text-drafting">Office</dt>
-          <dd className="mt-2">
+          </div>
+
+          <div className="bg-paper p-5 sm:p-6">
+            <p className="drawing-label text-sm text-signal-dark">Office</p>
             {site.addressLines.length > 0 ? (
-              site.addressLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))
+              <address className="mt-3 not-italic text-sm leading-relaxed">
+                {site.addressLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
             ) : (
-              <span className="text-drafting">Add an address in Settings.</span>
+              <p className="mt-3 text-sm text-ink-muted">
+                Add an address in Settings.
+              </p>
             )}
-          </dd>
+            {site.hours ? (
+              <p className="mt-3 text-sm text-ink-muted">{site.hours}</p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col justify-between gap-4 bg-paper p-5 sm:p-6">
+            <div>
+              <p className="drawing-label text-sm text-signal-dark">Contact</p>
+              <ul className="mt-3 flex flex-col gap-1 text-sm">
+                {site.email ? (
+                  <li className="min-w-0">
+                    <a
+                      href={`mailto:${site.email}`}
+                      className="block break-words underline decoration-signal decoration-2 underline-offset-4"
+                    >
+                      {site.email}
+                    </a>
+                  </li>
+                ) : null}
+                {site.phone ? (
+                  <li>
+                    <a
+                      href={`tel:${site.phone.replace(/\s+/g, "")}`}
+                      className="underline decoration-signal decoration-2 underline-offset-4"
+                    >
+                      {site.phone}
+                    </a>
+                  </li>
+                ) : null}
+                {!site.email && !site.phone ? (
+                  <li className="text-ink-muted">
+                    Phone and email are added in Settings.
+                  </li>
+                ) : null}
+              </ul>
+            </div>
+            <Link href="/contact" className={buttonStyles("primary", "sm")}>
+              Request a consultation
+            </Link>
+          </div>
         </div>
-        <div className="px-4 py-6 sm:px-6">
-          <dt className="drawing-label text-sm text-drafting">Contact</dt>
-          <dd className="mt-2 flex flex-col gap-1">
-            {site.email ? (
-              <a href={`mailto:${site.email}`} className="underline decoration-signal decoration-2 underline-offset-4">
-                {site.email}
-              </a>
-            ) : null}
-            {site.phone ? (
-              <a href={`tel:${site.phone.replace(/\s+/g, "")}`} className="underline decoration-signal decoration-2 underline-offset-4">
-                {site.phone}
-              </a>
-            ) : null}
-            {!site.email && !site.phone ? (
-              <Link
-                href="/contact"
-                className="underline decoration-signal decoration-2 underline-offset-4"
-              >
-                Use the contact form
-              </Link>
-            ) : null}
-          </dd>
-        </div>
-      </dl>
+      </div>
     </section>
   );
 }
 
-function ServiceList({ services }: { services: ServiceRow[] }) {
+function ServiceSchedule({
+  services,
+  kindLabel,
+}: {
+  services: ServiceRow[];
+  kindLabel: string;
+}) {
   if (services.length === 0) {
     return (
-      <p className="mt-8 border-2 border-dashed border-current p-6">
+      <p className="edge mt-10 border-2 border-dashed border-ink bg-paper p-6">
         No services yet. Add the first one from the admin panel.
       </p>
     );
   }
 
   return (
-    <ul className="mt-10 grid gap-px border-2 border-ink bg-ink md:grid-cols-2">
+    <ul className="edge mt-10 border-2 border-ink bg-paper">
       {services.map((service) => (
-        <li key={service.id} className="bg-paper p-6 sm:p-8">
-          <h3 className="display text-2xl">{service.title}</h3>
-          <p className="mt-3 max-w-[58ch] leading-relaxed text-ink-soft">
-            {service.summary}
-          </p>
-          {service.scope.length > 0 ? (
-            <ul className="mt-5 flex flex-wrap gap-2 text-sm text-ink-muted">
-              {service.scope.map((item) => (
-                <li key={item} className="border-2 border-ink px-2 py-0.5">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+        <li key={service.id} className="border-b-2 border-ink last:border-b-0">
           <Link
             href={`/services/${service.slug}`}
-            className="mt-6 inline-flex items-center gap-2 border-b-2 border-ink pb-0.5 hover:border-signal"
+            className="group flex flex-col gap-4 p-5 transition-colors hover:bg-tracing sm:p-7 lg:flex-row lg:items-start lg:gap-8"
           >
-            {service.title} details
+            <div className="lg:w-64 lg:shrink-0">
+              <p className="drawing-label text-xs text-signal-dark">{kindLabel}</p>
+              <h3 className="display mt-2 text-2xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px] sm:text-[1.75rem]">
+                {service.title}
+              </h3>
+            </div>
+
+            <p className="max-w-[54ch] leading-relaxed text-ink-soft">
+              {service.summary}
+            </p>
+
+            {service.scope.length > 0 ? (
+              <ul className="flex flex-wrap gap-2 lg:w-56 lg:shrink-0 lg:justify-end">
+                {service.scope.map((item) => (
+                  <li
+                    key={item}
+                    className="tick border-2 border-ink bg-paper px-2 py-1 text-xs"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </Link>
         </li>
       ))}

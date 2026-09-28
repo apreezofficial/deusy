@@ -55,7 +55,7 @@ export function TeamManager({
           {members.map((member) => (
             <li
               key={member.id}
-              className="flex flex-wrap items-start justify-between gap-3 border-2 border-ink bg-paper p-4"
+              className="edge-sm flex flex-wrap items-start justify-between gap-3 border-2 border-ink bg-paper p-4"
             >
               <div>
                 <h3 className="drawing-label text-lg">{member.name}</h3>

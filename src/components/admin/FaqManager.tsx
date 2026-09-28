@@ -75,7 +75,7 @@ export function FaqManager({ faqs }: { faqs: FaqRow[] }) {
       ) : (
         <ul className="flex flex-col gap-3">
           {faqs.map((faq, index) => (
-            <li key={faq.id} className="border-2 border-ink bg-paper p-4">
+            <li key={faq.id} className="edge-sm border-2 border-ink bg-paper p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <h3 className="drawing-label text-lg">{faq.question}</h3>

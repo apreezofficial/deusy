@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
         </p>
       </header>
 
-      <div className="grid gap-px border-2 border-ink bg-ink sm:grid-cols-3">
+      <div className="edge grid gap-px border-2 border-ink bg-ink sm:grid-cols-3">
         <Stat label="Published pages" value={stats.publishedPages} />
         <Stat label="Drafts waiting" value={stats.draftPages} />
         <Stat label="New enquiries" value={stats.newEnquiries} />

@@ -89,7 +89,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
           <aside>
             {service.scope.length > 0 ? (
-              <div className="border-2 border-ink p-6">
+              <div className="edge border-2 border-ink bg-paper p-6">
                 <h2 className="drawing-label text-lg">What this covers</h2>
                 <ul className="mt-4 flex flex-col gap-2">
                   {service.scope.map((item) => (

@@ -62,7 +62,7 @@ export function MediaLibrary({ media }: { media: MediaRow[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <form action={voidAction(upload)} className="border-2 border-ink bg-paper p-5">
+      <form action={voidAction(upload)} className="edge border-2 border-ink bg-paper p-5">
         <h2 className="drawing-label text-lg">Upload an image</h2>
         <p className="mt-1 text-sm text-ink-muted">
           Jpeg, png, webp or svg, up to 5 MB. Give every image a description so it
@@ -189,7 +189,7 @@ function MediaCard({
   };
 
   return (
-    <li className="flex flex-col border-2 border-ink bg-paper">
+    <li className="edge-sm flex flex-col border-2 border-ink bg-paper">
       <Image
         src={item.url}
         alt={item.alt ?? ""}

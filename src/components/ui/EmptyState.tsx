@@ -12,7 +12,7 @@ export function EmptyState({
   action,
 }: EmptyStateProps) {
   return (
-    <div className="border-2 border-dashed border-ink bg-paper px-6 py-12 text-center">
+    <div className="edge border-2 border-dashed border-ink bg-paper px-6 py-12 text-center">
       <p className="drawing-label text-lg">{title}</p>
       {description ? (
         <p className="mx-auto mt-2 max-w-prose text-ink-muted">{description}</p>

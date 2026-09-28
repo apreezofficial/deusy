@@ -100,7 +100,7 @@ export function UserManager({
               {profiles.map((profile) => (
                 <li
                   key={profile.id}
-                  className="flex flex-wrap items-center justify-between gap-4 border-2 border-ink bg-paper p-4"
+                  className="edge-sm flex flex-wrap items-center justify-between gap-4 border-2 border-ink bg-paper p-4"
                 >
                   <div className="min-w-0">
                     <p className="drawing-label text-base">

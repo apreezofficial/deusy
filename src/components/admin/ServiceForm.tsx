@@ -54,7 +54,7 @@ export function ServiceForm({
   }, [state, notify]);
 
   return (
-    <form action={formActionHandler} className="flex flex-col gap-5">
+    <form action={formActionHandler} className="edge flex flex-col gap-5">
       {service ? <input type="hidden" name="id" value={service.id} /> : null}
       <input type="hidden" name="image" value={image} />
       <input type="hidden" name="active" value={active ? "true" : "false"} />

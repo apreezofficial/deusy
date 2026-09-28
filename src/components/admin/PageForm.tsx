@@ -157,7 +157,7 @@ export function PageForm({ page, media }: PageFormProps) {
         error={fieldErrors?.content}
       />
 
-      <fieldset className="grid gap-4 border-2 border-ink bg-paper p-5 sm:grid-cols-2">
+      <fieldset className="edge grid gap-4 border-2 border-ink bg-paper p-5 sm:grid-cols-2">
         <legend className="drawing-label px-2 text-sm">Visibility</legend>
         <Switch
           label="Published"
@@ -198,7 +198,7 @@ export function PageForm({ page, media }: PageFormProps) {
         />
       </fieldset>
 
-      <fieldset className="flex flex-col gap-4 border-2 border-ink bg-paper p-5">
+      <fieldset className="edge flex flex-col gap-4 border-2 border-ink bg-paper p-5">
         <legend className="drawing-label px-2 text-sm">Search and sharing</legend>
         <Input
           label="Search title"
@@ -255,7 +255,7 @@ export function PageForm({ page, media }: PageFormProps) {
         </div>
       </fieldset>
 
-      <div className="sticky bottom-0 flex flex-wrap items-center gap-3 border-2 border-ink bg-paper p-4">
+      <div className="edge sticky bottom-4 z-20 flex flex-wrap items-center gap-3 border-2 border-ink bg-paper p-4">
         <Button type="submit" variant="outline" onClick={() => submitWith(false)}>
           Save draft
         </Button>

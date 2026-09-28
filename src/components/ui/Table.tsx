@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export function Table({ children }: { children: ReactNode }) {
   return (
-    <div className="overflow-x-auto border-2 border-ink bg-paper">
+    <div className="edge-sm overflow-x-auto border-2 border-ink bg-paper">
       <table className="w-full border-collapse text-left text-[0.95rem]">
         {children}
       </table>

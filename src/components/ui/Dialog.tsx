@@ -74,7 +74,7 @@ export function Dialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-lg border-2 border-ink bg-paper"
+        className="edge w-full max-w-lg border-2 border-ink bg-paper"
       >
         <div className="flex items-start justify-between gap-4 border-b-2 border-ink px-5 py-4">
           <h2 id={titleId} className="display text-2xl">
