@@ -54,16 +54,23 @@ export function PageForm({ page, media }: PageFormProps) {
   const [dirty, setDirty] = useState(false);
 
   const formRef = useRef<HTMLFormElement>(null);
-  const lastResult = useRef<typeof state>(undefined);
+  const notified = useRef<typeof state>(undefined);
 
   const fieldErrors = state && !state.ok ? state.fieldErrors : undefined;
 
+  // A finished save clears the unsaved marker while rendering, so the toast
+  // effect below only has the external side effect to do.
+  const [savedResult, setSavedResult] = useState<typeof state>(undefined);
+  if (state !== savedResult) {
+    setSavedResult(state);
+    if (state?.ok) setDirty(false);
+  }
+
   useEffect(() => {
-    if (!state || state === lastResult.current) return;
-    lastResult.current = state;
+    if (!state || state === notified.current) return;
+    notified.current = state;
 
     if (state.ok) {
-      setDirty(false);
       notify(state.data.published ? "Page published" : "Draft saved");
     }
   }, [state, notify]);
@@ -336,34 +343,39 @@ function SlugField({
   error?: string;
   reserved: boolean;
 }) {
-  const [status, setStatus] = useState<"idle" | "checking" | "free" | "taken">("idle");
+  const value = slug.trim();
+  const shapeValid = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
+  const [checked, setChecked] = useState<{
+    value: string;
+    status: "free" | "taken" | "idle";
+  } | null>(null);
 
+  // The status shown is derived from the last check, so nothing has to be reset
+  // in the effect when the slug stops being checkable.
   useEffect(() => {
-    const value = slug.trim();
+    if (!value || !shapeValid || reserved) return;
 
-    if (!value) {
-      setStatus("idle");
-      return;
-    }
-
-    if (reserved) {
-      setStatus("taken");
-      return;
-    }
-
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) {
-      setStatus("idle");
-      return;
-    }
-
-    setStatus("checking");
     const timer = setTimeout(async () => {
       const result = await checkPageSlug(value, currentId);
-      setStatus(result.ok ? (result.data.available ? "free" : "taken") : "idle");
+      setChecked({
+        value,
+        status: result.ok ? (result.data.available ? "free" : "taken") : "idle",
+      });
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [slug, currentId, reserved]);
+  }, [value, shapeValid, reserved, currentId]);
+
+  const current = checked?.value === value ? checked : null;
+  const status: "idle" | "checking" | "free" | "taken" = !value
+    ? "idle"
+    : reserved
+      ? "taken"
+      : !shapeValid
+        ? "idle"
+        : current
+          ? current.status
+          : "checking";
 
   const message =
     status === "taken"

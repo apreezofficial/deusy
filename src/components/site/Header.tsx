@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Wordmark, WordmarkLink } from "@/components/site/Wordmark";
 import { buttonStyles } from "@/components/ui/Button";
-import { legalIndex, legalLinks, legalSubLinks } from "@/lib/content/legal";
+import { legalIndex, legalSubLinks } from "@/lib/content/legal";
 import type { PageRow } from "@/lib/database.types";
 import type { SiteSettings } from "@/lib/content/settings";
 
@@ -18,7 +18,9 @@ interface HeaderProps {
 export function Header({ site, navPages }: HeaderProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [legalOpen, setLegalOpen] = useState(false);
+  // The dropdown remembers which route it was opened on, so navigating away
+  // closes it without an effect.
+  const [legal, setLegal] = useState({ open: false, path: pathname });
 
   const links = [
     { href: "/services", label: "Services" },
@@ -28,7 +30,8 @@ export function Header({ site, navPages }: HeaderProps) {
     })),
   ];
 
-  const legalActive = legalLinks.some((link) => link.href === pathname);
+  const legalOpen = legal.open && legal.path === pathname;
+  const setLegalOpen = (value: boolean) => setLegal({ open: value, path: pathname });
 
   // The popup covers the page, so the page behind it must not scroll.
   useEffect(() => {
@@ -44,11 +47,6 @@ export function Header({ site, navPages }: HeaderProps) {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
-
-  // Any navigation away closes the desktop dropdown.
-  useEffect(() => {
-    setLegalOpen(false);
-  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b-2 border-ink bg-paper">
@@ -74,7 +72,7 @@ export function Header({ site, navPages }: HeaderProps) {
               onClick={() => setLegalOpen((value) => !value)}
               onFocus={() => setLegalOpen(true)}
               className={`flex items-center gap-1.5 border-b-2 py-1 transition-colors hover:border-signal ${
-                legalActive || legalOpen ? "border-signal" : "border-transparent"
+                legalOpen ? "border-signal" : "border-transparent"
               }`}
             >
               {legalIndex.label}
