@@ -97,6 +97,8 @@ export default async function PageRoute({
         />
       ) : page.slug === "about" ? (
         <AboutTemplate page={page} />
+      ) : page.slug === "team" ? (
+        <TeamTemplate page={page} />
       ) : (
         <StandardTemplate page={page} />
       )}
@@ -254,16 +256,86 @@ async function AboutTemplate({ page }: { page: PageRow }) {
   );
 }
 
+async function TeamTemplate({ page }: { page: PageRow }) {
+  const [team, services] = await Promise.all([getActiveTeam(), getServices()]);
+
+  return (
+    <>
+      <PageHeader page={page} eyebrow="Our people" />
+
+      {team.length > 0 ? (
+        <section className="border-b-2 border-ink px-4 py-14 sm:px-6 sm:py-20">
+          <div className="mx-auto max-w-6xl">
+            <SectionRule eyebrow="Profiles" title="Who you will work with" />
+            <ul className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {team.map((member) => (
+                <TeamCard key={member.id} member={member} />
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      <div className="px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-14">
+          <div className="edge reveal border-2 border-ink bg-paper p-6 sm:p-9">
+            <RichText doc={page.content} />
+          </div>
+
+          <aside className="flex flex-col gap-6">
+            <div className="reveal-edge border-2 border-ink bg-paper p-6">
+              <h2 className="drawing-label text-sm text-signal-dark">How we are organised</h2>
+              <ol className="mt-4 flex flex-col gap-2 text-sm">
+                <li className="border-2 border-ink bg-tracing p-3 font-medium">
+                  Managing Director
+                </li>
+                <li className="flex flex-col gap-2 pl-4">
+                  {["Administrator", "Finance Manager", "Liaison Manager"].map((role) => (
+                    <span key={role} className="border-2 border-ink p-3">
+                      {role}
+                    </span>
+                  ))}
+                </li>
+                <li className="pl-4">
+                  <span className="block border-2 border-ink bg-signal p-3 font-medium">
+                    {services.map((service) => service.title).join(" · ")}
+                  </span>
+                </li>
+              </ol>
+            </div>
+
+            <div className="edge-sm reveal-edge border-2 border-ink bg-ink p-6 text-paper">
+              <h2 className="drawing-label text-drafting">Work with us</h2>
+              <p className="mt-3 text-paper/80">
+                Send the detail and the right person on the team picks it up.
+              </p>
+              <Link
+                href="/contact?intent=consultation"
+                className={`${buttonStyles("primary", "md")} mt-5 w-full`}
+              >
+                Request a consultation
+              </Link>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function Leadership({ team }: { team: TeamMemberRow[] }) {
   return (
     <section className="border-t-2 border-ink px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <SectionRule eyebrow="The people" title="Leadership" />
-        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {team.map((member) => (
             <TeamCard key={member.id} member={member} />
           ))}
         </ul>
+        <Link href="/team" className={`${buttonStyles("outline", "md")} mt-8`}>
+          Meet the whole team
+        </Link>
       </div>
     </section>
   );
