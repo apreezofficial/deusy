@@ -21,7 +21,9 @@ export async function saveTeamMember(
   const parsed = teamFormSchema.safeParse({
     id,
     name: formData.get("name"),
+    slug: formData.get("slug") ?? "",
     role: formData.get("role"),
+    summary: formData.get("summary") ?? "",
     bio: formData.get("bio") ?? "",
     photo: formData.get("photo") ?? "",
     sortOrder: formData.get("sortOrder"),
@@ -35,11 +37,13 @@ export async function saveTeamMember(
     );
   }
 
-  const { name, role, bio, photo, sortOrder, active } = parsed.data;
+  const { name, slug, role, summary, bio, photo, sortOrder, active } = parsed.data;
   const supabase = await createClient();
   const row = {
     name,
+    slug,
     role,
+    summary,
     bio,
     photo,
     sort_order: sortOrder,
@@ -56,7 +60,7 @@ export async function saveTeamMember(
     );
   }
 
-  revalidateContent([contentTags.team], ["/about"]);
+  revalidateContent([contentTags.team], ["/about", "/team"]);
   return { ok: true, data: { id: result.data.id } };
 }
 
@@ -73,6 +77,6 @@ export async function deleteTeamMember(
 
   if (error) return actionError("The team member was not removed. Try again in a moment.");
 
-  revalidateContent([contentTags.team], ["/about"]);
+  revalidateContent([contentTags.team], ["/about", "/team"]);
   return { ok: true, data: undefined };
 }

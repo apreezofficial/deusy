@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Plus, Trash2 } from "lucide-react";
 import { saveTeamMember, deleteTeamMember } from "@/lib/actions/team";
 import { formAction } from "@/lib/actions/form-action";
@@ -37,8 +38,8 @@ export function TeamManager({
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="max-w-prose text-ink-muted">
-          Active members appear in the Leadership section at the bottom of the About
-          page. With nobody listed, the section stays hidden.
+          Active members appear as cards on the team page and on the About page. Each
+          person gets their own page at /team/their-slug, which shows the full profile.
         </p>
         <Button onClick={() => setEditing("new")}>
           <Plus size={16} aria-hidden="true" />
@@ -184,6 +185,14 @@ function TeamForm({
         error={fieldErrors?.name}
       />
       <Input
+        label="Profile slug"
+        name="slug"
+        required
+        defaultValue={member?.slug ?? ""}
+        hint="The page address: /team/your-slug"
+        error={fieldErrors?.slug}
+      />
+      <Input
         label="Role"
         name="role"
         required
@@ -191,11 +200,19 @@ function TeamForm({
         error={fieldErrors?.role}
       />
       <Textarea
-        label="Bio"
+        label="Short description"
+        name="summary"
+        rows={2}
+        defaultValue={member?.summary ?? ""}
+        hint="One or two sentences. This is what the cards show."
+        error={fieldErrors?.summary}
+      />
+      <Textarea
+        label="Full profile"
         name="bio"
-        rows={4}
+        rows={10}
         defaultValue={member?.bio ?? ""}
-        hint="Optional. A short paragraph."
+        hint="The whole story. This shows on the person's own page."
         error={fieldErrors?.bio}
       />
       <Input
@@ -209,8 +226,16 @@ function TeamForm({
 
       <div className="flex flex-col gap-2">
         <span className="drawing-label text-sm">Photo</span>
+        <Image
+          src={photo || "/placeholder-person.svg"}
+          alt="Selected photo"
+          width={120}
+          height={120}
+          className="h-28 w-28 border-2 border-ink object-cover"
+          unoptimized
+        />
         <p className="text-sm text-ink-muted">
-          {photo ? "A photo is set." : "No photo chosen."}
+          {photo ? "A photo is set." : "No photo chosen, so the placeholder is used."}
         </p>
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" onClick={() => setPickerOpen(true)}>

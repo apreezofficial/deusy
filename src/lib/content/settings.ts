@@ -18,6 +18,9 @@ export interface HomeSettings {
   servicesHeading: string;
   agencyHeading: string;
   closingHeading: string;
+  processHeading: string;
+  processIntro: string;
+  processSteps: { title: string; text: string }[];
 }
 
 export const defaultSiteSettings: SiteSettings = {
@@ -38,6 +41,9 @@ export const defaultHomeSettings: HomeSettings = {
   servicesHeading: "",
   agencyHeading: "",
   closingHeading: "",
+  processHeading: "",
+  processIntro: "",
+  processSteps: [],
 };
 
 function asString(value: unknown, fallback = ""): string {
@@ -58,6 +64,19 @@ function asSocials(value: unknown): { label: string; url: string }[] {
     const label = asString(record.label);
     const url = asString(record.url);
     if (label && url) result.push({ label, url });
+  }
+  return result;
+}
+
+function asSteps(value: unknown): { title: string; text: string }[] {
+  if (!Array.isArray(value)) return [];
+  const result: { title: string; text: string }[] = [];
+  for (const entry of value) {
+    if (typeof entry !== "object" || entry === null) continue;
+    const record = entry as Record<string, unknown>;
+    const title = asString(record.title);
+    const text = asString(record.text);
+    if (title || text) result.push({ title, text });
   }
   return result;
 }
@@ -89,6 +108,9 @@ export function parseHomeSettings(value: unknown): HomeSettings {
     ),
     agencyHeading: asString(record.agencyHeading ?? record.agency_heading),
     closingHeading: asString(record.closingHeading ?? record.closing_heading),
+    processHeading: asString(record.processHeading ?? record.process_heading),
+    processIntro: asString(record.processIntro ?? record.process_intro),
+    processSteps: asSteps(record.processSteps ?? record.process_steps),
   };
 }
 
@@ -113,5 +135,8 @@ export function toHomeSettingsValue(settings: HomeSettings): Json {
     servicesHeading: settings.servicesHeading,
     agencyHeading: settings.agencyHeading,
     closingHeading: settings.closingHeading,
+    processHeading: settings.processHeading,
+    processIntro: settings.processIntro,
+    processSteps: settings.processSteps,
   };
 }

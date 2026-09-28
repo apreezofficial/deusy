@@ -65,7 +65,9 @@ export type ServiceRow = {
 export type TeamMemberRow = {
   id: string;
   name: string;
+  slug: string | null;
   role: string;
+  summary: string | null;
   bio: string | null;
   photo: string | null;
   sort_order: number;

@@ -69,12 +69,23 @@ export async function saveHomeSettings(
 ): Promise<ActionResult<HomeSettings>> {
   await requireStaff();
 
+  const processSteps = formData
+    .getAll("processStepTitle")
+    .map((title, index) => ({
+      title: String(title),
+      text: String(formData.getAll("processStepText")[index] ?? ""),
+    }))
+    .filter((step) => step.title.trim() || step.text.trim());
+
   const parsed = homeSettingsFormSchema.safeParse({
     heroTitle: formData.get("heroTitle") ?? "",
     heroIntro: formData.get("heroIntro") ?? "",
     servicesHeading: formData.get("servicesHeading") ?? "",
     agencyHeading: formData.get("agencyHeading") ?? "",
     closingHeading: formData.get("closingHeading") ?? "",
+    processHeading: formData.get("processHeading") ?? "",
+    processIntro: formData.get("processIntro") ?? "",
+    processSteps,
   });
 
   if (!parsed.success) {

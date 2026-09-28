@@ -91,6 +91,34 @@ export default async function HomePage() {
 
       <TitleBlock site={site} services={[...practices, ...agency]} />
 
+      {home.processSteps.length > 0 ? (
+        <section className="border-b-2 border-ink bg-tracing px-4 py-16 sm:px-6 sm:py-20">
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading
+              eyebrow="Process"
+              title={home.processHeading}
+              description={home.processIntro}
+            />
+            <ol className="mt-10 grid gap-px border-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-4">
+              {home.processSteps.map((step, index) => (
+                <li
+                  key={`${step.title}-${index}`}
+                  className="reveal-edge flex flex-col bg-paper p-6"
+                >
+                  <span className="display text-4xl leading-none text-signal">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="drawing-label mt-4 text-lg leading-tight">{step.title}</h3>
+                  <p className="mt-2 leading-relaxed text-ink-soft">{step.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      ) : null}
+
+      <Audience />
+
       <section id="services" className="scroll-mt-24 border-b-2 border-ink px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <SectionHeading
@@ -141,20 +169,76 @@ export default async function HomePage() {
   );
 }
 
+function Audience() {
+  const groups = [
+    {
+      title: "Individuals",
+      text: "Buying, selling or renting property, sourcing a vehicle, or needing practical advice before signing anything.",
+    },
+    {
+      title: "Businesses",
+      text: "Construction and real estate projects, human resources support, compliance work, budgets and business planning.",
+    },
+    {
+      title: "Institutions",
+      text: "Organisations that need inspection readiness, workplace documentation, records in order and a working people function.",
+    },
+    {
+      title: "Organisations and NGOs",
+      text: "Advice on structure, funding, compliance and growth, delivered by people who have run both sides of the table.",
+    },
+  ];
+
+  return (
+    <section className="grid-plan-blue border-b-2 border-ink bg-paper px-4 py-16 sm:px-6 sm:py-20">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading
+          eyebrow="Who we work with"
+          title="Four kinds of client, one standard of work."
+        />
+        <ul className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {groups.map((group, index) => (
+            <li
+              key={group.title}
+              className="edge-sm reveal-edge flex flex-col bg-paper p-6 transition-transform duration-150 hover:-translate-y-1 hover:shadow-[7px_7px_0_0_var(--color-ink)]"
+            >
+              <span aria-hidden="true" className="drawing-label text-sm text-signal-dark">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="display mt-3 text-2xl leading-tight">{group.title}</h3>
+              <p className="mt-3 leading-relaxed text-ink-soft">{group.text}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="reveal mt-10 max-w-[62ch] border-2 border-ink bg-tracing p-6 leading-relaxed">
+          Our values are integrity, professionalism, reliability, accountability,
+          excellence and client satisfaction. They are not a poster on the wall: they are
+          what decides how we handle your project and what we report back to you.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function SectionHeading({
   eyebrow,
   title,
   action,
+  description,
 }: {
   eyebrow: string;
   title: string;
   action?: React.ReactNode;
+  description?: string;
 }) {
   return (
     <div className="reveal flex flex-col gap-4 border-b-2 border-ink pb-6 sm:flex-row sm:items-end sm:justify-between">
-      <h2 className="display max-w-2xl text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">
-        {title}
-      </h2>
+      <div className="max-w-2xl">
+        <h2 className="display text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">{title}</h2>
+        {description ? (
+          <p className="mt-4 leading-relaxed text-ink-soft">{description}</p>
+        ) : null}
+      </div>
       <div className="flex shrink-0 flex-wrap items-center gap-4">
         <p className="drawing-label text-sm text-signal-dark">{eyebrow}</p>
         {action}

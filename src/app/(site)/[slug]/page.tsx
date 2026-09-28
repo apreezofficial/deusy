@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import {
   getActiveFaqs,
   getActiveTeam,
@@ -18,6 +17,7 @@ import { JsonLd } from "@/components/site/JsonLd";
 import { DraftBanner } from "@/components/site/DraftBanner";
 import { EnquiryForm } from "@/components/site/EnquiryForm";
 import { buttonStyles } from "@/components/ui/Button";
+import { TeamCard } from "@/components/site/TeamCard";
 import type { PageRow, TeamMemberRow } from "@/lib/database.types";
 
 export const dynamic = "force-dynamic";
@@ -266,12 +266,12 @@ async function TeamTemplate({ page }: { page: PageRow }) {
       {team.length > 0 ? (
         <section className="border-b-2 border-ink px-4 py-14 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-6xl">
-            <SectionRule eyebrow="Profiles" title="Who you will work with" />
-            <ul className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {team.map((member) => (
-                <TeamCard key={member.id} member={member} />
-              ))}
-            </ul>
+        <SectionRule eyebrow="Profiles" title="Who you will work with" />
+        <ul className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {team.map((member) => (
+            <TeamCard key={member.id} member={member} />
+          ))}
+        </ul>
           </div>
         </section>
       ) : null}
@@ -338,28 +338,6 @@ function Leadership({ team }: { team: TeamMemberRow[] }) {
         </Link>
       </div>
     </section>
-  );
-}
-
-function TeamCard({ member }: { member: TeamMemberRow }) {
-  return (
-    <li className="edge-sm reveal-edge bg-paper p-6 transition-transform duration-150 hover:-translate-y-1 hover:shadow-[7px_7px_0_0_var(--color-ink)]">
-      {member.photo ? (
-        <Image
-          src={member.photo}
-          alt={member.name}
-          width={320}
-          height={320}
-          className="h-40 w-40 border-2 border-ink object-cover"
-          unoptimized
-        />
-      ) : null}
-      <h3 className="drawing-label mt-5 text-lg leading-tight">{member.name}</h3>
-      <p className="mt-1 text-sm text-signal-dark">{member.role}</p>
-      {member.bio ? (
-        <p className="mt-3 leading-relaxed text-ink-soft">{member.bio}</p>
-      ) : null}
-    </li>
   );
 }
 

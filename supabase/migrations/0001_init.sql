@@ -75,7 +75,9 @@ create trigger services_updated before update on services for each row execute f
 create table team_members (
   id uuid primary key default gen_random_uuid(),
   name text not null,
+  slug text not null unique,
   role text not null,
+  summary text,
   bio text,
   photo text,
   sort_order int not null default 0,

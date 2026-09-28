@@ -135,8 +135,10 @@ export const faqFormSchema = z.object({
 export const teamFormSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().trim().min(1, "Enter a name").max(120, "Keep the name under 120 characters"),
+  slug: slugSchema,
   role: z.string().trim().min(1, "Enter a role").max(120, "Keep the role under 120 characters"),
-  bio: optionalText(1200),
+  summary: optionalText(300),
+  bio: optionalText(8000),
   photo: optionalUrl,
   sortOrder: z.coerce.number().int().min(0).max(999),
   active: z.coerce.boolean(),
@@ -207,6 +209,16 @@ export const homeSettingsFormSchema = z.object({
   servicesHeading: z.string().trim().max(200, "Keep the heading under 200 characters"),
   agencyHeading: z.string().trim().max(200, "Keep the heading under 200 characters"),
   closingHeading: z.string().trim().max(200, "Keep the heading under 200 characters"),
+  processHeading: z.string().trim().max(200, "Keep the heading under 200 characters"),
+  processIntro: z.string().trim().max(600, "Keep the intro under 600 characters"),
+  processSteps: z
+    .array(
+      z.object({
+        title: z.string().trim().max(80, "Keep each step title under 80 characters"),
+        text: z.string().trim().max(300, "Keep each step under 300 characters"),
+      }),
+    )
+    .max(6, "Six steps is the limit"),
 });
 
 export const mediaAltFormSchema = z.object({

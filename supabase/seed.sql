@@ -73,7 +73,15 @@ insert into settings (key, value) values
     "heroIntro": "Construction and real estate, human resources management, business consultancy, and agency services for individuals, businesses, institutions and organisations across Ghana.",
     "servicesHeading": "Three practices, one accountable team.",
     "agencyHeading": "Property, vehicles and business facilitation, handled by people who keep the paperwork moving.",
-    "closingHeading": "Tell us what you are planning."
+    "closingHeading": "Tell us what you are planning.",
+    "processHeading": "How we work",
+    "processIntro": "The same four steps on every job, whether it is a building project, a compliance inspection or a property purchase.",
+    "processSteps": [
+      { "title": "You send the detail", "text": "A phone call, an email or the contact form. What you need, where you are and what is in the way." },
+      { "title": "We scope it in writing", "text": "You get a clear scope of the work, what it covers, what it costs and how long it takes. No surprises later." },
+      { "title": "We do the work", "text": "The project is supervised, the documents are prepared, the training is delivered, and you hear from us as it happens." },
+      { "title": "We report and hand over", "text": "A plain report of what was done, what is outstanding and what you should do next, with the paperwork in order." }
+    ]
   }'::jsonb)
 on conflict (key) do update set value = excluded.value;
 
@@ -400,19 +408,25 @@ insert into faqs (question, answer, sort_order) values
 
 -- Names are matched instead of a unique constraint, so re-running the seed
 -- does not duplicate people who are already listed.
-insert into team_members (name, role, bio, sort_order)
-select seed.name, seed.role, seed.bio, seed.sort_order
+insert into team_members (name, slug, role, summary, bio, sort_order)
+select seed.name, seed.slug, seed.role, seed.summary, seed.bio, seed.sort_order
 from (values
   ('Eric Semanu-Uzziah Dornyo',
+   'eric-semanu-uzziah-dornyo',
    'Managing Director',
+   'Entrepreneur and business development consultant with over 20 years across banking, microfinance, real estate and strategic planning.',
    'Results-oriented entrepreneur, marketing and business development professional, financial services practitioner and consultant with over 20 years of experience spanning microfinance, sales and marketing, real estate, entrepreneurship, business consultancy and strategic planning. He holds a degree in marketing, a postgraduate certificate in banking and finance, a professional certificate in stock market practice and a certificate in real estate development, alongside a diploma in theology. His career includes direct sales at Barclays Bank Ghana and co-founding Besworth Investments Services and Barak Deusy Services. He advises businesses, NGOs and churches on growth, structure and opportunity, and works on the principle that there is an opportunity in every difficult situation.',
    1),
   ('Raphael Cameron Etse',
+   'raphael-cameron-etse',
    'Finance, Administration and Operations Manager',
+   'Finance and administration leader with 20+ years across United Nations operations and private sector management in Ghana.',
    'Ghanaian finance, administration and operations leader with more than 20 years of progressive experience bridging international humanitarian operations and private sector management. He spent eight years with the United Nations as Administrative and Finance Officer with OCHA, Finance Officer with ONUCI in Cote d''Ivoire and UNMIK Kosovo, and Assistant Admin and Finance Officer with UNESCO, supervising finance, human resources, logistics, procurement, travel and general administration for missions of over 160 national and international staff across 15 field duty stations. He prepared and managed annual cost plans from 2010 to 2017, established internal controls that achieved full compliance, led the deployment of the UN Secretariat ERP in Niger in 2015, and delivered measurable efficiencies including monthly savings in the Democratic Republic of the Congo and debt recovery in Chad. He coordinated administrative operations for the L3 emergency response in the Central African Republic in 2014 and led the full closure and liquidation of OCHA offices in Uganda and Zimbabwe. Since January 2019 he has been finance and administrative manager at Deusy Investment Services Ltd in Ghana, leading financial management, budgeting, cash flow forecasting, contractor and procurement management and full human resources operations for a construction and real estate portfolio, and he leads the firm''s business consultancy practice. He is fluent in English and French.',
    2),
   ('Courage Sena Kwame Godzo',
+   'courage-sena-kwame-godzo',
    'French Instructor, Educator and Community Development Advocate',
+   'French instructor and educator with 20+ years of teaching experience, focused on language, youth empowerment and community development.',
    'An experienced French instructor with over 20 years of professional teaching experience and a Diplome Universitaire des Etudes Francaises from the Centre Beninois des Langues Etrangeres, Cotonou. He also pursued a degree in French and Information Studies at the University of Ghana, Legon. Courage is passionate about education, language development, youth empowerment, leadership and community development, and has dedicated his career to helping learners develop real French language and communication skills while promoting cultural understanding and academic excellence. His interests extend to educational advocacy, public communication, community development, entrepreneurship and leadership, and he is committed to using his experience, knowledge and leadership to inspire individuals, strengthen communities and create opportunities for sustainable development.',
    3)
 ) as seed(name, role, bio, sort_order)

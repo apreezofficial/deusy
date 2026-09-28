@@ -306,6 +306,7 @@ function HomeSettingsForm({ settings }: { settings: HomeSettings }) {
     null as ActionResult<HomeSettings> | null,
   );
   const { notify } = useToast();
+  const [steps, setSteps] = useState(settings.processSteps);
   const lastResult = useRef(state);
 
   useEffect(() => {
@@ -356,6 +357,82 @@ function HomeSettingsForm({ settings }: { settings: HomeSettings }) {
         defaultValue={settings.closingHeading}
         error={fieldErrors?.closingHeading}
       />
+
+      <fieldset className="edge-sm flex flex-col gap-4 border-2 border-ink bg-paper p-5">
+        <legend className="drawing-label px-2 text-sm">How we work section</legend>
+        <Input
+          label="Heading"
+          name="processHeading"
+          defaultValue={settings.processHeading}
+          error={fieldErrors?.processHeading}
+        />
+        <Textarea
+          label="Intro"
+          name="processIntro"
+          rows={2}
+          defaultValue={settings.processIntro}
+          error={fieldErrors?.processIntro}
+        />
+
+        <div className="flex flex-col gap-3">
+          <span className="drawing-label text-sm">Steps</span>
+          {steps.map((step, index) => (
+            <div key={index} className="grid gap-2 border-2 border-ink p-3">
+              <input
+                name="processStepTitle"
+                value={step.title}
+                aria-label={`Step ${index + 1} title`}
+                placeholder="Step title"
+                onChange={(event) => {
+                  const next = [...steps];
+                  next[index] = { ...next[index], title: event.target.value };
+                  setSteps(next);
+                }}
+                className="w-full border-2 border-ink bg-paper px-3 py-2"
+              />
+              <textarea
+                name="processStepText"
+                value={step.text}
+                rows={2}
+                aria-label={`Step ${index + 1} text`}
+                placeholder="One short sentence"
+                onChange={(event) => {
+                  const next = [...steps];
+                  next[index] = { ...next[index], text: event.target.value };
+                  setSteps(next);
+                }}
+                className="w-full border-2 border-ink bg-paper px-3 py-2"
+              />
+              <div>
+                <Button
+                  type="button"
+                  variant="quiet"
+                  size="sm"
+                  aria-label={`Remove step ${index + 1}`}
+                  onClick={() => setSteps(steps.filter((_, position) => position !== index))}
+                >
+                  <Trash2 size={16} aria-hidden="true" />
+                  Remove step
+                </Button>
+              </div>
+            </div>
+          ))}
+          <div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={steps.length >= 6}
+              onClick={() => setSteps([...steps, { title: "", text: "" }])}
+            >
+              Add step
+            </Button>
+          </div>
+          {fieldErrors?.processSteps ? (
+            <p className="text-sm text-signal-dark">{fieldErrors.processSteps}</p>
+          ) : null}
+        </div>
+      </fieldset>
 
       <div>
         <SubmitButton pendingLabel="Saving home page text" size="lg">

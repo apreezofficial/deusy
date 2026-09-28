@@ -27,6 +27,27 @@ export const fallbackHomeSettings = {
   agencyHeading:
     "Property, vehicles and business facilitation, handled by people who keep the paperwork moving.",
   closingHeading: "Tell us what you are planning.",
+  processHeading: "How we work",
+  processIntro:
+    "The same four steps on every job, whether it is a building project, a compliance inspection or a property purchase.",
+  processSteps: [
+    {
+      title: "You send the detail",
+      text: "A phone call, an email or the contact form. What you need, where you are and what is in the way.",
+    },
+    {
+      title: "We scope it in writing",
+      text: "You get a clear scope of the work, what it covers, what it costs and how long it takes. No surprises later.",
+    },
+    {
+      title: "We do the work",
+      text: "The project is supervised, the documents are prepared, the training is delivered, and you hear from us as it happens.",
+    },
+    {
+      title: "We report and hand over",
+      text: "A plain report of what was done, what is outstanding and what you should do next, with the paperwork in order.",
+    },
+  ],
 };
 
 function service(
@@ -613,7 +634,10 @@ export const fallbackTeam: TeamMemberRow[] = [
   {
     id: "team-m-director",
     name: "Eric Semanu-Uzziah Dornyo",
+    slug: "eric-semanu-uzziah-dornyo",
     role: "Managing Director",
+    summary:
+      "Entrepreneur and business development consultant with over 20 years across banking, microfinance, real estate and strategic planning.",
     bio: "Results-oriented entrepreneur, marketing and business development professional, financial services practitioner and consultant with over 20 years of experience spanning microfinance, sales and marketing, real estate, entrepreneurship, business consultancy and strategic planning. He holds a degree in marketing, a postgraduate certificate in banking and finance, a professional certificate in stock market practice and a certificate in real estate development, alongside a diploma in theology. His career includes direct sales at Barclays Bank Ghana and co-founding Besworth Investments Services and Barak Deusy Services. He advises businesses, NGOs and churches on growth, structure and opportunity, and works on the principle that there is an opportunity in every difficult situation.",
     photo: null,
     sort_order: 1,
@@ -622,7 +646,10 @@ export const fallbackTeam: TeamMemberRow[] = [
   {
     id: "team-finance-admin",
     name: "Raphael Cameron Etse",
+    slug: "raphael-cameron-etse",
     role: "Finance, Administration and Operations Manager",
+    summary:
+      "Finance and administration leader with 20+ years across United Nations operations and private sector management in Ghana.",
     bio: "Ghanaian finance, administration and operations leader with more than 20 years of progressive experience bridging international humanitarian operations and private sector management. He spent eight years with the United Nations as Administrative and Finance Officer with OCHA, Finance Officer with ONUCI in Côte d'Ivoire and UNMIK Kosovo, and Assistant Admin and Finance Officer with UNESCO, supervising finance, human resources, logistics, procurement, travel and general administration for missions of over 160 national and international staff across 15 field duty stations. He prepared and managed annual cost plans from 2010 to 2017, established internal controls that achieved full compliance, led the deployment of the UN Secretariat ERP in Niger in 2015, and delivered measurable efficiencies including monthly savings in the Democratic Republic of the Congo and debt recovery in Chad. He coordinated administrative operations for the L3 emergency response in the Central African Republic in 2014 and led the full closure and liquidation of OCHA offices in Uganda and Zimbabwe. Since January 2019 he has been finance and administrative manager at Deusy Investment Services Ltd in Ghana, leading financial management, budgeting, cash flow forecasting, contractor and procurement management and full human resources operations for a construction and real estate portfolio, and he leads the firm's business consultancy practice. He is fluent in English and French.",
     photo: null,
     sort_order: 2,
@@ -631,7 +658,10 @@ export const fallbackTeam: TeamMemberRow[] = [
   {
     id: "team-liaison",
     name: "Courage Sena Kwame Godzo",
+    slug: "courage-sena-kwame-godzo",
     role: "French Instructor, Educator and Community Development Advocate",
+    summary:
+      "French instructor and educator with 20+ years of teaching experience, focused on language, youth empowerment and community development.",
     bio: "An experienced French instructor with over 20 years of professional teaching experience and a Diplôme Universitaire des Études Françaises from the Centre Béninois des Langues Étrangères, Cotonou. He also pursued a degree in French and Information Studies at the University of Ghana, Legon. Courage is passionate about education, language development, youth empowerment, leadership and community development, and has dedicated his career to helping learners develop real French language and communication skills while promoting cultural understanding and academic excellence. His interests extend to educational advocacy, public communication, community development, entrepreneurship and leadership, and he is committed to using his experience, knowledge and leadership to inspire individuals, strengthen communities and create opportunities for sustainable development.",
     photo: null,
     sort_order: 3,

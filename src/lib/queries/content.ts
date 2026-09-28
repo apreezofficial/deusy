@@ -222,6 +222,25 @@ export const getActiveTeam = unstable_cache(
   { tags: [contentTags.team] },
 );
 
+export const getTeamMemberBySlug = unstable_cache(
+  async (slug: string): Promise<TeamMemberRow | null> => {
+    const supabase = createPublicClient();
+    if (!supabase) return fallbackTeam.find((member) => member.slug === slug) ?? null;
+
+    const { data, error } = await supabase
+      .from("team_members")
+      .select("*")
+      .eq("slug", slug)
+      .eq("active", true)
+      .maybeSingle();
+
+    if (error) throw new Error(`Could not load the profile: ${error.message}`);
+    return data;
+  },
+  ["team-member-by-slug"],
+  { tags: [contentTags.team] },
+);
+
 /**
  * Reads a page whatever its published state, for the staff draft preview.
  * Uncached so the admin always sees the current row.
