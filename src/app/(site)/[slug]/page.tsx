@@ -123,7 +123,7 @@ async function Leadership() {
   return (
     <section className="mt-16 border-t-2 border-ink pt-10">
       <h2 className="display text-3xl">Leadership</h2>
-      <ul className="mt-8 grid gap-px border-2 border-ink bg-ink sm:grid-cols-2">
+      <ul className="edge mt-8 grid gap-px border-2 border-ink bg-ink sm:grid-cols-2">
         {team.map((member) => (
           <TeamCard key={member.id} member={member} />
         ))}

@@ -28,7 +28,7 @@ export function Header({ site, navPages }: HeaderProps) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <WordmarkLink name={site.name} logoUrl={site.logoUrl} />
 
-        <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-5 lg:flex xl:gap-6">
           <NavLink href="/#services">Services</NavLink>
           {links.map((link) => (
             <NavLink key={link.href} href={link.href} active={pathname === link.href}>
@@ -42,7 +42,7 @@ export function Header({ site, navPages }: HeaderProps) {
 
         <button
           type="button"
-          className="border-2 border-ink p-2 md:hidden"
+          className="edge-press border-2 border-ink p-2 shadow-[3px_3px_0_0_var(--color-ink)] lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
@@ -56,7 +56,7 @@ export function Header({ site, navPages }: HeaderProps) {
         <nav
           id="mobile-nav"
           aria-label="Main"
-          className="border-t-2 border-ink bg-paper md:hidden"
+          className="border-t-2 border-ink bg-paper lg:hidden"
         >
           <div className="flex flex-col px-4 py-2">
             <MobileLink href="/#services" onClick={() => setOpen(false)}>
@@ -70,7 +70,7 @@ export function Header({ site, navPages }: HeaderProps) {
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
-              className="mt-3 mb-2 inline-flex justify-center bg-signal px-5 py-3 font-medium text-ink"
+              className={`${buttonStyles("primary", "md")} my-3 mb-2 w-full`}
             >
               Request a consultation
             </Link>
