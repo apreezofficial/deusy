@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
   title: {
     default: "Deusy & Planners Services",
-    template: "%s | Deusy & Planners Services",
+    template: "%s · Deusy & Planners Services",
   },
   description:
     "Construction, real estate, human resources and business consultancy for individuals and organisations across Ghana.",

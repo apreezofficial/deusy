@@ -432,6 +432,112 @@ const teamContent = {
   ],
 };
 
+const legalIndexContent = {
+  type: "doc",
+  content: [
+    paragraph(
+      "This section covers how we handle your information, what this site stores on your device, and the terms that apply when you use this site or work with us.",
+    ),
+    bulletList([
+      "Cookie policy: what is stored on your device, and what is not.",
+      "Privacy policy: what we collect when you send an enquiry, and what we do with it.",
+      "Terms and conditions: the terms that apply when you use this site or engage our services.",
+    ]),
+    paragraph(
+      "If anything here is unclear, send us a message through the contact page and we will explain it in plain language.",
+    ),
+  ],
+};
+
+const cookiePolicyContent = {
+  type: "doc",
+  content: [
+    heading(2, "What this site stores"),
+    paragraph(
+      "This site does not use advertising cookies, tracking pixels or third-party analytics. There is nothing on this site that follows you around the internet.",
+    ),
+    heading(3, "Essential storage"),
+    bulletList([
+      "Your cookie choice: whether you dismissed the cookie box, kept on your own device so the box does not reappear on every page.",
+      "Sign-in cookies: if you are signed in to the admin panel, cookies keep that session alive so you stay signed in while you work.",
+    ]),
+    heading(2, "What we do not do"),
+    paragraph(
+      "We do not sell data, we do not run advertising campaigns on this site, and we do not embed third-party trackers, social media widgets or map services that would report your visit to another company.",
+    ),
+    heading(2, "Managing your choice"),
+    paragraph(
+      "The cookie box appears once. If you clear your browser storage for this site, the box will appear again and you can choose differently. To remove the sign-in cookies, sign out of the admin panel and close the browser.",
+    ),
+    heading(3, "Contact"),
+    paragraph(
+      "Questions about cookies can be sent through the contact page. We will explain what is stored and why, in writing.",
+    ),
+  ],
+};
+
+const privacyPolicyContent = {
+  type: "doc",
+  content: [
+    heading(2, "What we collect"),
+    paragraph(
+      "We only collect what you choose to give us. When you send an enquiry through this site we receive the name, email address, optional phone number, the topic you selected and the message you wrote. We also receive the date the enquiry arrived and whether it has been read.",
+    ),
+    heading(2, "Why we collect it"),
+    bulletList([
+      "To answer your enquiry and give you a considered response.",
+      "To keep a record of what was agreed, so we do not rely on memory.",
+      "To meet our record-keeping and professional obligations.",
+    ]),
+    heading(2, "What we do not do"),
+    paragraph(
+      "We do not sell your details, we do not pass them to advertisers or data brokers, and we do not add you to a marketing list because you asked a question.",
+    ),
+    heading(2, "How long we keep it"),
+    paragraph(
+      "Enquiry records are kept for as long as they are useful for the matter they relate to, and for as long as our professional and legal record-keeping obligations require. You can ask us to delete an enquiry at any time, and we will do so unless we are required to keep it.",
+    ),
+    heading(2, "Who can see it"),
+    paragraph(
+      "Only the people at Deusy & Planners Services who need it to handle your matter. Where a project involves contractors, consultants or authorities, we share only what the work requires, and we tell you when we do.",
+    ),
+    heading(2, "Your rights"),
+    paragraph(
+      "You can ask what we hold about you, ask for a correction, or ask for it to be deleted. Send the request through the contact page and we will deal with it in writing.",
+    ),
+  ],
+};
+
+const termsContent = {
+  type: "doc",
+  content: [
+    heading(2, "About this site"),
+    paragraph(
+      "This site is published by Deusy & Planners Services to describe our services and to let you start a conversation with us. The content is general information. It is not professional advice on your specific situation, and reading it does not create a client or consultant relationship.",
+    ),
+    heading(2, "Starting work with us"),
+    paragraph(
+      "Sending an enquiry does not commit either of us. Work begins when we agree a scope in writing, confirm what it covers, what it costs and how long it takes, and both sides are satisfied with that.",
+    ),
+    heading(2, "Accuracy"),
+    paragraph(
+      "We take care to keep this site accurate and up to date, but services, fees and availability change. Confirm anything that matters to your decision with us directly before you act on it.",
+    ),
+    heading(2, "Intellectual property"),
+    paragraph(
+      "The text, layout, drawings and logo on this site belong to Deusy & Planners Services. You may read it, print it and share the link. You may not copy substantial parts of it or reuse our drawings as your own.",
+    ),
+    heading(2, "Third-party links"),
+    paragraph(
+      "Where we link to another website, we do not control it and we are not responsible for what is published there.",
+    ),
+    heading(2, "Governing law"),
+    paragraph(
+      "These terms are governed by the laws of the Republic of Ghana, and the courts of Ghana have jurisdiction over any dispute arising from them.",
+    ),
+  ],
+};
+
 function heading(level: 2 | 3, text: string) {
   return {
     type: "heading",
@@ -492,8 +598,7 @@ function page(
   };
 }
 
-export const fallbackPages: PageRow[] = [
-  page(
+export const fallbackPages: PageRow[] = [  page(
     "page-about",
     "About",
     "about",
@@ -543,6 +648,22 @@ export const fallbackPages: PageRow[] = [
     },
     4,
   ),
+  legalPage("page-legal", "Legal", "legal", legalIndexContent, 5),
+  legalPage(
+    "page-cookie-policy",
+    "Cookie policy",
+    "cookie-policy",
+    cookiePolicyContent,
+    6,
+  ),
+  legalPage(
+    "page-privacy-policy",
+    "Privacy policy",
+    "privacy-policy",
+    privacyPolicyContent,
+    7,
+  ),
+  legalPage("page-terms", "Terms and conditions", "terms", termsContent, 8),
 ];
 
 function faq(id: string, question: string, answer: string, sortOrder: number): FaqRow {
