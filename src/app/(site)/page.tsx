@@ -59,7 +59,11 @@ export default async function HomePage() {
       <section className="border-b-2 border-ink">
         <div className="grid lg:grid-cols-2">
           <div className="grid-plan order-2 border-t-2 border-ink px-4 py-14 sm:px-6 sm:py-20 lg:order-1 lg:border-r-2 lg:border-t-0">
-            <p className="tick drawing-label text-sm text-signal-dark">{site.tagline}</p>
+            {site.tagline ? (
+              <p className="drawing-label max-w-[40ch] border-b-2 border-ink pb-3 text-sm text-signal-dark">
+                {site.tagline}
+              </p>
+            ) : null}
             <h1 className="display mt-6 text-[clamp(2.5rem,1.4rem+4.5vw,4.5rem)]">
               {home.heroTitle || site.tagline}
             </h1>
@@ -67,10 +71,13 @@ export default async function HomePage() {
               {home.heroIntro}
             </p>
             <div className="mt-9 flex flex-wrap gap-4">
-              <Link href="/contact" className={buttonStyles("primary", "lg")}>
+              <Link
+                href="/contact?intent=consultation"
+                className={buttonStyles("primary", "lg")}
+              >
                 Request a consultation
               </Link>
-              <Link href="/#services" className={buttonStyles("outline", "lg")}>
+              <Link href="/services" className={buttonStyles("outline", "lg")}>
                 See our services
               </Link>
             </div>
@@ -84,29 +91,48 @@ export default async function HomePage() {
 
       <TitleBlock site={site} services={[...practices, ...agency]} />
 
-      <section id="services" className="border-b-2 border-ink px-4 py-16 sm:px-6 sm:py-20">
+      <section id="services" className="scroll-mt-24 border-b-2 border-ink px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="What we do" title={home.servicesHeading} />
+          <SectionHeading
+            eyebrow="What we do"
+            title={home.servicesHeading}
+            action={
+              <Link href="/services" className={buttonStyles("outline", "sm")}>
+                All services
+              </Link>
+            }
+          />
           <ServiceSchedule services={practices} kindLabel="Practice" />
         </div>
       </section>
 
       <section className="grid-plan-blue border-b-2 border-ink bg-tracing px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="Agency services" title={home.agencyHeading} />
+          <SectionHeading
+            eyebrow="Agency services"
+            title={home.agencyHeading}
+            action={
+              <Link href="/services#agency" className={buttonStyles("outline", "sm")}>
+                All services
+              </Link>
+            }
+          />
           <ServiceSchedule services={agency} kindLabel="Agency service" />
         </div>
       </section>
 
       <section className="bg-signal px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-6xl">
+        <div className="reveal mx-auto max-w-6xl">
           <h2 className="display max-w-3xl text-[clamp(2rem,1.2rem+3vw,3.25rem)]">
             {home.closingHeading}
           </h2>
           <p className="mt-4 max-w-[58ch] text-lg text-ink">
             Send us the detail and the team will pick it up from there.
           </p>
-          <Link href="/contact" className={`${buttonStyles("ink", "lg")} mt-8`}>
+          <Link
+            href="/contact?intent=consultation"
+            className={`${buttonStyles("ink", "lg")} mt-8`}
+          >
             Request a consultation
           </Link>
         </div>
@@ -115,22 +141,33 @@ export default async function HomePage() {
   );
 }
 
-function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+function SectionHeading({
+  eyebrow,
+  title,
+  action,
+}: {
+  eyebrow: string;
+  title: string;
+  action?: React.ReactNode;
+}) {
   return (
-    <div className="flex flex-col gap-4 border-b-2 border-ink pb-6 sm:flex-row sm:items-end sm:justify-between">
+    <div className="reveal flex flex-col gap-4 border-b-2 border-ink pb-6 sm:flex-row sm:items-end sm:justify-between">
       <h2 className="display max-w-2xl text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">
         {title}
       </h2>
-      <p className="drawing-label shrink-0 text-sm text-signal-dark">{eyebrow}</p>
+      <div className="flex shrink-0 flex-wrap items-center gap-4">
+        <p className="drawing-label text-sm text-signal-dark">{eyebrow}</p>
+        {action}
+      </div>
     </div>
   );
 }
 
 /**
- * The title block from a drawing sheet: a bordered card that overlaps the hero,
- * with one cell per kind of information.
+ * The title block from a drawing sheet: a bordered card that sits clear of the
+ * hero, with one cell per kind of information.
  */
-async function TitleBlock({
+function TitleBlock({
   site,
   services,
 }: {
@@ -138,10 +175,10 @@ async function TitleBlock({
   services: ServiceRow[];
 }) {
   return (
-    <section className="bg-paper px-4 pb-4 sm:px-6">
-      <div className="edge mx-auto -mt-10 max-w-6xl border-2 border-ink bg-ink sm:-mt-14">
+    <section className="bg-paper px-4 py-12 sm:px-6 sm:py-16">
+      <div className="edge mx-auto max-w-6xl border-2 border-ink bg-ink">
         <div className="grid gap-px bg-ink sm:grid-cols-2 lg:grid-cols-4">
-          <div className="bg-paper p-5 sm:p-6">
+          <div className="reveal-edge bg-paper p-5 sm:p-6">
             <p className="drawing-label text-sm text-signal-dark">Practice</p>
             <p className="display mt-3 text-2xl leading-tight">{site.name}</p>
             {site.tagline ? (
@@ -149,13 +186,18 @@ async function TitleBlock({
             ) : null}
           </div>
 
-          <div className="bg-paper p-5 sm:p-6">
+          <div className="reveal-edge bg-paper p-5 sm:p-6">
             <p className="drawing-label text-sm text-signal-dark">Areas of work</p>
             {services.length > 0 ? (
-              <ul className="mt-3 flex flex-col gap-1.5">
+              <ul className="mt-3 flex flex-col gap-2">
                 {services.map((service) => (
-                  <li key={service.id} className="text-sm leading-snug">
-                    {service.title}
+                  <li key={service.id}>
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="text-sm leading-snug underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:decoration-signal"
+                    >
+                      {service.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -166,7 +208,7 @@ async function TitleBlock({
             )}
           </div>
 
-          <div className="bg-paper p-5 sm:p-6">
+          <div className="reveal-edge bg-paper p-5 sm:p-6">
             <p className="drawing-label text-sm text-signal-dark">Office</p>
             {site.addressLines.length > 0 ? (
               <address className="mt-3 not-italic text-sm leading-relaxed">
@@ -186,7 +228,7 @@ async function TitleBlock({
             ) : null}
           </div>
 
-          <div className="flex flex-col justify-between gap-4 bg-paper p-5 sm:p-6">
+          <div className="reveal-edge flex flex-col justify-between gap-5 bg-paper p-5 sm:p-6">
             <div>
               <p className="drawing-label text-sm text-signal-dark">Contact</p>
               <ul className="mt-3 flex flex-col gap-1 text-sm">
@@ -217,7 +259,10 @@ async function TitleBlock({
                 ) : null}
               </ul>
             </div>
-            <Link href="/contact" className={buttonStyles("primary", "sm")}>
+            <Link
+              href="/contact?intent=consultation"
+              className={`${buttonStyles("primary", "sm")} w-full`}
+            >
               Request a consultation
             </Link>
           </div>
@@ -236,7 +281,7 @@ function ServiceSchedule({
 }) {
   if (services.length === 0) {
     return (
-      <p className="edge mt-10 border-2 border-dashed border-ink bg-paper p-6">
+      <p className="edge reveal mt-10 border-2 border-dashed border-ink bg-paper p-6">
         No services yet. Add the first one from the admin panel.
       </p>
     );
@@ -244,17 +289,22 @@ function ServiceSchedule({
 
   return (
     <ul className="edge mt-10 border-2 border-ink bg-paper">
-      {services.map((service) => (
+      {services.map((service, index) => (
         <li key={service.id} className="border-b-2 border-ink last:border-b-0">
           <Link
             href={`/services/${service.slug}`}
             className="group flex flex-col gap-4 p-5 transition-colors hover:bg-tracing sm:p-7 lg:flex-row lg:items-start lg:gap-8"
           >
-            <div className="lg:w-64 lg:shrink-0">
-              <p className="drawing-label text-xs text-signal-dark">{kindLabel}</p>
-              <h3 className="display mt-2 text-2xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px] sm:text-[1.75rem]">
-                {service.title}
-              </h3>
+            <div className="flex items-baseline gap-4 lg:w-64 lg:shrink-0">
+              <span aria-hidden="true" className="drawing-label text-xs text-signal-dark">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <p className="drawing-label text-xs text-ink-muted">{kindLabel}</p>
+                <h3 className="display mt-2 text-2xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px] sm:text-[1.75rem]">
+                  {service.title}
+                </h3>
+              </div>
             </div>
 
             <p className="max-w-[54ch] leading-relaxed text-ink-soft">
@@ -266,8 +316,9 @@ function ServiceSchedule({
                 {service.scope.map((item) => (
                   <li
                     key={item}
-                    className="tick border-2 border-ink bg-paper px-2 py-1 text-xs"
+                    className="flex items-center gap-2 border-2 border-ink bg-paper px-2 py-1 text-xs"
                   >
+                    <span aria-hidden="true" className="bullet-square" />
                     {item}
                   </li>
                 ))}

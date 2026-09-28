@@ -116,37 +116,116 @@ body {
   background-position: -1px -1px;
 }
 
-/* Crosshair ticks used as structural marks. */
-.tick {
-  position: relative;
-}
-
-.tick::before,
-.tick::after {
-  content: "";
-  position: absolute;
+/* Square bullet used in lists where a crosshair mark used to sit. */
+.bullet-square {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
   background: currentColor;
 }
 
-.tick::before {
-  left: -0.75rem;
-  top: 50%;
-  width: 0.5rem;
-  height: 2px;
-  transform: translateY(-50%);
+/* Form controls carry the same hard edge as everything else. */
+.control {
+  transition:
+    box-shadow 90ms ease-out,
+    background-color 90ms ease-out;
 }
 
-.tick::after {
-  left: -0.75rem;
-  top: 0;
-  width: 2px;
-  height: 0.75rem;
+.control:hover:not(:disabled) {
+  background-color: var(--color-tracing);
 }
 
-.tick-start::before,
-.tick-start::after {
-  left: auto;
-  right: -0.75rem;
+.control:focus {
+  outline: none;
+  box-shadow: 4px 4px 0 0 var(--color-signal);
+}
+
+.control:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+select.control {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23000000' stroke-width='2.2' stroke-linecap='square'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 0.8rem;
+}
+
+select.control:disabled {
+  background-image: none;
+}
+
+/* Accordion: the open panel animates its own height, so only one row is ever open. */
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.accordion[data-open="true"] .accordion-panel {
+  grid-template-rows: 1fr;
+}
+
+.accordion-panel > div {
+  overflow: hidden;
+}
+
+/* Scroll reveal. Progress-driven, so it needs no observer script and never
+   leaves content hidden when the timeline is unsupported. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-edge {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    .reveal-edge {
+      animation: reveal-edge 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+
+    .reveal-1 {
+      animation-range: entry 4% entry 60%;
+    }
+
+    .reveal-2 {
+      animation-range: entry 8% entry 66%;
+    }
+
+    .reveal-3 {
+      animation-range: entry 12% entry 72%;
+    }
+  }
 }
 
 /* Hero plan drawing: the single orchestrated animation on the site. */

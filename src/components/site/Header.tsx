@@ -29,13 +29,16 @@ export function Header({ site, navPages }: HeaderProps) {
         <WordmarkLink name={site.name} logoUrl={site.logoUrl} />
 
         <nav aria-label="Main" className="hidden items-center gap-5 lg:flex xl:gap-6">
-          <NavLink href="/#services">Services</NavLink>
+          <NavLink href="/services">Services</NavLink>
           {links.map((link) => (
             <NavLink key={link.href} href={link.href} active={pathname === link.href}>
               {link.label}
             </NavLink>
           ))}
-          <Link href="/contact" className={buttonStyles("primary", "sm")}>
+          <Link
+            href="/contact?intent=consultation"
+            className={buttonStyles("primary", "sm")}
+          >
             Request a consultation
           </Link>
         </nav>
@@ -59,7 +62,7 @@ export function Header({ site, navPages }: HeaderProps) {
           className="border-t-2 border-ink bg-paper lg:hidden"
         >
           <div className="flex flex-col px-4 py-2">
-            <MobileLink href="/#services" onClick={() => setOpen(false)}>
+            <MobileLink href="/services" onClick={() => setOpen(false)}>
               Services
             </MobileLink>
             {links.map((link) => (
@@ -67,13 +70,13 @@ export function Header({ site, navPages }: HeaderProps) {
                 {link.label}
               </MobileLink>
             ))}
-            <Link
-              href="/contact"
-              onClick={() => setOpen(false)}
-              className={`${buttonStyles("primary", "md")} my-3 mb-2 w-full`}
-            >
-              Request a consultation
-            </Link>
+          <Link
+            href="/contact?intent=consultation"
+            onClick={() => setOpen(false)}
+            className={`${buttonStyles("primary", "md")} my-3 mb-2 w-full`}
+          >
+            Request a consultation
+          </Link>
           </div>
         </nav>
       ) : null}

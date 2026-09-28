@@ -41,21 +41,23 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   return (
     <>
-      <header className="grid-plan border-b-2 border-ink px-4 py-14 sm:px-6 sm:py-16">
+      <header className="grid-plan border-b-2 border-ink px-4 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <p className="drawing-label text-sm text-signal-dark">
+          <p className="reveal drawing-label border-b-2 border-ink pb-2 text-sm text-signal-dark">
             {service.kind === "practice" ? "Practice" : "Agency service"}
           </p>
-          <h1 className="display mt-4 text-[clamp(2.25rem,1.4rem+3.5vw,3.75rem)]">
+          <h1 className="display reveal reveal-1 mt-6 text-[clamp(2.25rem,1.4rem+3.5vw,3.75rem)]">
             {service.title}
           </h1>
-          <p className="mt-5 max-w-[60ch] text-lg text-ink-soft">{service.summary}</p>
+          <p className="reveal reveal-2 mt-5 max-w-[60ch] text-lg text-ink-soft sm:text-xl">
+            {service.summary}
+          </p>
         </div>
       </header>
 
-      <div className="px-4 py-14 sm:px-6 sm:py-16">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-          <div>
+      <div className="px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-14">
+          <div className="reveal">
             {service.body ? <RichText doc={service.body} /> : null}
             {!service.body ? (
               <p className="max-w-[62ch] leading-relaxed text-ink-soft">
@@ -83,17 +85,24 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                     </li>
                   ))}
                 </ul>
+                <Link
+                  href="/services"
+                  className={`${buttonStyles("outline", "sm")} mt-6`}
+                >
+                  All services
+                </Link>
               </section>
             ) : null}
           </div>
 
-          <aside>
+          <aside className="reveal-edge self-start">
             {service.scope.length > 0 ? (
               <div className="edge border-2 border-ink bg-paper p-6">
                 <h2 className="drawing-label text-lg">What this covers</h2>
-                <ul className="mt-4 flex flex-col gap-2">
+                <ul className="mt-4 flex flex-col gap-2.5">
                   {service.scope.map((item) => (
-                    <li key={item} className="tick flex items-center pl-4">
+                    <li key={item} className="flex items-center gap-3">
+                      <span aria-hidden="true" className="bullet-square" />
                       {item}
                     </li>
                   ))}
@@ -112,12 +121,18 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               />
             ) : null}
 
-            <Link
-              href="/contact"
-              className={`${buttonStyles("primary", "lg")} mt-6 w-full`}
-            >
-              Request a consultation
-            </Link>
+            <div className="edge mt-6 border-2 border-ink bg-ink p-6 text-paper">
+              <h2 className="drawing-label text-drafting">Work with us on this</h2>
+              <p className="mt-3 text-paper/80">
+                Send the detail and a consultant comes back with the next step.
+              </p>
+              <Link
+                href={`/contact?intent=consultation&topic=${encodeURIComponent(service.title)}`}
+                className={`${buttonStyles("primary", "md")} mt-5 w-full`}
+              >
+                Request a consultation
+              </Link>
+            </div>
           </aside>
         </div>
       </div>

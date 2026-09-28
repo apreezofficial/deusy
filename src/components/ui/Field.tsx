@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 const controlBase =
-  "w-full bg-paper text-ink border-2 border-ink px-3 py-2 text-[0.95rem] placeholder:text-ink-muted disabled:bg-tracing disabled:text-ink-muted";
+  "control w-full bg-paper text-ink border-2 border-ink px-3 py-2.5 text-[0.95rem] placeholder:text-ink-muted disabled:bg-tracing disabled:text-ink-muted";
 
 const controlInvalid = "border-signal bg-signal/5";
 
@@ -109,7 +109,7 @@ export function Select({
         name={name}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy(name, error, hint)}
-        className={`${controlBase} ${error ? controlInvalid : ""} ${className}`}
+        className={`${controlBase} cursor-pointer pr-10 font-medium ${error ? controlInvalid : ""} ${className}`}
         {...props}
       >
         {children}

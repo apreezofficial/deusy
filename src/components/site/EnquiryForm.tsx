@@ -12,7 +12,15 @@ const somethingElse = "Something else";
 
 const initialState: ActionResult<{ id: string }> | null = null;
 
-export function EnquiryForm({ topics }: { topics: string[] }) {
+interface EnquiryFormProps {
+  topics: string[];
+  /** Topic chosen by the visitor through a service or call-to-action link. */
+  defaultTopic?: string;
+  /** Short line explaining why the form looks different on this visit. */
+  note?: string;
+}
+
+export function EnquiryForm({ topics, defaultTopic, note }: EnquiryFormProps) {
   const [state, formActionHandler] = useActionState(
     formAction(submitEnquiry),
     initialState,
@@ -22,7 +30,7 @@ export function EnquiryForm({ topics }: { topics: string[] }) {
 
   if (sent) {
     return (
-      <div className="mt-6 border-2 border-ink bg-tracing p-6">
+      <div className="edge mt-6 border-2 border-ink bg-tracing p-6">
         <h3 className="drawing-label text-lg">Enquiry sent</h3>
         <p className="mt-2 leading-relaxed">
           Your message is in the inbox for the team. Keep your email handy, and use
@@ -33,10 +41,16 @@ export function EnquiryForm({ topics }: { topics: string[] }) {
   }
 
   return (
-    <form action={formActionHandler} className="mt-6 flex flex-col gap-4" noValidate>
+    <form action={formActionHandler} className="mt-6 flex flex-col gap-5" noValidate>
       {state && !state.ok ? (
-        <p role="alert" className="border-2 border-ink bg-signal px-4 py-3">
+        <p role="alert" className="edge-sm border-2 border-ink bg-signal px-4 py-3">
           {state.error}
+        </p>
+      ) : null}
+
+      {note ? (
+        <p className="border-2 border-ink bg-tracing px-4 py-3 text-sm leading-relaxed">
+          {note}
         </p>
       ) : null}
 
@@ -63,9 +77,14 @@ export function EnquiryForm({ topics }: { topics: string[] }) {
         hint="Optional"
         error={fieldErrors?.phone}
       />
-      <Select label="Topic" name="topic" defaultValue={propertyOrVehicle}>
+      <Select
+        label="What is this about?"
+        name="topic"
+        defaultValue={defaultTopic ?? propertyOrVehicle}
+        error={fieldErrors?.topic}
+      >
         {topics.length > 0 ? (
-          <optgroup label="Services">
+          <optgroup label="Our services">
             {topics.map((topic) => (
               <option key={topic} value={topic}>
                 {topic}
@@ -73,8 +92,10 @@ export function EnquiryForm({ topics }: { topics: string[] }) {
             ))}
           </optgroup>
         ) : null}
-        <option value={propertyOrVehicle}>{propertyOrVehicle}</option>
-        <option value={somethingElse}>{somethingElse}</option>
+        <optgroup label="Other">
+          <option value={propertyOrVehicle}>{propertyOrVehicle}</option>
+          <option value={somethingElse}>{somethingElse}</option>
+        </optgroup>
       </Select>
       <Textarea
         label="Message"
@@ -90,8 +111,8 @@ export function EnquiryForm({ topics }: { topics: string[] }) {
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="mt-2">
-        <SubmitButton pendingLabel="Sending enquiry" size="lg">
+      <div className="mt-1">
+        <SubmitButton pendingLabel="Sending enquiry" size="lg" className="w-full sm:w-auto">
           Send enquiry
         </SubmitButton>
       </div>

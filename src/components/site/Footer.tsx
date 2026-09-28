@@ -41,7 +41,7 @@ export function Footer({ site, navPages }: FooterProps) {
           <h2 className="drawing-label text-sm text-drafting">Pages</h2>
           <ul className="mt-4 flex flex-col gap-2">
             <li>
-              <Link href="/#services" className="hover:text-signal">
+              <Link href="/services" className="hover:text-signal">
                 Services
               </Link>
             </li>

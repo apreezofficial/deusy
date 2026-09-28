@@ -22,7 +22,7 @@ export interface HomeSettings {
 
 export const defaultSiteSettings: SiteSettings = {
   name: "Deusy & Planners Services",
-  tagline: "Building People | Planning Solutions | Creating Value",
+  tagline: "Building people. Planning solutions. Creating value.",
   phone: "",
   email: "",
   whatsapp: "",
