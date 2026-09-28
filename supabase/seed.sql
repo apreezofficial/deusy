@@ -398,7 +398,11 @@ insert into faqs (question, answer, sort_order) values
 
 -- ---------------------------------------------------------------- team
 
-insert into team_members (name, role, bio, sort_order) values
+-- Names are matched instead of a unique constraint, so re-running the seed
+-- does not duplicate people who are already listed.
+insert into team_members (name, role, bio, sort_order)
+select seed.name, seed.role, seed.bio, seed.sort_order
+from (values
   ('Eric Semanu-Uzziah Dornyo',
    'Managing Director',
    'Results-oriented entrepreneur, marketing and business development professional, financial services practitioner and consultant with over 20 years of experience spanning microfinance, sales and marketing, real estate, entrepreneurship, business consultancy and strategic planning. He holds a degree in marketing, a postgraduate certificate in banking and finance, a professional certificate in stock market practice and a certificate in real estate development, alongside a diploma in theology. His career includes direct sales at Barclays Bank Ghana and co-founding Besworth Investments Services and Barak Deusy Services. He advises businesses, NGOs and churches on growth, structure and opportunity, and works on the principle that there is an opportunity in every difficult situation.',
@@ -411,4 +415,5 @@ insert into team_members (name, role, bio, sort_order) values
    'French Instructor, Educator and Community Development Advocate',
    'An experienced French instructor with over 20 years of professional teaching experience and a Diplome Universitaire des Etudes Francaises from the Centre Beninois des Langues Etrangeres, Cotonou. He also pursued a degree in French and Information Studies at the University of Ghana, Legon. Courage is passionate about education, language development, youth empowerment, leadership and community development, and has dedicated his career to helping learners develop real French language and communication skills while promoting cultural understanding and academic excellence. His interests extend to educational advocacy, public communication, community development, entrepreneurship and leadership, and he is committed to using his experience, knowledge and leadership to inspire individuals, strengthen communities and create opportunities for sustainable development.',
    3)
-on conflict do nothing;
+) as seed(name, role, bio, sort_order)
+where not exists (select 1 from team_members t where t.name = seed.name);
