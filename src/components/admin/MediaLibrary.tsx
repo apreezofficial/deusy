@@ -9,7 +9,6 @@ import { voidAction } from "@/lib/actions/form-action";
 import { Button } from "@/components/ui/Button";
 import { Dialog } from "@/components/ui/Dialog";
 import { useToast } from "@/components/ui/Toast";
-import type { ActionResult } from "@/lib/actions/result";
 import type { MediaRow } from "@/lib/database.types";
 
 export function MediaLibrary({ media }: { media: MediaRow[] }) {

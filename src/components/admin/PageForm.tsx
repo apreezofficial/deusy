@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/Button";
 import { Input, Select, Textarea } from "@/components/ui/Field";
 import { Switch } from "@/components/ui/Switch";
 import { Dialog } from "@/components/ui/Dialog";
-import { SubmitButton } from "@/components/ui/SubmitButton";
 import { RichTextEditor } from "@/components/editor/RichTextEditor";
 import { MediaPicker } from "@/components/admin/MediaPicker";
 import { useToast } from "@/components/ui/Toast";

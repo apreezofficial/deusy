@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { uploadMedia } from "@/lib/actions/media";
 import { voidAction } from "@/lib/actions/form-action";
 import { useToast } from "@/components/ui/Toast";
-import type { ActionResult } from "@/lib/actions/result";
 import type { MediaRow } from "@/lib/database.types";
 
 interface MediaPickerProps {
