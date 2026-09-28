@@ -3,7 +3,7 @@ import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/lib/database.types";
-import { requireSupabaseEnv } from "@/lib/supabase/env";
+import { requireSupabaseEnv, publishableKey } from "@/lib/supabase/env";
 
 /** Request-scoped client that reads and writes the user's auth cookies. */
 export async function createClient() {
@@ -13,7 +13,7 @@ export async function createClient() {
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
+    publishableKey(),
     {
       cookies: {
         getAll() {

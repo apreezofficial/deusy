@@ -2,7 +2,7 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { isSupabaseConfigured, publishableKey } from "@/lib/supabase/env";
 
 /**
  * Cookie-free client for public reads. Reading cookies is not allowed inside
@@ -17,7 +17,7 @@ export function createPublicClient() {
 
   return createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
+    publishableKey(),
     {
       auth: { persistSession: false, autoRefreshToken: false },
     },
