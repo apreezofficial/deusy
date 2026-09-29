@@ -2,7 +2,7 @@ import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
 import { fallbackFaqs } from "@/lib/content/fallback";
-import type { FaqRow, PageRow } from "@/lib/database.types";
+import type { FaqRow, MediaRow, PageRow } from "@/lib/database.types";
 
 /**
  * Staff reads for the panel. The public site is written in the frontend, so the
@@ -50,4 +50,15 @@ export async function getAllFaqs(): Promise<FaqRow[]> {
 
 export async function getFaqCount(): Promise<number> {
   return (await getAllFaqs()).length;
+}
+
+/** Images already uploaded, used by the page editor and the rich text editor. */
+export async function getAllMedia(): Promise<MediaRow[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("media")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  return (data as MediaRow[] | null) ?? [];
 }
