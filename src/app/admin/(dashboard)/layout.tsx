@@ -11,13 +11,13 @@ const setupNotice = (
   <div className="border-2 border-ink bg-paper p-6">
     <h1 className="display text-3xl">Connect Supabase to continue</h1>
     <p className="mt-3 max-w-prose text-ink-muted">
-      The public site is showing its seed content. To edit anything from this panel,
-      point the project at your Supabase instance.
+      The public site is written in the frontend and always works. Supabase is only
+      needed for this panel, so the FAQ list and any extra pages can be managed.
     </p>
     <ol className="mt-5 flex max-w-prose list-decimal flex-col gap-3 pl-5">
       <li>
-        Open <code className="bg-tracing px-1">.env.local</code> and replace the
-        placeholder URL and keys with the values from Supabase, Project settings, API.
+        Open <code className="bg-tracing px-1">.env.local</code> and add the project URL
+        and publishable key from Supabase, Project settings, API Keys.
       </li>
       <li>
         Run <code className="bg-tracing px-1">supabase/migrations/0001_init.sql</code>{" "}
@@ -48,20 +48,13 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
 
   const items: AdminNavItem[] = [
     { href: "/admin", label: "Dashboard" },
-    { href: "/admin/pages", label: "Pages" },
-    { href: "/admin/services", label: "Services" },
     { href: "/admin/faqs", label: "FAQs" },
-    { href: "/admin/team", label: "Team" },
+    { href: "/admin/pages", label: "Extra pages" },
     {
       href: "/admin/enquiries",
       label: "Enquiries",
       badge: enquiries.length > 0 ? enquiries.length : undefined,
     },
-    { href: "/admin/media", label: "Media" },
-    { href: "/admin/settings", label: "Settings" },
-    ...(actor.profile.role === "admin"
-      ? [{ href: "/admin/users", label: "Users" }]
-      : []),
   ];
 
   return (

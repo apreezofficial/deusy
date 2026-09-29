@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getDashboardStats, getAllPages } from "@/lib/queries/admin";
+import { getAllFaqs, getExtraPagesForAdmin } from "@/lib/queries/admin";
 import { getEnquiries } from "@/lib/queries/content";
 import { buttonStyles } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -10,40 +10,49 @@ import { formatDate } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [stats, pages, enquiries] = await Promise.all([
-    getDashboardStats(),
-    getAllPages(),
+  const [faqs, pages, enquiries] = await Promise.all([
+    getAllFaqs(),
+    getExtraPagesForAdmin(),
     getEnquiries("all"),
   ]);
 
   const latest = enquiries.slice(0, 5);
+  const drafts = pages.filter((page) => !page.published).length;
 
   return (
     <div className="flex flex-col gap-8">
       <header>
         <h1 className="display text-4xl">Dashboard</h1>
-        <p className="mt-2 text-ink-muted">
-          Everything the site is showing right now, and what needs your attention.
+        <p className="mt-2 max-w-prose text-ink-muted">
+          This panel manages the FAQ list and any extra pages. The rest of the site is
+          written in the frontend.
         </p>
       </header>
 
       <div className="edge grid gap-px border-2 border-ink bg-ink sm:grid-cols-3">
-        <Stat label="Published pages" value={stats.publishedPages} />
-        <Stat label="Drafts waiting" value={stats.draftPages} />
-        <Stat label="New enquiries" value={stats.newEnquiries} />
+        <Stat label="Questions listed" value={faqs.length} />
+        <Stat label="Extra pages" value={pages.length} />
+        <Stat label="New enquiries" value={enquiries.filter((e) => e.status === "new").length} />
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Link href="/admin/pages/new" className={buttonStyles("primary", "md")}>
-          New page
+        <Link href="/admin/faqs" className={buttonStyles("primary", "md")}>
+          Manage FAQs
         </Link>
-        <Link href="/admin/faqs" className={buttonStyles("outline", "md")}>
-          Add FAQ
+        <Link href="/admin/pages" className={buttonStyles("outline", "md")}>
+          Extra pages
         </Link>
         <Link href="/admin/enquiries" className={buttonStyles("outline", "md")}>
           Open enquiries
         </Link>
       </div>
+
+      {drafts > 0 ? (
+        <p className="edge-sm border-2 border-ink bg-signal p-4 text-sm">
+          {drafts} extra {drafts === 1 ? "page is" : "pages are"} still a draft. Drafts
+          are not reachable from the site.
+        </p>
+      ) : null}
 
       <section>
         <h2 className="drawing-label text-lg">Latest enquiries</h2>
@@ -87,12 +96,12 @@ export default async function AdminDashboardPage() {
       </section>
 
       <section>
-        <h2 className="drawing-label text-lg">Pages</h2>
+        <h2 className="drawing-label text-lg">Extra pages</h2>
         <div className="mt-4">
           {pages.length === 0 ? (
             <EmptyState
-              title="No pages yet."
-              description="Create About, FAQ or Contact and they will appear in the navigation."
+              title="No extra pages."
+              description="Add a page here when you need something the frontend does not already cover."
               action={
                 <Link href="/admin/pages/new" className={buttonStyles("primary", "md")}>
                   New page
@@ -104,11 +113,10 @@ export default async function AdminDashboardPage() {
               <THead>
                 <TH>Title</TH>
                 <TH>Status</TH>
-                <TH>In navigation</TH>
                 <TH>Last updated</TH>
               </THead>
               <TBody>
-                {pages.slice(0, 5).map((page) => (
+                {pages.map((page) => (
                   <TR key={page.id}>
                     <TD>
                       <Link
@@ -120,7 +128,6 @@ export default async function AdminDashboardPage() {
                       <span className="block text-sm text-ink-muted">/{page.slug}</span>
                     </TD>
                     <TD>{page.published ? "Published" : "Draft"}</TD>
-                    <TD>{page.show_in_nav ? "Yes" : "No"}</TD>
                     <TD className="whitespace-nowrap">{formatDate(page.updated_at)}</TD>
                   </TR>
                 ))}

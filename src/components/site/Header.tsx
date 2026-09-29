@@ -32,7 +32,6 @@ export function Header({ site, navPages }: HeaderProps) {
 
   const legalOpen = legal.open && legal.path === pathname;
   const setLegalOpen = (value: boolean) => setLegal({ open: value, path: pathname });
-
   // The popup covers the page, so the page behind it must not scroll.
   useEffect(() => {
     if (!open) return;
@@ -69,7 +68,7 @@ export function Header({ site, navPages }: HeaderProps) {
               type="button"
               aria-expanded={legalOpen}
               aria-haspopup="true"
-              onClick={() => setLegalOpen((value) => !value)}
+              onClick={() => setLegalOpen(!legalOpen)}
               onFocus={() => setLegalOpen(true)}
               className={`flex items-center gap-1.5 border-b-2 py-1 transition-colors hover:border-signal ${
                 legalOpen ? "border-signal" : "border-transparent"
@@ -175,7 +174,7 @@ export function Header({ site, navPages }: HeaderProps) {
                   type="button"
                   aria-expanded={legalOpen}
                   aria-controls="mobile-legal"
-                  onClick={() => setLegalOpen((value) => !value)}
+                  onClick={() => setLegalOpen(!legalOpen)}
                   className="flex w-full items-baseline gap-4 py-4 text-left transition-colors hover:text-signal-dark sm:py-5"
                 >
                   <span

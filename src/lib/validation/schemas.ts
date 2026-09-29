@@ -5,13 +5,25 @@ export const emptyDoc = {
   content: [{ type: "paragraph" }],
 } as const;
 
+/**
+ * Slugs the site already uses. An extra page cannot take one of these, because
+ * the frontend page wins.
+ */
 export const reservedSlugs = [
   "admin",
   "api",
   "services",
   "login",
+  "team",
   "sitemap.xml",
   "robots.txt",
+  "about",
+  "faq",
+  "contact",
+  "legal",
+  "cookie-policy",
+  "privacy-policy",
+  "terms",
 ] as const;
 
 export const slugSchema = z

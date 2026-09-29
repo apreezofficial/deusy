@@ -59,7 +59,7 @@ export function PageForm({ page, media }: PageFormProps) {
 
   // A finished save clears the unsaved marker while rendering, so the toast
   // effect below only has the external side effect to do.
-  const [savedResult, setSavedResult] = useState<typeof state>(undefined);
+  const [savedResult, setSavedResult] = useState<typeof state>(null);
   if (state !== savedResult) {
     setSavedResult(state);
     if (state?.ok) setDirty(false);

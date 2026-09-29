@@ -7,8 +7,6 @@ import type { Database } from "@/lib/database.types";
 import {
   parseHomeSettings,
   parseSiteSettings,
-  defaultHomeSettings,
-  defaultSiteSettings,
   type HomeSettings,
   type SiteSettings,
 } from "@/lib/content/settings";
@@ -43,17 +41,7 @@ export const contentTags = {
 
 export const getSiteSettings = unstable_cache(
   async (): Promise<SiteSettings> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackSiteSettings;
-
-    const { data, error } = await supabase
-      .from("settings")
-      .select("*")
-      .eq("key", "site")
-      .maybeSingle();
-
-    if (error) throw new Error(`Could not load site settings: ${error.message}`);
-    return data ? parseSiteSettings(data.value) : defaultSiteSettings;
+    return fallbackSiteSettings;
   },
   ["site-settings"],
   { tags: [contentTags.settings] },
@@ -61,39 +49,16 @@ export const getSiteSettings = unstable_cache(
 
 export const getHomeSettings = unstable_cache(
   async (): Promise<HomeSettings> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackHomeSettings;
-
-    const { data, error } = await supabase
-      .from("settings")
-      .select("*")
-      .eq("key", "home")
-      .maybeSingle();
-
-    if (error) {
-      throw new Error(`Could not load home page settings: ${error.message}`);
-    }
-    return data ? parseHomeSettings(data.value) : defaultHomeSettings;
+    return fallbackHomeSettings;
   },
   ["home-settings"],
   { tags: [contentTags.home] },
 );
 
+/** Navigation comes from the pages written in the frontend, plus extra pages. */
 export const getNavPages = unstable_cache(
   async (): Promise<PageRow[]> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackPages;
-
-    const { data, error } = await supabase
-      .from("pages")
-      .select("*")
-      .eq("published", true)
-      .eq("show_in_nav", true)
-      .order("nav_order", { ascending: true })
-      .order("title", { ascending: true });
-
-    if (error) throw new Error(`Could not load navigation: ${error.message}`);
-    return data ?? [];
+    return fallbackPages.filter((page) => page.show_in_nav);
   },
   ["nav-pages"],
   { tags: [contentTags.nav, contentTags.pages] },
@@ -101,18 +66,7 @@ export const getNavPages = unstable_cache(
 
 export const getPublishedPages = unstable_cache(
   async (): Promise<PageRow[]> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackPages;
-
-    const { data, error } = await supabase
-      .from("pages")
-      .select("*")
-      .eq("published", true)
-      .order("nav_order", { ascending: true })
-      .order("title", { ascending: true });
-
-    if (error) throw new Error(`Could not load pages: ${error.message}`);
-    return data ?? [];
+    return [...fallbackPages, ...(await getExtraPages())];
   },
   ["published-pages"],
   { tags: [contentTags.pages] },
@@ -120,20 +74,22 @@ export const getPublishedPages = unstable_cache(
 
 export const getPublishedPage = unstable_cache(
   async (slug: string): Promise<PageRow | null> => {
-    const supabase = createPublicClient();
-    if (!supabase) {
-      return fallbackPages.find((page) => page.slug === slug) ?? null;
-    }
+    const own = fallbackPages.find((page) => page.slug === slug);
+    if (own) return own;
 
-    const { data, error } = await supabase
+    const supabase = createPublicClient();
+    if (!supabase) return null;
+
+    // Anything that is not one of our frontend pages is an extra page added
+    // from the admin panel. A missing table is not an error worth failing on.
+    const { data } = await supabase
       .from("pages")
       .select("*")
       .eq("slug", slug)
       .eq("published", true)
       .maybeSingle();
 
-    if (error) throw new Error(`Could not load page: ${error.message}`);
-    return data;
+    return data ?? null;
   },
   ["published-page"],
   { tags: [contentTags.pages] },
@@ -141,25 +97,9 @@ export const getPublishedPage = unstable_cache(
 
 export const getServices = unstable_cache(
   async (kind?: "practice" | "agency"): Promise<ServiceRow[]> => {
-    const supabase = createPublicClient();
-    if (!supabase) {
-      return kind
-        ? fallbackServices.filter((service) => service.kind === kind)
-        : fallbackServices;
-    }
-
-    let query = supabase
-      .from("services")
-      .select("*")
-      .eq("active", true)
-      .order("sort_order", { ascending: true })
-      .order("title", { ascending: true });
-
-    if (kind) query = query.eq("kind", kind);
-
-    const { data, error } = await query;
-    if (error) throw new Error(`Could not load services: ${error.message}`);
-    return data ?? [];
+    return kind
+      ? fallbackServices.filter((service) => service.kind === kind)
+      : fallbackServices;
   },
   ["services"],
   { tags: [contentTags.services] },
@@ -167,20 +107,7 @@ export const getServices = unstable_cache(
 
 export const getService = unstable_cache(
   async (slug: string): Promise<ServiceRow | null> => {
-    const supabase = createPublicClient();
-    if (!supabase) {
-      return fallbackServices.find((service) => service.slug === slug) ?? null;
-    }
-
-    const { data, error } = await supabase
-      .from("services")
-      .select("*")
-      .eq("slug", slug)
-      .eq("active", true)
-      .maybeSingle();
-
-    if (error) throw new Error(`Could not load service: ${error.message}`);
-    return data;
+    return fallbackServices.find((service) => service.slug === slug) ?? null;
   },
   ["service"],
   { tags: [contentTags.services] },
@@ -191,14 +118,14 @@ export const getActiveFaqs = unstable_cache(
     const supabase = createPublicClient();
     if (!supabase) return fallbackFaqs;
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("faqs")
       .select("*")
       .eq("active", true)
       .order("sort_order", { ascending: true });
 
-    if (error) throw new Error(`Could not load FAQs: ${error.message}`);
-    return data ?? [];
+    // Before the table is created the site keeps showing the written list.
+    return data && data.length > 0 ? (data as FaqRow[]) : fallbackFaqs;
   },
   ["faqs"],
   { tags: [contentTags.faqs] },
@@ -206,17 +133,7 @@ export const getActiveFaqs = unstable_cache(
 
 export const getActiveTeam = unstable_cache(
   async (): Promise<TeamMemberRow[]> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackTeam;
-
-    const { data, error } = await supabase
-      .from("team_members")
-      .select("*")
-      .eq("active", true)
-      .order("sort_order", { ascending: true });
-
-    if (error) throw new Error(`Could not load team: ${error.message}`);
-    return data ?? [];
+    return fallbackTeam;
   },
   ["team"],
   { tags: [contentTags.team] },
@@ -224,22 +141,32 @@ export const getActiveTeam = unstable_cache(
 
 export const getTeamMemberBySlug = unstable_cache(
   async (slug: string): Promise<TeamMemberRow | null> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackTeam.find((member) => member.slug === slug) ?? null;
-
-    const { data, error } = await supabase
-      .from("team_members")
-      .select("*")
-      .eq("slug", slug)
-      .eq("active", true)
-      .maybeSingle();
-
-    if (error) throw new Error(`Could not load the profile: ${error.message}`);
-    return data;
+    return fallbackTeam.find((member) => member.slug === slug) ?? null;
   },
   ["team-member-by-slug"],
   { tags: [contentTags.team] },
 );
+
+/**
+ * Extra pages are the ones created from the admin panel. They never replace the
+ * pages written in the frontend, and a project without the table simply has
+ * none.
+ */
+export async function getExtraPages(): Promise<PageRow[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+
+  const { data } = await supabase
+    .from("pages")
+    .select("*")
+    .eq("published", true)
+    .order("nav_order", { ascending: true });
+
+  if (!data) return [];
+
+  const own = new Set(fallbackPages.map((page) => page.slug));
+  return (data as PageRow[]).filter((page) => !own.has(page.slug));
+}
 
 /**
  * Reads a page whatever its published state, for the staff draft preview.
