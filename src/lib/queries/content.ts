@@ -77,19 +77,24 @@ export const getPublishedPage = unstable_cache(
     const own = fallbackPages.find((page) => page.slug === slug);
     if (own) return own;
 
-    const supabase = createPublicClient();
-    if (!supabase) return null;
-
     // Anything that is not one of our frontend pages is an extra page added
-    // from the admin panel. A missing table is not an error worth failing on.
-    const { data } = await supabase
-      .from("pages")
-      .select("*")
-      .eq("slug", slug)
-      .eq("published", true)
-      .maybeSingle();
+    // from the admin panel. A missing or unreachable table is not an error worth
+    // failing a page for.
+    try {
+      const supabase = createPublicClient();
+      if (!supabase) return null;
 
-    return data ?? null;
+      const { data } = await supabase
+        .from("pages")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+
+      return (data as PageRow | null) ?? null;
+    } catch {
+      return null;
+    }
   },
   ["published-page"],
   { tags: [contentTags.pages] },
@@ -115,17 +120,21 @@ export const getService = unstable_cache(
 
 export const getActiveFaqs = unstable_cache(
   async (): Promise<FaqRow[]> => {
-    const supabase = createPublicClient();
-    if (!supabase) return fallbackFaqs;
+    try {
+      const supabase = createPublicClient();
+      if (!supabase) return fallbackFaqs;
 
-    const { data } = await supabase
-      .from("faqs")
-      .select("*")
-      .eq("active", true)
-      .order("sort_order", { ascending: true });
+      const { data } = await supabase
+        .from("faqs")
+        .select("*")
+        .eq("active", true)
+        .order("sort_order", { ascending: true });
 
-    // Before the table is created the site keeps showing the written list.
-    return data && data.length > 0 ? (data as FaqRow[]) : fallbackFaqs;
+      // Before the table is created the site keeps showing the written list.
+      return data && data.length > 0 ? (data as FaqRow[]) : fallbackFaqs;
+    } catch {
+      return fallbackFaqs;
+    }
   },
   ["faqs"],
   { tags: [contentTags.faqs] },
@@ -153,19 +162,23 @@ export const getTeamMemberBySlug = unstable_cache(
  * none.
  */
 export async function getExtraPages(): Promise<PageRow[]> {
-  const supabase = createPublicClient();
-  if (!supabase) return [];
+  try {
+    const supabase = createPublicClient();
+    if (!supabase) return [];
 
-  const { data } = await supabase
-    .from("pages")
-    .select("*")
-    .eq("published", true)
-    .order("nav_order", { ascending: true });
+    const { data } = await supabase
+      .from("pages")
+      .select("*")
+      .eq("published", true)
+      .order("nav_order", { ascending: true });
 
-  if (!data) return [];
+    if (!data) return [];
 
-  const own = new Set(fallbackPages.map((page) => page.slug));
-  return (data as PageRow[]).filter((page) => !own.has(page.slug));
+    const own = new Set(fallbackPages.map((page) => page.slug));
+    return (data as PageRow[]).filter((page) => !own.has(page.slug));
+  } catch {
+    return [];
+  }
 }
 
 /**
