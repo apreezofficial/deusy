@@ -65,17 +65,18 @@ export async function submitEnquiry(
     );
   }
 
-  const { data, error } = await supabase
+  // No `.select()` here on purpose: asking for the inserted row adds a
+  // RETURNING clause, and row level security only lets staff read enquiries
+  // back. The insert itself is all the public form needs.
+  const { error } = await supabase
     .from("enquiries")
-    .insert({ name, email, phone, topic, message, status: "new" })
-    .select("id")
-    .single();
+    .insert({ name, email, phone, topic, message, status: "new" });
 
-  if (error || !data) {
+  if (error) {
     return actionError(
       "Your message was not sent. Check your connection and try again.",
     );
   }
 
-  return { ok: true, data: { id: data.id } };
+  return { ok: true, data: { id: "sent" } };
 }

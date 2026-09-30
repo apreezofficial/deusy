@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/lib/database.types";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { isSupabaseConfigured, publishableKey, requireSupabaseEnv } from "@/lib/supabase/env";
 
 export async function proxy(request: NextRequest) {
   // Before the project is connected there is no session to refresh; the admin
@@ -10,9 +10,11 @@ export async function proxy(request: NextRequest) {
 
   let response = NextResponse.next({ request });
 
+  requireSupabaseEnv();
+
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
+    publishableKey(),
     {
       cookies: {
         getAll() {
