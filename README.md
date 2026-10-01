@@ -1,6 +1,6 @@
-# Deusy & Planners Services
+# Deusy Investments Services
 
-Marketing site and admin panel for Deusy & Planners Services. Next.js 16 (App Router,
+Marketing site and admin panel for Deusy Investments Services. Next.js 16 (App Router,
 Turbopack) with Supabase for content, enquiries, media and staff accounts.
 
 ## Local setup

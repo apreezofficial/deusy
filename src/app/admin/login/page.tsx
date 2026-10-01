@@ -11,7 +11,7 @@ export default function AdminLoginPage() {
   return (
     <div className="grid min-h-dvh lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
       <div className="flex flex-col justify-between bg-ink px-6 py-10 text-paper sm:px-10">
-        <Wordmark name="Deusy &amp; Planners Services" logoUrl="" inverted />
+        <Wordmark name="Deusy Investments Services" logoUrl="" inverted />
         <div className="py-16">
           <p className="drawing-label text-sm text-drafting">Admin panel</p>
           <h1 className="display mt-4 text-[clamp(2.25rem,1.5rem+3vw,3.5rem)]">

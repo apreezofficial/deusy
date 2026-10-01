@@ -17,7 +17,7 @@ export async function generateMetadata({
   if (!member) return { title: "Profile not found" };
 
   const description =
-    member.summary?.trim() || `${member.name}, ${member.role} at Deusy & Planners Services.`;
+    member.summary?.trim() || `${member.name}, ${member.role} at Deusy Investments Services.`;
 
   return {
     title: member.name,
@@ -50,7 +50,7 @@ export default async function TeamMemberPage({ params }: PageProps<"/team/[slug]
           description: member.summary ?? undefined,
           worksFor: {
             "@type": "Organization",
-            name: "Deusy & Planners Services",
+            name: "Deusy Investments Services",
           },
         }}
       />

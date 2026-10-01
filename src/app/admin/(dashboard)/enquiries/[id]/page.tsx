@@ -106,7 +106,7 @@ export default async function AdminEnquiryPage({
         )}
 
         <a
-          href={`mailto:${enquiry.email}?subject=Your enquiry to Deusy &amp; Planners Services`}
+          href={`mailto:${enquiry.email}?subject=Your enquiry to Deusy Investments Services`}
           className="inline-flex h-11 items-center border-2 border-ink px-5 hover:bg-tracing"
         >
           Reply by email

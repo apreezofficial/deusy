@@ -24,7 +24,7 @@ export interface HomeSettings {
 }
 
 export const defaultSiteSettings: SiteSettings = {
-  name: "Deusy & Planners Services",
+  name: "Deusy Investments Services",
   tagline: "Building people. Planning solutions. Creating value.",
   phone: "",
   email: "",

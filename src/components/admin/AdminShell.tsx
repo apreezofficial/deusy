@@ -27,7 +27,7 @@ export function AdminShell({ children, items, userName, userRole }: AdminShellPr
   const sidebar = (
     <div className="flex h-full flex-col bg-ink text-paper">
       <div className="border-b-2 border-paper/20 px-5 py-5">
-        <Wordmark name="Deusy &amp; Planners Services" logoUrl="" inverted />
+        <Wordmark name="Deusy Investments Services" logoUrl="" inverted />
         <p className="mt-3 text-xs text-drafting">Admin panel</p>
       </div>
 

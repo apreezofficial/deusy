@@ -345,7 +345,7 @@ const aboutContent = {
   content: [
     heading(2, "Who we are"),
     paragraph(
-      "Deusy & Planners Services is a multidisciplinary business providing construction and real estate, human resources management, and business consultancy services to individuals, businesses, institutions and organisations.",
+      "Deusy Investments Services is a multidisciplinary business providing construction and real estate, human resources management, and business consultancy services to individuals, businesses, institutions and organisations.",
     ),
     paragraph(
       "Our goal is to provide practical, professional and reliable solutions that help our clients plan effectively, comply with applicable requirements, manage resources efficiently, and achieve sustainable business growth.",
@@ -395,7 +395,7 @@ const aboutContent = {
       type: "blockquote",
       content: [
         paragraph(
-          "At Deusy & Planners Services, we believe that every client deserves practical advice, proper planning, and dependable service. We work closely with our clients to understand their needs and provide solutions that are efficient, transparent, and results-oriented.",
+          "At Deusy Investments Services, we believe that every client deserves practical advice, proper planning, and dependable service. We work closely with our clients to understand their needs and provide solutions that are efficient, transparent, and results-oriented.",
         ),
       ],
     },
@@ -407,7 +407,7 @@ const teamContent = {
   content: [
     heading(2, "Our people"),
     paragraph(
-      "Deusy & Planners Services is run by people who have spent their careers in finance, administration, human resources, business development, real estate and education. The profiles below are the people clients deal with directly.",
+      "Deusy Investments Services is run by people who have spent their careers in finance, administration, human resources, business development, real estate and education. The profiles below are the people clients deal with directly.",
     ),
     heading(2, "How we are structured"),
     paragraph(
@@ -499,7 +499,7 @@ const privacyPolicyContent = {
     ),
     heading(2, "Who can see it"),
     paragraph(
-      "Only the people at Deusy & Planners Services who need it to handle your matter. Where a project involves contractors, consultants or authorities, we share only what the work requires, and we tell you when we do.",
+      "Only the people at Deusy Investments Services who need it to handle your matter. Where a project involves contractors, consultants or authorities, we share only what the work requires, and we tell you when we do.",
     ),
     heading(2, "Your rights"),
     paragraph(
@@ -513,7 +513,7 @@ const termsContent = {
   content: [
     heading(2, "About this site"),
     paragraph(
-      "This site is published by Deusy & Planners Services to describe our services and to let you start a conversation with us. The content is general information. It is not professional advice on your specific situation, and reading it does not create a client or consultant relationship.",
+      "This site is published by Deusy Investments Services to describe our services and to let you start a conversation with us. The content is general information. It is not professional advice on your specific situation, and reading it does not create a client or consultant relationship.",
     ),
     heading(2, "Starting work with us"),
     paragraph(
@@ -525,7 +525,7 @@ const termsContent = {
     ),
     heading(2, "Intellectual property"),
     paragraph(
-      "The text, layout, drawings and logo on this site belong to Deusy & Planners Services. You may read it, print it and share the link. You may not copy substantial parts of it or reuse our drawings as your own.",
+      "The text, layout, drawings and logo on this site belong to Deusy Investments Services. You may read it, print it and share the link. You may not copy substantial parts of it or reuse our drawings as your own.",
     ),
     heading(2, "Third-party links"),
     paragraph(
@@ -685,7 +685,7 @@ function faq(id: string, question: string, answer: string, sortOrder: number): F
 export const fallbackFaqs: FaqRow[] = [
   faq(
     "faq-1",
-    "What does Deusy & Planners Services do?",
+    "What does Deusy Investments Services do?",
     "We are a multidisciplinary business providing construction and real estate, human resources management, and business consultancy services, alongside property sales, rentals and agency, automobile sales and agency, and general agency and business facilitation.",
     1,
   ),
