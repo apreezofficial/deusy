@@ -155,15 +155,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#180e08] px-4 py-20 sm:px-6 sm:py-28 overflow-hidden relative border-t-2 border-ink">
+      <section className="bg-ink px-4 py-20 sm:px-6 sm:py-28 overflow-hidden relative border-t-2 border-ink">
         <div className="reveal mx-auto max-w-6xl grid lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
           <div className="lg:col-span-6 flex flex-col justify-center">
+            <p className="drawing-label text-sm text-signal font-semibold tracking-wider uppercase mb-3">
+              Get in touch
+            </p>
             <h2 className="font-serif text-[clamp(2.75rem,2rem+3.5vw,4.75rem)] font-normal text-paper leading-[1.08] tracking-tight">
-              Stay close to<br />
-              <span className="text-signal italic">our work.</span>
+              Contact us &amp;<br />
+              <span className="text-signal italic">plan your work.</span>
             </h2>
             <p className="mt-6 max-w-[46ch] text-lg text-[#b8ada6] leading-relaxed font-sans font-light">
-              Company news, project updates, and industry analysis — delivered to your inbox.
+              Send us the detail about your project, properties, or organization. We respond quickly with a clear written scope.
             </p>
             
             <CTAForm />

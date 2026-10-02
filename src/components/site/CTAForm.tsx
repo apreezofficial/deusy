@@ -43,12 +43,20 @@ export function CTAForm() {
         </label>
       </div>
 
-      <button
-        type="submit"
-        className="mt-6 flex w-full justify-center bg-signal py-4 px-6 text-center font-bold text-ink text-base tracking-wide transition-all duration-150 hover:bg-[#ff7726] active:translate-y-0.5 shadow-sm"
-      >
-        Submit
-      </button>
+      <div className="mt-8 flex flex-col sm:flex-row gap-4">
+        <button
+          type="submit"
+          className="flex-1 flex justify-center items-center bg-signal py-4 px-6 text-center font-bold text-ink text-base tracking-wide border-2 border-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--color-ink)] active:translate-y-0.5"
+        >
+          Contact us
+        </button>
+        <Link
+          href="/contact?intent=consultation"
+          className="flex-1 flex justify-center items-center bg-paper py-4 px-6 text-center font-bold text-ink text-base tracking-wide border-2 border-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5 hover:bg-tracing hover:shadow-[6px_6px_0_0_var(--color-ink)] active:translate-y-0.5"
+        >
+          Request consultation
+        </Link>
+      </div>
     </form>
   );
 }
