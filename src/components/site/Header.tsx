@@ -83,26 +83,28 @@ export function Header({ site, navPages }: HeaderProps) {
             </button>
 
             {legalOpen ? (
-              <div className="edge absolute right-0 top-[calc(100%+0.75rem)] z-50 w-72 border-2 border-ink bg-paper">
-                <p className="border-b-2 border-ink bg-tracing px-4 py-2 text-xs">
-                  {legalIndex.description}
-                </p>
-                <ul>
-                  {legalSubLinks.map((link) => (
-                    <li key={link.href} className="border-b-2 border-ink last:border-b-0">
-                      <Link
-                        href={link.href}
-                        onClick={() => setLegalOpen(false)}
-                        className="block px-4 py-3 transition-colors hover:bg-tracing"
-                      >
-                        <span className="drawing-label text-sm">{link.label}</span>
-                        <span className="mt-1 block text-xs leading-relaxed text-ink-muted">
-                          {link.description}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+              <div className="absolute right-0 top-full z-50 pt-2 w-72">
+                <div className="border-2 border-ink bg-paper">
+                  <p className="border-b-2 border-ink bg-tracing px-4 py-2 text-xs">
+                    {legalIndex.description}
+                  </p>
+                  <ul>
+                    {legalSubLinks.map((link) => (
+                      <li key={link.href} className="border-b-2 border-ink last:border-b-0">
+                        <Link
+                          href={link.href}
+                          onClick={() => setLegalOpen(false)}
+                          className="block px-4 py-3 transition-colors hover:bg-tracing"
+                        >
+                          <span className="drawing-label text-sm">{link.label}</span>
+                          <span className="mt-1 block text-xs leading-relaxed text-ink-muted">
+                            {link.description}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ) : null}
           </div>
