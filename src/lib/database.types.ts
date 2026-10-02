@@ -37,7 +37,22 @@ export type PageRow = {
   og_image: string | null;
   created_at: string;
   updated_at: string;
-}
+};
+
+export type BlogPostRow = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: Json;
+  cover_image: string | null;
+  category: string | null;
+  author: string | null;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
 
 export type FaqRow = {
   id: string;
@@ -116,6 +131,16 @@ export type Database = {
           updated_at?: string;
         };
         Update: Partial<Omit<PageRow, "id">>;
+        Relationships: [];
+      };
+      posts: {
+        Row: BlogPostRow;
+        Insert: Omit<BlogPostRow, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Omit<BlogPostRow, "id">>;
         Relationships: [];
       };
       faqs: {

@@ -1,4 +1,5 @@
 import type {
+  BlogPostRow,
   FaqRow,
   PageRow,
   ServiceRow,
@@ -808,3 +809,108 @@ export const fallbackTeam: TeamMemberRow[] = [
     active: true,
   },
 ];
+
+export const fallbackPosts: BlogPostRow[] = [
+  {
+    id: "post-1",
+    title: "Key Considerations Before Buying Land in Accra, Ghana",
+    slug: "key-considerations-before-buying-land-in-accra-ghana",
+    excerpt:
+      "Navigating title searches, zoning restrictions, site inspection, and transaction coordination when acquiring real estate in Ghana.",
+    category: "Real Estate & Construction",
+    author: "Eric Semanu-Uzziah Dornyo",
+    cover_image: "/images/agency-property.jpg",
+    published: true,
+    published_at: "2026-09-15T09:00:00.000Z",
+    created_at: now,
+    updated_at: now,
+    content: {
+      type: "doc",
+      content: [
+        heading(2, "Due Diligence Is Non-Negotiable"),
+        paragraph(
+          "Acquiring property in Ghana, especially in Greater Accra and developing peri-urban zones, demands thorough verification. From stool land demarcations to family titles, prospective purchasers must ensure official site plans match ground realities.",
+        ),
+        heading(2, "1. Site Plan Validation and Cadastral Searches"),
+        paragraph(
+          "Never rely solely on photocopied indentures. A verified surveyor must pick site coordinates to run a search at the Lands Commission Survey & Mapping and Land Registration divisions.",
+        ),
+        bulletList([
+          "Verification of registry records against physical beacons",
+          "Zoning validation with local municipal planning assemblies",
+          "Confirming encumbrances, court caveats, and historical litigation",
+        ]),
+        heading(2, "2. Engaging Professional Coordination"),
+        paragraph(
+          "At Deusy Investments Services, our property agency and consultancy teams bridge prospective buyers and verified owners, conducting preliminary investigations before financial commitments are settled.",
+        ),
+      ],
+    },
+  },
+  {
+    id: "post-2",
+    title: "Building an Inspection-Ready Workplace: HR & Labor Compliance in Ghana",
+    slug: "building-an-inspection-ready-workplace-hr-compliance-ghana",
+    excerpt:
+      "Essential workplace policies, employment contracts, and statutory compliance required under Ghana's Labor Act.",
+    category: "Human Resources",
+    author: "Raphael Cameron Etse",
+    cover_image: "/images/practice-hr.jpg",
+    published: true,
+    published_at: "2026-09-20T10:30:00.000Z",
+    created_at: now,
+    updated_at: now,
+    content: {
+      type: "doc",
+      content: [
+        heading(2, "Compliance Protects Your Business and Staff"),
+        paragraph(
+          "For growing businesses, SMEs, and NGOs in Ghana, having up-to-date staff files and Labor Act compliant policies isn't just about passing labor inspections—it protects organizational stability and staff trust.",
+        ),
+        heading(2, "Critical Compliance Pillars"),
+        bulletList([
+          "Standardized employment contracts outlining terms, probationary clauses, and leave entitlements",
+          "Documented health, safety, and workplace conduct handbooks",
+          "Timely statutory remittances for SSNIT, Tier 2 pensions, and PAYE tax filings",
+          "Clear disciplinary and grievance procedures aligned with labor standards",
+        ]),
+        paragraph(
+          "Regular HR audits identify risk areas early, ensuring organizations maintain an inspection-ready standard year-round.",
+        ),
+      ],
+    },
+  },
+  {
+    id: "post-3",
+    title: "Strategic Project Supervision: How Proper Planning Cuts Building Costs",
+    slug: "strategic-project-supervision-how-planning-cuts-building-costs",
+    excerpt:
+      "Why active on-site project coordination and transparent material budgeting prevent costly delays in construction projects.",
+    category: "Construction & Project Management",
+    author: "Eric Semanu-Uzziah Dornyo",
+    cover_image: "/images/practice-construction.jpg",
+    published: true,
+    published_at: "2026-09-28T08:15:00.000Z",
+    created_at: now,
+    updated_at: now,
+    content: {
+      type: "doc",
+      content: [
+        heading(2, "The Cost of Poor Supervision"),
+        paragraph(
+          "In construction and property development, budget overruns rarely stem from materials pricing alone; they arise from lack of coordination, incorrect material specs, and rework on site.",
+        ),
+        heading(2, "Phased Milestones and Milestone Reporting"),
+        paragraph(
+          "Independent supervision ensures contractors adhere to architectural and structural drawings, material testing requirements, and milestone delivery dates.",
+        ),
+        bulletList([
+          "Daily logs and stage validation before concrete pours",
+          "Transparent procurement verification against market pricing",
+          "Clear photographic milestone reporting for diasporan and local developers",
+        ]),
+      ],
+    },
+  },
+];
+

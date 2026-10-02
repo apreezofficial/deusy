@@ -28,6 +28,7 @@ export function Header({ site, navPages }: HeaderProps) {
       href: `/${page.slug}`,
       label: page.nav_label?.trim() || page.title,
     })),
+    { href: "/blog", label: "Blog" },
   ];
 
   const legalOpen = legal.open && legal.path === pathname;

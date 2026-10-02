@@ -48,6 +48,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
 
   const items: AdminNavItem[] = [
     { href: "/admin", label: "Dashboard" },
+    { href: "/admin/posts", label: "Blog & Articles" },
     { href: "/admin/faqs", label: "FAQs" },
     { href: "/admin/pages", label: "Extra pages" },
     {

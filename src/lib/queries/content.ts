@@ -14,11 +14,13 @@ import {
   fallbackFaqs,
   fallbackHomeSettings,
   fallbackPages,
+  fallbackPosts,
   fallbackServices,
   fallbackSiteSettings,
   fallbackTeam,
 } from "@/lib/content/fallback";
 import type {
+  BlogPostRow,
   EnquiryRow,
   EnquiryStatus,
   FaqRow,
@@ -37,6 +39,7 @@ export const contentTags = {
   team: "team",
   enquiries: "enquiries",
   media: "media",
+  posts: "posts",
 } as const;
 
 export const getSiteSettings = unstable_cache(
@@ -228,3 +231,78 @@ export async function getEnquiry(id: string): Promise<EnquiryRow | null> {
 }
 
 export type StaffProfile = Database["public"]["Tables"]["profiles"]["Row"];
+
+export const getPublishedPosts = unstable_cache(
+  async (): Promise<BlogPostRow[]> => {
+    try {
+      const supabase = createPublicClient();
+      if (!supabase) return fallbackPosts.filter((p) => p.published);
+
+      const { data } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("published", true)
+        .order("created_at", { ascending: false });
+
+      return data && data.length > 0 ? (data as BlogPostRow[]) : fallbackPosts.filter((p) => p.published);
+    } catch {
+      return fallbackPosts.filter((p) => p.published);
+    }
+  },
+  ["published-posts"],
+  { tags: [contentTags.posts] },
+);
+
+export const getPublishedPost = unstable_cache(
+  async (slug: string): Promise<BlogPostRow | null> => {
+    try {
+      const supabase = createPublicClient();
+      if (!supabase) return fallbackPosts.find((p) => p.slug === slug && p.published) ?? null;
+
+      const { data } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+
+      return (data as BlogPostRow | null) ?? fallbackPosts.find((p) => p.slug === slug && p.published) ?? null;
+    } catch {
+      return fallbackPosts.find((p) => p.slug === slug && p.published) ?? null;
+    }
+  },
+  ["published-post"],
+  { tags: [contentTags.posts] },
+);
+
+export async function getPosts(): Promise<BlogPostRow[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) return fallbackPosts;
+    return (data as BlogPostRow[]) ?? fallbackPosts;
+  } catch {
+    return fallbackPosts;
+  }
+}
+
+export async function getPost(id: string): Promise<BlogPostRow | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (error) return fallbackPosts.find((p) => p.id === id) ?? null;
+    return (data as BlogPostRow | null) ?? fallbackPosts.find((p) => p.id === id) ?? null;
+  } catch {
+    return fallbackPosts.find((p) => p.id === id) ?? null;
+  }
+}
+

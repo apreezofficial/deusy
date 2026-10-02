@@ -24,6 +24,7 @@ export const reservedSlugs = [
   "cookie-policy",
   "privacy-policy",
   "terms",
+  "blog",
 ] as const;
 
 export const slugSchema = z
@@ -282,3 +283,23 @@ export const allowedMediaTypes = [
   "image/webp",
   "image/svg+xml",
 ] as const;
+
+export const postFormSchema = z.object({
+  id: z.string().uuid().optional(),
+  title: z.string().trim().min(1, "Enter a title").max(180, "Keep the title under 180 characters"),
+  slug: slugSchema,
+  excerpt: optionalText(400),
+  category: optionalText(100),
+  author: optionalText(120),
+  coverImage: optionalUrl,
+  content: z.string().transform((value) => {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      return parsed;
+    } catch {
+      return null;
+    }
+  }),
+  published: z.coerce.boolean(),
+});
+

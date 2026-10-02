@@ -53,6 +53,11 @@ export function Footer({ site, navPages }: FooterProps) {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/blog" className="hover:text-signal">
+                Blog &amp; Insights
+              </Link>
+            </li>
             {legalSubLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="hover:text-signal">
