@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #000000;
-  --color-ink-soft: #1c1c1c;
-  --color-ink-muted: #5a5a5a;
+  --color-ink: #4f4f4f;
+  --color-ink-soft: #333333;
+  --color-ink-muted: #6a6a6a;
   --color-signal: #f26a1b;
   --color-signal-dark: #c9510d;
   --color-drafting: #8fcbea;
@@ -33,14 +33,6 @@
 *::before,
 *::after {
   border-radius: 0;
-}
-
-.edge {
-  box-shadow: var(--edge);
-}
-
-.edge-sm {
-  box-shadow: var(--edge-sm);
 }
 
 .edge-press {

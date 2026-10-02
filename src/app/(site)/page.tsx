@@ -205,7 +205,7 @@ function Audience() {
           {groups.map((group, index) => (
             <li
               key={group.title}
-              className="edge-sm reveal-edge flex flex-col bg-paper p-6 transition-transform duration-150 hover:-translate-y-1 hover:shadow-[7px_7px_0_0_var(--color-ink)]"
+              className="reveal-edge flex flex-col border-2 border-ink bg-paper p-6 transition-transform duration-150 hover:-translate-y-1 hover:bg-tracing"
             >
               <span aria-hidden="true" className="drawing-label text-sm text-signal-dark">
                 {String(index + 1).padStart(2, "0")}
@@ -265,7 +265,7 @@ function TitleBlock({
 }) {
   return (
     <section className="bg-paper px-4 py-12 sm:px-6 sm:py-16">
-      <div className="edge mx-auto max-w-6xl border-2 border-ink bg-ink">
+      <div className="mx-auto max-w-6xl border-2 border-ink bg-ink">
         <div className="grid gap-px bg-ink sm:grid-cols-2 lg:grid-cols-4">
           <div className="reveal-edge bg-paper p-5 sm:p-6">
             <p className="drawing-label text-sm text-signal-dark">Practice</p>
@@ -370,14 +370,14 @@ function ServiceSchedule({
 }) {
   if (services.length === 0) {
     return (
-      <p className="edge reveal mt-10 border-2 border-dashed border-ink bg-paper p-6">
+      <p className="reveal mt-10 border-2 border-dashed border-ink bg-paper p-6">
         No services yet. Add the first one from the admin panel.
       </p>
     );
   }
 
   return (
-    <ul className="edge mt-10 border-2 border-ink bg-paper">
+    <ul className="mt-10 border-2 border-ink bg-paper">
       {services.map((service, index) => (
         <li key={service.id} className="border-b-2 border-ink last:border-b-0">
           <Link

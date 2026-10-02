@@ -145,7 +145,7 @@ function ServiceGrid({ services }: { services: ServiceRow[] }) {
         <li key={service.id} className="reveal-edge flex">
           <Link
             href={`/services/${service.slug}`}
-            className="group flex w-full flex-col gap-4 border-2 border-ink bg-paper p-6 transition-[transform,box-shadow,background-color] duration-150 hover:-translate-y-1 hover:bg-tracing hover:shadow-[7px_7px_0_0_var(--color-ink)]"
+            className="group flex w-full flex-col gap-4 border-2 border-ink bg-paper p-6 transition-[transform,background-color] duration-150 hover:-translate-y-1 hover:bg-tracing"
           >
             <div className="flex items-start justify-between gap-4">
               <span aria-hidden="true" className="drawing-label text-sm text-signal-dark">
