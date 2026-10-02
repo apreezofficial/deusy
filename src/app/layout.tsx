@@ -1,5 +1,5 @@
-﻿import type { Metadata } from "next";
-import { Archivo, Instrument_Sans } from "next/font/google";
+import type { Metadata } from "next";
+import { Archivo, Instrument_Sans, Newsreader } from "next/font/google";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -12,6 +12,13 @@ const archivo = Archivo({
 const instrumentSans = Instrument_Sans({
   variable: "--font-instrument",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const newsreader = Newsreader({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -31,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${instrumentSans.variable} h-full antialiased`}
+      className={`${archivo.variable} ${instrumentSans.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

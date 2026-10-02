@@ -12,6 +12,7 @@
 
   --font-display: var(--font-archivo), "Arial Narrow", sans-serif;
   --font-sans: var(--font-instrument), Arial, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
 
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;

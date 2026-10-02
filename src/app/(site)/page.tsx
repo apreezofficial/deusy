@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getHomeSettings, getServices, getSiteSettings } from "@/lib/queries/content";
-import { PlanDrawing } from "@/components/site/PlanDrawing";
 import { CTAForm } from "@/components/site/CTAForm";
+import { IsometricCity } from "@/components/site/IsometricCity";
 import { JsonLd } from "@/components/site/JsonLd";
 import { buttonStyles } from "@/components/ui/Button";
 import type { ServiceRow } from "@/lib/database.types";
@@ -155,25 +155,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-ink px-4 py-16 sm:px-6 sm:py-24 overflow-hidden relative">
-        {/* Subtle grid background for the entire dark section */}
-        <div className="absolute inset-0 opacity-[0.03] grid-plan pointer-events-none" />
-        
-        <div className="reveal mx-auto max-w-6xl grid lg:grid-cols-2 gap-16 items-center relative z-10">
-          <div>
-            <h2 className="display text-paper text-[clamp(2.5rem,1.5rem+3.5vw,4.5rem)] leading-tight">
-              {(home.closingHeading ?? '').replace(/\.$/, '')}
-              <span className="text-signal">.</span>
+      <section className="bg-[#180e08] px-4 py-20 sm:px-6 sm:py-28 overflow-hidden relative border-t-2 border-ink">
+        <div className="reveal mx-auto max-w-6xl grid lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <h2 className="font-serif text-[clamp(2.75rem,2rem+3.5vw,4.75rem)] font-normal text-paper leading-[1.08] tracking-tight">
+              Stay close to<br />
+              <span className="text-signal italic">our work.</span>
             </h2>
-            <p className="mt-6 max-w-[45ch] text-lg text-ink-muted">
-              Company news, project updates, and industry analysis — delivered straight to your inbox.
+            <p className="mt-6 max-w-[46ch] text-lg text-[#b8ada6] leading-relaxed font-sans font-light">
+              Company news, project updates, and industry analysis — delivered to your inbox.
             </p>
             
             <CTAForm />
           </div>
 
-          <div className="relative h-[300px] sm:h-[450px] lg:h-[600px] w-full flex items-center justify-center opacity-80">
-            <PlanDrawing className="text-signal w-full h-full scale-110 object-contain drop-shadow-[0_0_15px_rgba(242,106,27,0.2)]" />
+          <div className="lg:col-span-6 relative w-full flex items-center justify-center">
+            <IsometricCity className="w-full h-auto max-h-[580px] drop-shadow-[0_0_40px_rgba(242,106,27,0.18)]" />
           </div>
         </div>
       </section>
