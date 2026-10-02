@@ -102,16 +102,16 @@ body {
 /* The drafting grid that sits behind hero and section blocks. */
 .grid-plan {
   background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgba(106, 106, 106, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(106, 106, 106, 0.2) 1px, transparent 1px);
   background-size: 28px 28px;
   background-position: -1px -1px;
 }
 
 .grid-plan-blue {
   background-image:
-    linear-gradient(to right, rgba(143, 203, 234, 0.35) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(143, 203, 234, 0.35) 1px, transparent 1px);
+    linear-gradient(to right, rgba(106, 106, 106, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(106, 106, 106, 0.2) 1px, transparent 1px);
   background-size: 28px 28px;
   background-position: -1px -1px;
 }
