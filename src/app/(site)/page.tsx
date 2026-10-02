@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getHomeSettings, getServices, getSiteSettings } from "@/lib/queries/content";
 import { PlanDrawing } from "@/components/site/PlanDrawing";
+import { CTAForm } from "@/components/site/CTAForm";
 import { JsonLd } from "@/components/site/JsonLd";
 import { buttonStyles } from "@/components/ui/Button";
 import type { ServiceRow } from "@/lib/database.types";
@@ -168,37 +169,7 @@ export default async function HomePage() {
               Company news, project updates, and industry analysis — delivered straight to your inbox.
             </p>
             
-            <form className="mt-10 max-w-md">
-              <label htmlFor="email" className="block text-sm font-medium text-ink-muted mb-2">
-                Email<span className="text-signal">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                required
-                className="w-full bg-paper text-ink px-4 py-3 focus:outline-none focus:ring-2 focus:ring-signal"
-              />
-              
-              <div className="mt-4 flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="consent"
-                  required
-                  className="mt-1 h-4 w-4 shrink-0 rounded-sm border-2 border-signal bg-transparent text-signal focus:ring-signal focus:ring-offset-ink accent-signal"
-                />
-                <label htmlFor="consent" className="text-xs text-ink-muted leading-relaxed">
-                  By submitting, you consent to being contacted about our services per our <Link href="/legal" className="underline hover:text-paper">Privacy Policy</Link> & <Link href="/legal" className="underline hover:text-paper">Terms</Link>.
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                className="mt-8 flex w-full justify-center bg-signal px-6 py-4 text-center font-bold text-ink transition-transform hover:-translate-y-1 hover:shadow-[5px_5px_0_0_var(--color-paper)]"
-                onClick={(e) => { e.preventDefault(); window.location.href = '/contact?intent=consultation'; }}
-              >
-                Submit
-              </button>
-            </form>
+            <CTAForm />
           </div>
 
           <div className="relative h-[300px] sm:h-[450px] lg:h-[600px] w-full flex items-center justify-center opacity-80">
