@@ -270,7 +270,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     1,
-    "/images/hero.jpg"
+    "/images/practice-construction.jpg"
   ),
   service(
     "agency-automobile",

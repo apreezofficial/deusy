@@ -140,7 +140,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="grid-plan-blue border-b-2 border-ink bg-tracing px-4 py-16 sm:px-6 sm:py-20">
+      <section className="border-b-2 border-ink px-4 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <SectionHeading
             eyebrow="Agency services"
