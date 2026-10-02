@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getHomeSettings, getServices, getSiteSettings } from "@/lib/queries/content";
 import { buttonStyles } from "@/components/ui/Button";
 import type { ServiceRow } from "@/lib/database.types";
@@ -154,6 +155,17 @@ function ServiceGrid({ services }: { services: ServiceRow[] }) {
                 Read more
               </span>
             </div>
+
+            {service.image ? (
+              <Image
+                src={service.image}
+                alt={service.title}
+                width={400}
+                height={200}
+                className="w-full h-40 border border-ink object-cover"
+                unoptimized
+              />
+            ) : null}
 
             <h3 className="display text-2xl leading-tight">{service.title}</h3>
 

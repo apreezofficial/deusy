@@ -396,9 +396,21 @@ function ServiceSchedule({
               </div>
             </div>
 
-            <p className="max-w-[54ch] leading-relaxed text-ink-soft">
-              {service.summary}
-            </p>
+            <div className="flex-1 flex flex-col gap-4">
+              <p className="max-w-[54ch] leading-relaxed text-ink-soft">
+                {service.summary}
+              </p>
+              {service.image ? (
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  width={300}
+                  height={150}
+                  className="w-full h-32 object-cover border border-ink lg:w-[250px]"
+                  unoptimized
+                />
+              ) : null}
+            </div>
 
             {service.scope.length > 0 ? (
               <ul className="flex flex-wrap gap-2 lg:w-56 lg:shrink-0 lg:justify-end">
