@@ -155,17 +155,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-ink px-4 py-20 sm:px-6 sm:py-28 overflow-hidden relative border-t-2 border-ink">
+      <section className="bg-signal px-4 py-20 sm:px-6 sm:py-28 overflow-hidden relative border-t-2 border-ink">
         <div className="reveal mx-auto max-w-6xl grid lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
           <div className="lg:col-span-6 flex flex-col justify-center">
-            <p className="drawing-label text-sm text-signal font-semibold tracking-wider uppercase mb-3">
+            <p className="drawing-label text-sm text-ink font-bold tracking-wider uppercase mb-3">
               Get in touch
             </p>
-            <h2 className="font-serif text-[clamp(2.75rem,2rem+3.5vw,4.75rem)] font-normal text-paper leading-[1.08] tracking-tight">
+            <h2 className="font-serif text-[clamp(2.75rem,2rem+3.5vw,4.75rem)] font-normal text-ink leading-[1.08] tracking-tight">
               Contact us &amp;<br />
-              <span className="text-signal italic">plan your work.</span>
+              <span className="italic underline decoration-ink decoration-2 underline-offset-8">plan your work.</span>
             </h2>
-            <p className="mt-6 max-w-[46ch] text-lg text-[#b8ada6] leading-relaxed font-sans font-light">
+            <p className="mt-6 max-w-[46ch] text-lg text-ink leading-relaxed font-sans font-medium">
               Send us the detail about your project, properties, or organization. We respond quickly with a clear written scope.
             </p>
             
@@ -173,7 +173,7 @@ export default async function HomePage() {
           </div>
 
           <div className="lg:col-span-6 relative w-full flex items-center justify-center">
-            <IsometricCity className="w-full h-auto max-h-[580px] drop-shadow-[0_0_40px_rgba(242,106,27,0.18)]" />
+            <IsometricCity className="w-full h-auto max-h-[580px] drop-shadow-[0_0_40px_rgba(0,0,0,0.2)]" />
           </div>
         </div>
       </section>

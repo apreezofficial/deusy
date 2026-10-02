@@ -14,8 +14,8 @@ export function CTAForm() {
 
   return (
     <form className="mt-8 max-w-lg" onSubmit={handleSubmit}>
-      <label htmlFor="cta-email" className="block text-sm text-[#c8bfb9] mb-2 font-sans font-medium">
-        Email<span className="text-signal">*</span>
+      <label htmlFor="cta-email" className="block text-sm text-ink mb-2 font-sans font-bold">
+        Email<span className="text-ink">*</span>
       </label>
       <input
         type="email"
@@ -23,7 +23,7 @@ export function CTAForm() {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full bg-paper text-ink px-4 py-3.5 text-base font-sans focus:outline-none focus:ring-2 focus:ring-signal"
+        className="w-full bg-paper text-ink px-4 py-3.5 text-base font-sans border-2 border-ink shadow-[4px_4px_0_0_var(--color-ink)] focus:outline-none focus:ring-2 focus:ring-ink"
       />
 
       <div className="mt-4 flex items-center gap-3">
@@ -33,20 +33,20 @@ export function CTAForm() {
           required
           checked={consent}
           onChange={(e) => setConsent(e.target.checked)}
-          className="h-4 w-4 shrink-0 rounded-none border border-signal bg-transparent accent-signal cursor-pointer"
+          className="h-4 w-4 shrink-0 rounded-none border-2 border-ink bg-paper accent-ink cursor-pointer"
         />
-        <label htmlFor="cta-consent" className="text-xs text-[#a39790] leading-relaxed select-none">
+        <label htmlFor="cta-consent" className="text-xs text-ink font-medium leading-relaxed select-none">
           By submitting, you consent to being contacted about our products per our{" "}
-          <Link href="/privacy-policy" className="underline hover:text-paper transition-colors">Privacy Policy</Link>{" "}
+          <Link href="/privacy-policy" className="underline font-bold hover:text-ink-soft transition-colors">Privacy Policy</Link>{" "}
           &amp;{" "}
-          <Link href="/terms" className="underline hover:text-paper transition-colors">Terms</Link>.
+          <Link href="/terms" className="underline font-bold hover:text-ink-soft transition-colors">Terms</Link>.
         </label>
       </div>
 
       <div className="mt-8 flex flex-col sm:flex-row gap-4">
         <button
           type="submit"
-          className="flex-1 flex justify-center items-center bg-signal py-4 px-6 text-center font-bold text-ink text-base tracking-wide border-2 border-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--color-ink)] active:translate-y-0.5"
+          className="flex-1 flex justify-center items-center bg-ink py-4 px-6 text-center font-bold text-paper text-base tracking-wide border-2 border-ink shadow-[4px_4px_0_0_var(--color-paper)] transition-transform hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--color-paper)] active:translate-y-0.5"
         >
           Contact us
         </button>
