@@ -382,9 +382,9 @@ function ServiceSchedule({
   }
 
   return (
-    <ul className="mt-10 border-2 border-ink bg-paper snap-y snap-mandatory overflow-y-auto max-h-screen">
+    <ul className="mt-10 border-2 border-ink bg-paper">
       {services.map((service, index) => (
-        <li key={service.id} className="border-b-2 border-ink last:border-b-0 relative snap-start min-h-screen flex flex-col justify-center">
+        <li key={service.id} className="border-b-2 border-ink last:border-b-0 relative">
           <Link
             href={`/services/${service.slug}`}
             className="group block relative p-5 transition-colors hover:bg-tracing sm:p-7 lg:p-14"
