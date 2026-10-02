@@ -233,19 +233,19 @@ function SectionHeading({
   description?: string;
 }) {
   return (
-    <div className="reveal flex flex-col gap-4 border-b-2 border-ink pb-6 sm:flex-row sm:items-end sm:justify-between">
+    <div className="reveal flex flex-col gap-4 border-b-2 border-ink pb-6">
       <div className="max-w-2xl">
         <p className="drawing-label text-sm text-signal-dark mb-3">{eyebrow}</p>
         <h2 className="display text-[clamp(1.9rem,1.2rem+2.6vw,3rem)]">{title}</h2>
         {description ? (
           <p className="mt-4 leading-relaxed text-ink-soft">{description}</p>
         ) : null}
+        {action ? (
+          <div className="mt-6">
+            {action}
+          </div>
+        ) : null}
       </div>
-      {action ? (
-        <div className="flex shrink-0 flex-wrap items-center gap-4">
-          {action}
-        </div>
-      ) : null}
     </div>
   );
 }
