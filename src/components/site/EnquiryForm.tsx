@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { submitEnquiry } from "@/lib/actions/enquiries";
 import { formAction } from "@/lib/actions/form-action";
 import { Input, Select, Textarea } from "@/components/ui/Field";
@@ -25,8 +25,12 @@ export function EnquiryForm({ topics, defaultTopic, note }: EnquiryFormProps) {
     formAction(submitEnquiry),
     initialState,
   );
+  const [message, setMessage] = useState("");
+  const [touched, setTouched] = useState(false);
   const fieldErrors = state && !state.ok ? state.fieldErrors : undefined;
   const sent = state?.ok === true;
+
+  const isShort = touched && message.trim().length > 0 && message.trim().length < 10;
 
   if (sent) {
     return (
@@ -97,14 +101,36 @@ export function EnquiryForm({ topics, defaultTopic, note }: EnquiryFormProps) {
           <option value={somethingElse}>{somethingElse}</option>
         </optgroup>
       </Select>
-      <Textarea
-        label="Message"
-        name="message"
-        required
-        rows={6}
-        hint="Describe the property, the vehicle or the problem you are dealing with."
-        error={fieldErrors?.message}
-      />
+      <div>
+        <Textarea
+          label="Message"
+          name="message"
+          required
+          rows={6}
+          value={message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+            setTouched(true);
+          }}
+          onBlur={() => setTouched(true)}
+          hint="Describe the property, the vehicle or the problem you are dealing with (at least 10 characters)."
+          error={isShort ? "Your message is too short. Please write at least 10 characters." : fieldErrors?.message}
+        />
+        <div className="mt-1 flex justify-end">
+          <span
+            className={`text-xs font-mono transition-colors ${
+              message.trim().length === 0
+                ? "text-ink-muted"
+                : message.trim().length < 10
+                  ? "text-signal font-bold"
+                  : "text-signal-dark font-medium"
+            }`}
+          >
+            {message.trim().length} / 10 min characters
+            {message.trim().length >= 10 ? " ✓" : ""}
+          </span>
+        </div>
+      </div>
 
       <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
         <label htmlFor="website">Website</label>

@@ -179,7 +179,7 @@ export const enquiryFormSchema = z.object({
   message: z
     .string()
     .trim()
-    .min(10, "Add a little more detail, at least 10 characters")
+    .min(10, "Your message must be at least 10 characters long so we understand your request")
     .max(4000, "Keep the message under 4000 characters"),
   // Bots fill in every field they find. This one stays empty for people.
   website: z.string().max(0, "This submission was rejected").optional(),
