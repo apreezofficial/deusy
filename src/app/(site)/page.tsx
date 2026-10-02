@@ -63,7 +63,7 @@ export default async function HomePage() {
 
       <section className="border-b-2 border-ink">
         <div className="grid lg:grid-cols-2 mx-auto max-w-6xl">
-          <div className="grid-plan order-2 flex flex-col justify-end border-t-2 border-ink px-4 py-14 sm:px-6 sm:py-20 lg:order-1 lg:border-r-2 lg:border-t-0">
+          <div className="grid-plan order-2 flex flex-col justify-center border-t-2 border-ink px-4 py-14 sm:px-6 sm:py-20 lg:order-1 lg:border-r-2 lg:border-t-0">
             {site.tagline ? (
               <p className="drawing-label max-w-[40ch] border-b-2 border-ink pb-3 text-sm text-signal-dark">
                 {site.tagline}
