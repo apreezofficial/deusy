@@ -200,6 +200,7 @@ function Audience() {
         <SectionHeading
           eyebrow="Who we work with"
           title="Four kinds of client, one standard of work."
+          description="Our values are integrity, professionalism, reliability, accountability, excellence and client satisfaction. They are not a poster on the wall: they are what decides how we handle your project and what we report back to you."
         />
         <ul className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {groups.map((group, index) => (
@@ -215,11 +216,6 @@ function Audience() {
             </li>
           ))}
         </ul>
-        <p className="reveal mt-10 max-w-[62ch] border-2 border-ink bg-tracing p-6 leading-relaxed">
-          Our values are integrity, professionalism, reliability, accountability,
-          excellence and client satisfaction. They are not a poster on the wall: they are
-          what decides how we handle your project and what we report back to you.
-        </p>
       </div>
     </section>
   );
@@ -384,49 +380,51 @@ function ServiceSchedule({
         <li key={service.id} className="border-b-2 border-ink last:border-b-0">
           <Link
             href={`/services/${service.slug}`}
-            className="group flex flex-col gap-4 p-5 transition-colors hover:bg-tracing sm:p-7 lg:flex-row lg:items-start lg:gap-8"
+            className="group flex flex-col gap-6 p-5 transition-colors hover:bg-tracing sm:p-7 md:flex-row md:items-start lg:p-10 lg:gap-10"
           >
-            <div className="flex items-baseline gap-4 lg:w-64 lg:shrink-0">
-              <span aria-hidden="true" className="drawing-label text-xs text-signal-dark">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <p className="drawing-label text-xs text-ink-muted">{kindLabel}</p>
-                <h3 className="display mt-2 text-2xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px] sm:text-[1.75rem]">
-                  {service.title}
-                </h3>
-              </div>
-            </div>
-
-            <div className="flex-1 flex flex-col gap-4">
-              <p className="max-w-[54ch] leading-relaxed text-ink-soft">
-                {service.summary}
-              </p>
-              {service.image ? (
+            {service.image ? (
+              <div className="md:w-1/3 lg:w-[40%] shrink-0">
                 <Image
                   src={service.image}
                   alt={service.title}
-                  width={300}
-                  height={150}
-                  className="w-full h-32 object-cover border border-ink lg:w-[250px]"
+                  width={600}
+                  height={400}
+                  className="w-full aspect-[4/3] object-cover border-2 border-ink"
                   unoptimized
                 />
+              </div>
+            ) : null}
+
+            <div className="flex-1 flex flex-col">
+              <div className="flex items-baseline gap-4 mb-3">
+                <span aria-hidden="true" className="drawing-label text-sm text-signal-dark">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="drawing-label text-sm text-ink-muted uppercase tracking-wide">{kindLabel}</p>
+              </div>
+
+              <h3 className="display text-2xl sm:text-3xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px]">
+                {service.title}
+              </h3>
+
+              <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-ink-soft">
+                {service.summary}
+              </p>
+
+              {service.scope.length > 0 ? (
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {service.scope.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-2 border border-ink bg-paper px-3 py-1.5 text-xs font-medium"
+                    >
+                      <span aria-hidden="true" className="bullet-square" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               ) : null}
             </div>
-
-            {service.scope.length > 0 ? (
-              <ul className="flex flex-wrap gap-2 lg:w-56 lg:shrink-0 lg:justify-end">
-                {service.scope.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center gap-2 border-2 border-ink bg-paper px-2 py-1 text-xs"
-                  >
-                    <span aria-hidden="true" className="bullet-square" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
           </Link>
         </li>
       ))}
