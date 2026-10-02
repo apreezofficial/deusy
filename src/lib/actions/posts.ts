@@ -62,6 +62,27 @@ export async function savePost(
     );
   }
 
+  // Synchronize with PHP Backend API
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        title,
+        slug,
+        excerpt,
+        category,
+        author,
+        cover_image: coverImage,
+        content,
+        published: published ? 1 : 0,
+      }),
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
+
   const supabase = await createClient();
   const now = new Date().toISOString();
   const row = {
@@ -121,6 +142,15 @@ export async function savePost(
 
 export async function deletePost(id: string): Promise<ActionResult<{ deleted: true }>> {
   await requireStaff();
+
+  // Also sync delete with PHP API
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/posts/${id}`, {
+      method: "DELETE",
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
 
   const supabase = await createClient();
   const { data, error } = await supabase

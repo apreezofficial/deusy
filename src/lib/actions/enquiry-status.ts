@@ -22,6 +22,16 @@ export async function setEnquiryStatus(
 
   if (!id || !status) return actionError("The enquiry was not updated.");
 
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/enquiries/${id}/status`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
+
   const supabase = await createClient();
   const { error } = await supabase.from("enquiries").update({ status }).eq("id", id);
 
@@ -38,6 +48,14 @@ export async function deleteEnquiry(
 
   const id = String(formData.get("id") ?? "");
   if (!id) return actionError("The enquiry was not deleted.");
+
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/enquiries/${id}`, {
+      method: "DELETE",
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
 
   const supabase = await createClient();
   const { error } = await supabase.from("enquiries").delete().eq("id", id);

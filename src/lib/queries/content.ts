@@ -44,6 +44,20 @@ export const contentTags = {
 
 export const getSiteSettings = unstable_cache(
   async (): Promise<SiteSettings> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/settings`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && json.data?.site) {
+          return parseSiteSettings(json.data.site);
+        }
+      }
+    } catch {}
+
     return fallbackSiteSettings;
   },
   ["site-settings"],
@@ -52,6 +66,20 @@ export const getSiteSettings = unstable_cache(
 
 export const getHomeSettings = unstable_cache(
   async (): Promise<HomeSettings> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/settings`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && json.data?.home) {
+          return parseHomeSettings(json.data.home);
+        }
+      }
+    } catch {}
+
     return fallbackHomeSettings;
   },
   ["home-settings"],
@@ -105,6 +133,20 @@ export const getPublishedPage = unstable_cache(
 
 export const getServices = unstable_cache(
   async (kind?: "practice" | "agency"): Promise<ServiceRow[]> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/services${kind ? `?kind=${kind}` : ""}`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && Array.isArray(json.data) && json.data.length > 0) {
+          return json.data as ServiceRow[];
+        }
+      }
+    } catch {}
+
     return kind
       ? fallbackServices.filter((service) => service.kind === kind)
       : fallbackServices;
@@ -115,6 +157,20 @@ export const getServices = unstable_cache(
 
 export const getService = unstable_cache(
   async (slug: string): Promise<ServiceRow | null> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/services/${slug}`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && json.data) {
+          return json.data as ServiceRow;
+        }
+      }
+    } catch {}
+
     return fallbackServices.find((service) => service.slug === slug) ?? null;
   },
   ["service"],
@@ -123,6 +179,20 @@ export const getService = unstable_cache(
 
 export const getActiveFaqs = unstable_cache(
   async (): Promise<FaqRow[]> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/faqs`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && Array.isArray(json.data) && json.data.length > 0) {
+          return json.data as FaqRow[];
+        }
+      }
+    } catch {}
+
     try {
       const supabase = createPublicClient();
       if (!supabase) return fallbackFaqs;
@@ -145,6 +215,20 @@ export const getActiveFaqs = unstable_cache(
 
 export const getActiveTeam = unstable_cache(
   async (): Promise<TeamMemberRow[]> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/team`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && Array.isArray(json.data) && json.data.length > 0) {
+          return json.data as TeamMemberRow[];
+        }
+      }
+    } catch {}
+
     return fallbackTeam;
   },
   ["team"],
@@ -153,6 +237,21 @@ export const getActiveTeam = unstable_cache(
 
 export const getTeamMemberBySlug = unstable_cache(
   async (slug: string): Promise<TeamMemberRow | null> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/team`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && Array.isArray(json.data)) {
+          const found = (json.data as TeamMemberRow[]).find((m) => m.slug === slug);
+          if (found) return found;
+        }
+      }
+    } catch {}
+
     return fallbackTeam.find((member) => member.slug === slug) ?? null;
   },
   ["team-member-by-slug"],
@@ -235,6 +334,20 @@ export type StaffProfile = Database["public"]["Tables"]["profiles"]["Row"];
 export const getPublishedPosts = unstable_cache(
   async (): Promise<BlogPostRow[]> => {
     try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/posts`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && Array.isArray(json.data) && json.data.length > 0) {
+          return json.data as BlogPostRow[];
+        }
+      }
+    } catch {}
+
+    try {
       const supabase = createPublicClient();
       if (!supabase) return fallbackPosts.filter((p) => p.published);
 
@@ -255,6 +368,20 @@ export const getPublishedPosts = unstable_cache(
 
 export const getPublishedPost = unstable_cache(
   async (slug: string): Promise<BlogPostRow | null> => {
+    try {
+      const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+      const res = await fetch(`${phpApiUrl}/api/posts/${slug}`, {
+        next: { revalidate: 60 },
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.ok && json.data) {
+          return json.data as BlogPostRow;
+        }
+      }
+    } catch {}
+
     try {
       const supabase = createPublicClient();
       if (!supabase) return fallbackPosts.find((p) => p.slug === slug && p.published) ?? null;

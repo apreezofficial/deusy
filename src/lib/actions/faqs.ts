@@ -32,6 +32,18 @@ export async function saveFaq(formData: FormData): Promise<ActionResult<SaveFaqR
   }
 
   const { question, answer, sortOrder, active } = parsed.data;
+
+  // Sync with PHP backend API
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/faqs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, question, answer, sort_order: sortOrder, active: active ? 1 : 0 }),
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
+
   const supabase = await createClient();
 
   const result = id
@@ -124,6 +136,14 @@ export async function deleteFaq(
 
   const id = String(formData.get("id") ?? "");
   if (!id) return actionError("The question was not deleted.");
+
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/faqs/${id}`, {
+      method: "DELETE",
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
 
   const supabase = await createClient();
   const { error } = await supabase.from("faqs").delete().eq("id", id);

@@ -13,10 +13,11 @@ class AdminController {
         $email = $input['email'] ?? '';
         $password = $input['password'] ?? '';
 
-        if (Auth::login($email, $password)) {
+        $user = Auth::login($email, $password);
+        if ($user) {
             echo json_encode([
                 'ok' => true,
-                'data' => Auth::user()
+                'data' => $user
             ]);
         } else {
             http_response_code(401);

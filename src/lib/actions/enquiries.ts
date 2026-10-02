@@ -37,6 +37,33 @@ export async function submitEnquiry(
     return { ok: true, data: { id: "accepted" } };
   }
 
+  // 1. Try Vanilla PHP Backend API
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    const res = await fetch(`${phpApiUrl}/api/enquiries`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, phone, topic, message, website }),
+      signal: AbortSignal.timeout(3000),
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+      return { ok: true, data: { id: String(json.data?.id ?? "sent") } };
+    }
+
+    if (res.status === 422) {
+      const errJson = await res.json();
+      return actionError(
+        errJson.error || "Validation failed",
+        errJson.fieldErrors,
+      );
+    }
+  } catch {
+    // If PHP backend is offline, proceed to Supabase fallback below
+  }
+
+  // 2. Supabase Fallback
   if (!isSupabaseConfigured()) {
     return actionError(
       "Enquiries cannot be sent yet. The site is not connected to its database.",
@@ -65,9 +92,6 @@ export async function submitEnquiry(
     );
   }
 
-  // No `.select()` here on purpose: asking for the inserted row adds a
-  // RETURNING clause, and row level security only lets staff read enquiries
-  // back. The insert itself is all the public form needs.
   const { error } = await supabase
     .from("enquiries")
     .insert({ name, email, phone, topic, message, status: "new" });

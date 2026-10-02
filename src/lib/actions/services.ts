@@ -58,6 +58,28 @@ export async function saveService(
     active,
   };
 
+  // Sync with PHP backend API
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/services`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id,
+        kind,
+        title,
+        slug,
+        summary,
+        scope,
+        body,
+        image,
+        sort_order: sortOrder,
+        active: active ? 1 : 0,
+      }),
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
+
   const data = id
     ? await supabase
         .from("services")
@@ -90,6 +112,14 @@ export async function deleteService(
 
   const id = String(formData.get("id") ?? "");
   if (!id) return actionError("The service was not deleted.");
+
+  try {
+    const phpApiUrl = process.env.NEXT_PUBLIC_PHP_API_URL || "http://localhost:8000";
+    await fetch(`${phpApiUrl}/api/admin/services/${id}`, {
+      method: "DELETE",
+      signal: AbortSignal.timeout(3000),
+    });
+  } catch {}
 
   const supabase = await createClient();
   const { error } = await supabase.from("services").delete().eq("id", id);

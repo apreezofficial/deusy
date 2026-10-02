@@ -93,7 +93,7 @@ if ($method === 'GET' && $uri === '/api/services') {
 }
 
 if ($method === 'GET' && preg_match('#^/api/services/([a-zA-Z0-9_-]+)$#', $uri, $matches)) {
-    PublicController::getServiceBySlug($matches[1]);
+    PublicController::getService($matches[1]);
     exit;
 }
 
@@ -113,7 +113,7 @@ if ($method === 'GET' && $uri === '/api/posts') {
 }
 
 if ($method === 'GET' && preg_match('#^/api/posts/([a-zA-Z0-9_-]+)$#', $uri, $matches)) {
-    PublicController::getPostBySlug($matches[1]);
+    PublicController::getPost($matches[1]);
     exit;
 }
 

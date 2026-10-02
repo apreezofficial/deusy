@@ -14,6 +14,7 @@ class Migrator {
                 password_hash TEXT NOT NULL,
                 full_name TEXT NOT NULL,
                 role TEXT NOT NULL DEFAULT 'editor',
+                api_token TEXT,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             );
         ");
