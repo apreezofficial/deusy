@@ -377,53 +377,57 @@ function ServiceSchedule({
   return (
     <ul className="mt-10 border-2 border-ink bg-paper">
       {services.map((service, index) => (
-        <li key={service.id} className="border-b-2 border-ink last:border-b-0">
+        <li key={service.id} className="border-b-2 border-ink last:border-b-0 relative">
           <Link
             href={`/services/${service.slug}`}
-            className="group flex flex-col gap-6 p-5 transition-colors hover:bg-tracing sm:p-7 md:flex-row md:items-start lg:p-10 lg:gap-10"
+            className="group block relative p-5 transition-colors hover:bg-tracing sm:p-7 lg:p-14"
           >
-            {service.image ? (
-              <div className="md:w-1/3 lg:w-[40%] shrink-0">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  width={600}
-                  height={400}
-                  className="w-full aspect-[4/3] object-cover border-2 border-ink"
-                  unoptimized
-                />
-              </div>
-            ) : null}
-
-            <div className="flex-1 flex flex-col">
-              <div className="flex items-baseline gap-4 mb-3">
-                <span aria-hidden="true" className="drawing-label text-sm text-signal-dark">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <p className="drawing-label text-sm text-ink-muted uppercase tracking-wide">{kindLabel}</p>
-              </div>
-
-              <h3 className="display text-2xl sm:text-3xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px]">
-                {service.title}
-              </h3>
-
-              <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-ink-soft">
-                {service.summary}
-              </p>
-
-              {service.scope.length > 0 ? (
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {service.scope.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-center gap-2 border border-ink bg-paper px-3 py-1.5 text-xs font-medium"
-                    >
-                      <span aria-hidden="true" className="bullet-square" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
+              {service.image ? (
+                <div className="md:w-5/12 shrink-0">
+                  <div className="md:sticky md:top-24">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      width={600}
+                      height={800}
+                      className="w-full aspect-square md:aspect-[4/5] object-cover border-2 border-ink transition-transform duration-500 group-hover:scale-[1.02]"
+                      unoptimized
+                    />
+                  </div>
+                </div>
               ) : null}
+
+              <div className="flex-1 flex flex-col py-2 md:py-10">
+                <div className="flex items-baseline gap-4 mb-4">
+                  <span aria-hidden="true" className="drawing-label text-sm text-signal-dark">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <p className="drawing-label text-sm text-ink-muted uppercase tracking-wide">{kindLabel}</p>
+                </div>
+
+                <h3 className="display text-3xl sm:text-4xl lg:text-5xl leading-tight group-hover:underline group-hover:decoration-signal group-hover:decoration-[3px] group-hover:underline-offset-[6px]">
+                  {service.title}
+                </h3>
+
+                <p className="mt-6 md:mt-10 text-xl leading-relaxed text-ink-soft">
+                  {service.summary}
+                </p>
+
+                {service.scope.length > 0 ? (
+                  <ul className="mt-10 md:mt-16 flex flex-col gap-6 lg:gap-8 border-l-2 border-ink pl-6 lg:pl-10">
+                    {service.scope.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-4 text-lg md:text-xl font-medium text-ink transition-all duration-300 group-hover:translate-x-2"
+                      >
+                        <span aria-hidden="true" className="bullet-square mt-3 shrink-0 text-signal" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
             </div>
           </Link>
         </li>
