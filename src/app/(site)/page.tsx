@@ -161,7 +161,7 @@ export default async function HomePage() {
         <div className="reveal mx-auto max-w-6xl grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div>
             <h2 className="display text-paper text-[clamp(2.5rem,1.5rem+3.5vw,4.5rem)] leading-tight">
-              {home.closingHeading.replace(/\.$/, '')}
+              {(home.closingHeading ?? '').replace(/\.$/, '')}
               <span className="text-signal">.</span>
             </h2>
             <p className="mt-6 max-w-[45ch] text-lg text-ink-muted">
