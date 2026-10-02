@@ -59,6 +59,7 @@ function service(
   scope: string[],
   body: PageRow["content"],
   sortOrder: number,
+  image: string | null = null,
 ): ServiceRow {
   return {
     id,
@@ -68,7 +69,7 @@ function service(
     summary,
     scope,
     body,
-    image: null,
+    image,
     sort_order: sortOrder,
     active: true,
     created_at: now,
@@ -118,6 +119,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     1,
+    "/images/practice-construction.jpg"
   ),
   service(
     "practice-hr",
@@ -163,6 +165,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     2,
+    "/images/practice-hr.jpg"
   ),
   service(
     "practice-consultancy",
@@ -222,6 +225,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     3,
+    "/images/practice-consultancy.jpg"
   ),
   service(
     "agency-property",
@@ -266,6 +270,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     1,
+    "/images/hero.jpg"
   ),
   service(
     "agency-automobile",
@@ -302,6 +307,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     2,
+    "/images/hero.jpg"
   ),
   service(
     "agency-facilitation",
@@ -337,6 +343,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     3,
+    "/images/practice-consultancy.jpg"
   ),
 ];
 
