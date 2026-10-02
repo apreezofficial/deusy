@@ -270,7 +270,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     1,
-    "/images/practice-construction.jpg"
+    "/images/agency-property.jpg"
   ),
   service(
     "agency-automobile",
@@ -307,7 +307,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     2,
-    "/images/hero.jpg"
+    "/images/agency-automobile.jpg"
   ),
   service(
     "agency-facilitation",
@@ -343,7 +343,7 @@ export const fallbackServices: ServiceRow[] = [
       ],
     },
     3,
-    "/images/practice-consultancy.jpg"
+    "/images/agency-facilitation.jpg"
   ),
 ];
 
