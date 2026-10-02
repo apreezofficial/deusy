@@ -772,7 +772,7 @@ export const fallbackTeam: TeamMemberRow[] = [
     summary:
       "Entrepreneur and business development consultant with over 20 years across banking, microfinance, real estate and strategic planning.",
     bio: "Results-oriented entrepreneur, marketing and business development professional, financial services practitioner and consultant with over 20 years of experience spanning microfinance, sales and marketing, real estate, entrepreneurship, business consultancy and strategic planning. He holds a degree in marketing, a postgraduate certificate in banking and finance, a professional certificate in stock market practice and a certificate in real estate development, alongside a diploma in theology. His career includes direct sales at Barclays Bank Ghana and co-founding Besworth Investments Services and Barak Deusy Services. He advises businesses, NGOs and churches on growth, structure and opportunity, and works on the principle that there is an opportunity in every difficult situation.",
-    photo: null,
+    photo: "/images/profile-2.jpg",
     sort_order: 1,
     active: true,
   },
@@ -784,7 +784,7 @@ export const fallbackTeam: TeamMemberRow[] = [
     summary:
       "Finance and administration leader with 20+ years across United Nations operations and private sector management in Ghana.",
     bio: "Ghanaian finance, administration and operations leader with more than 20 years of progressive experience bridging international humanitarian operations and private sector management. He spent eight years with the United Nations as Administrative and Finance Officer with OCHA, Finance Officer with ONUCI in Côte d'Ivoire and UNMIK Kosovo, and Assistant Admin and Finance Officer with UNESCO, supervising finance, human resources, logistics, procurement, travel and general administration for missions of over 160 national and international staff across 15 field duty stations. He prepared and managed annual cost plans from 2010 to 2017, established internal controls that achieved full compliance, led the deployment of the UN Secretariat ERP in Niger in 2015, and delivered measurable efficiencies including monthly savings in the Democratic Republic of the Congo and debt recovery in Chad. He coordinated administrative operations for the L3 emergency response in the Central African Republic in 2014 and led the full closure and liquidation of OCHA offices in Uganda and Zimbabwe. Since January 2019 he has been finance and administrative manager at Deusy Investment Services Ltd in Ghana, leading financial management, budgeting, cash flow forecasting, contractor and procurement management and full human resources operations for a construction and real estate portfolio, and he leads the firm's business consultancy practice. He is fluent in English and French.",
-    photo: null,
+    photo: "/images/profile-1.jpg",
     sort_order: 2,
     active: true,
   },

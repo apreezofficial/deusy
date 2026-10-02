@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getHomeSettings, getServices, getSiteSettings } from "@/lib/queries/content";
 import { PlanDrawing } from "@/components/site/PlanDrawing";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -88,7 +89,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid-plan-blue order-1 min-h-64 bg-tracing px-4 py-8 sm:min-h-80 sm:px-6 lg:order-2">
-            <PlanDrawing />
+            <Image src="/images/hero.jpg" alt="Hero image" width={800} height={600} className="object-cover w-full h-full rounded-sm" priority />
           </div>
         </div>
       </section>
