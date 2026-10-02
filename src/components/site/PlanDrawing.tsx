@@ -9,11 +9,11 @@ function delay(value: string): CSSProperties {
  * The plan drawing behind the hero. Lines draw themselves once on load;
  * `prefers-reduced-motion` is handled in globals.css.
  */
-export function PlanDrawing() {
+export function PlanDrawing({ className = "text-ink" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 520 400"
-      className="draw h-full w-full text-ink"
+      className={`draw h-full w-full ${className}`}
       role="img"
       aria-label="Architectural plan drawing of a building outline with dimension lines"
     >
